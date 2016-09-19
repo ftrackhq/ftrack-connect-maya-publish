@@ -11,7 +11,7 @@ class CollectNukeScript(pyblish.api.ContextPlugin):
         '''Process *context* and add maya camera instances.'''
 
         instance = context.create_instance(
-            'nukescript', family='ftrack.nukescript'
+            'mayascene', family='ftrack.mayascene'
         )
 
         instance.data['publish'] = True
@@ -25,7 +25,7 @@ class ExtractNukeScript(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
 
     order = pyblish.api.ExtractorOrder
-    families = ['ftrack.nukescript']
+    families = ['ftrack.mayascene']
 
     @classmethod
     def _ftrack_options(cls, instance):
@@ -33,7 +33,7 @@ class ExtractNukeScript(pyblish.api.InstancePlugin):
         return [
             {
                 'type': 'text',
-                'label': 'NukeScript',
+                'label': 'MayaScene',
                 'name': 'script'
             }
         ]
