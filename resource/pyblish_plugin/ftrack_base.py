@@ -18,10 +18,11 @@ class FtrackPublishCollector(pyblish.api.ContextPlugin):
         context.data['ftrack_entity'] = ftrack_entity
 
 
-class IntegratorCreateAsset(pyblish.api.ContextPlugin):
+class IntegratorCreateMayaSceneAsset(pyblish.api.ContextPlugin):
     '''Create asset and prepare publish.'''
 
     order = pyblish.api.IntegratorOrder
+    families = ['ftrack.maya.scene']
 
     @classmethod
     def _ftrack_options(cls, context):
@@ -93,7 +94,7 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
 
     order = pyblish.api.IntegratorOrder + 0.1
 
-    families = ['ftrack.*']
+    families = ['ftrack.maya.*']
 
     def process(self, instance):
         '''Process *instance* and create components.'''
