@@ -22,7 +22,7 @@ class IntegratorCreateMayaSceneAsset(pyblish.api.ContextPlugin):
     '''Create asset and prepare publish.'''
 
     order = pyblish.api.IntegratorOrder
-    families = ['ftrack.maya.scene']
+    families = ['ftrack.maya.*']
 
     @classmethod
     def _ftrack_options(cls, context):
