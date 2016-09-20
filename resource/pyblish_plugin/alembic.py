@@ -2,11 +2,69 @@ import pyblish.api
 import maya.cmds as mc
 import tempfile
 
+from PySide import QtCore, QtGui
+
+
+class FrameRangeWidget(QtGui.QWidget):
+
+    values_changed = QtCore.Signal(object)
+
+    def __init__(self, parent=None):
+        super(FrameRangeWidget, self).__init__(parent=parent)
+        layout = QtGui.QHBoxLayout()
+        self.setLayout(layout)
+
+        m_start_frame = mc.playbackOptions(q=True, minTime=True)
+        m_emd_frame = mc.playbackOptions(q=True, maxTime=True)
+
+        self._start_frame = QtGui.QSpinBox(m_start_frame)
+        self._end_frame = QtGui.QSpinBox(m_emd_frame)
+
+        layout.addWidget(self._start_frame)
+        layout.addWidget(self._end_frame)
+
+        self._start_frame.valueChanged.connect(
+            self.notify_changed
+        )
+
+        self._end_frame.valueChanged.connect(
+            self.notify_changed
+        )
+
+    def notify_changed(self, *args, **kwargs):
+        '''Notify the world about the changes.'''
+        self.values_changed.emit(self.value())
+
+    def value(self):
+        '''Return value.'''
+        start_frame = self._start_frame.value()
+        end_frame = self._end_frame.value()
+
+        return {
+            'start_frame': start_frame,
+            'end_frame': end_frame,
+        }
+
 
 class CollecAlembic(pyblish.api.ContextPlugin):
     '''Collect nuke write nodes fr`om scene.'''
     name = 'Publish write node content'
     order = pyblish.api.CollectorOrder
+    families = ['ftrack.maya.alembic']
+
+    @classmethod
+    def _ftrack_options(cls, context):
+        '''Return options.'''
+        frame_range = FrameRangeWidget()
+
+        def handle_change(value):
+            context.data['options'] = {}
+            context.data['options']['start_frame'] = value['start_frame']
+            context.data['options']['end_frame'] = value['end_frame']
+
+        frame_range.values_changed.connect(handle_change)
+
+        return frame_range
 
     def process(self, context):
         '''Process *context* and add maya camera instances.'''
@@ -19,8 +77,6 @@ class CollecAlembic(pyblish.api.ContextPlugin):
 
         instance.data['options'] = {
             'animation': False,
-            'start_frame': 1,
-            'end_frame': 1,
             'uv_write': True,
             'world_space': True,
             'write_visibility': True,
