@@ -5,15 +5,15 @@ import ftrack_connect_pipeline.util
 import ftrack_connect_pipeline.ui.widget
 
 
-identifier = 'ftrack-publish-publish-media-action'
+identifier = 'ftrack-publish-publish-camera-action'
 
 
 def open_dialog():
     '''Open dialog.'''
     dialog = ftrack_connect_pipeline.ui.publish_dialog.PublishDialog(
-        label='Media',
+        label='Camera',
         description=(
-            'from here you can select and publish any media from nuke to '
+            'from here you can select and publish any camera from maya to '
             'ftrack.'
         ),
         instance_filter=(
@@ -27,8 +27,8 @@ def discover(event):
     '''Return action based on *event*.'''
     item = {
         'items': [{
-            'label': 'Media',
-            'icon': 'http://www.clipartbest.com/cliparts/9Tp/erx/9Tperxqrc.png',
+            'label': 'Camera',
+            'icon': 'http://www.clipartbest.com/cliparts/ncE/KLp/ncEKLpeei.jpeg',
             'actionIdentifier': identifier
         }]
     }
