@@ -5,18 +5,17 @@ import tempfile
 
 class CollectMayaScene(pyblish.api.ContextPlugin):
     '''Collect nuke write nodes from scene.'''
-    name = 'Publish current scene'
+
     order = pyblish.api.CollectorOrder
 
     def process(self, context):
-        '''Process *context* and add maya camera instances.'''
+        '''Process *context* and add maya scene.'''
 
         instance = context.create_instance(
             'mayascene', family='ftrack.maya.scene'
         )
 
         instance.data['publish'] = True
-
         instance.data['options'] = {
             'reference': False,
             'history': False,
@@ -31,7 +30,6 @@ class CollectMayaScene(pyblish.api.ContextPlugin):
 
 class ExtractMayaScene(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
-
     order = pyblish.api.ExtractorOrder
     families = ['ftrack.maya.scene']
 

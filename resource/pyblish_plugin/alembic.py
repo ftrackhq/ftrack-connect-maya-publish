@@ -5,72 +5,74 @@ import tempfile
 from PySide import QtCore, QtGui
 
 
-class FrameRangeWidget(QtGui.QWidget):
+# class FrameRangeWidget(QtGui.QWidget):
 
-    values_changed = QtCore.Signal(object)
+#     values_changed = QtCore.Signal(object)
 
-    def __init__(self, parent=None):
-        super(FrameRangeWidget, self).__init__(parent=parent)
-        layout = QtGui.QHBoxLayout()
-        self.setLayout(layout)
+#     def __init__(self, parent=None):
+#         super(FrameRangeWidget, self).__init__(parent=parent)
+#         layout = QtGui.QHBoxLayout()
+#         self.setLayout(layout)
 
-        m_start_frame = mc.playbackOptions(q=True, minTime=True)
-        m_emd_frame = mc.playbackOptions(q=True, maxTime=True)
+#         m_start_frame = mc.playbackOptions(q=True, minTime=True)
+#         m_end_frame = mc.playbackOptions(q=True, maxTime=True)
 
-        self._start_frame = QtGui.QSpinBox(m_start_frame)
-        self._end_frame = QtGui.QSpinBox(m_emd_frame)
+#         self._start_frame = QtGui.QDoubleSpinBox()
+#         self._end_frame = QtGui.QDoubleSpinBox()
 
-        layout.addWidget(self._start_frame)
-        layout.addWidget(self._end_frame)
+#         self._start_frame.setValue(m_start_frame)
+#         self._end_frame.setValue(m_end_frame)
 
-        self._start_frame.valueChanged.connect(
-            self.notify_changed
-        )
+#         layout.addWidget(self._start_frame)
+#         layout.addWidget(self._end_frame)
 
-        self._end_frame.valueChanged.connect(
-            self.notify_changed
-        )
+#         self._start_frame.valueChanged.connect(
+#             self.notify_changed
+#         )
 
-    def notify_changed(self, *args, **kwargs):
-        '''Notify the world about the changes.'''
-        self.values_changed.emit(self.value())
+#         self._end_frame.valueChanged.connect(
+#             self.notify_changed
+#         )
 
-    def value(self):
-        '''Return value.'''
-        start_frame = self._start_frame.value()
-        end_frame = self._end_frame.value()
+#     def notify_changed(self, *args, **kwargs):
+#         '''Notify the world about the changes.'''
+#         self.values_changed.emit(self.value())
 
-        return {
-            'start_frame': start_frame,
-            'end_frame': end_frame,
-        }
+#     def value(self):
+#         '''Return value.'''
+#         start_frame = self._start_frame.value()
+#         end_frame = self._end_frame.value()
+
+#         return {
+#             'start_frame': start_frame,
+#             'end_frame': end_frame,
+#         }
 
 
 class CollecAlembic(pyblish.api.ContextPlugin):
     '''Collect nuke write nodes fr`om scene.'''
     name = 'Publish write node content'
     order = pyblish.api.CollectorOrder
-    families = ['ftrack.maya.alembic']
 
-    @classmethod
-    def _ftrack_options(cls, context):
-        '''Return options.'''
-        frame_range = FrameRangeWidget()
+    # @classmethod
+    # def _ftrack_options(cls, context):
+    #     '''Return options.'''
+    #     frame_range = FrameRangeWidget()
 
-        def handle_change(value):
-            context.data['options'] = {}
-            context.data['options']['start_frame'] = value['start_frame']
-            context.data['options']['end_frame'] = value['end_frame']
+    #     def handle_change(value):
+    #         context.data['options'] = {}
+    #         context.data['options']['start_frame'] = value['start_frame']
+    #         context.data['options']['end_frame'] = value['end_frame']
 
-        frame_range.values_changed.connect(handle_change)
+    #     frame_range.values_changed.connect(handle_change)
 
-        return frame_range
+    #     return frame_range
 
     def process(self, context):
         '''Process *context* and add maya camera instances.'''
 
         instance = context.create_instance(
-            'mayascene', family='ftrack.maya.alembic'
+            'alembic', family='ftrack.maya.alembic'
         )
 
         instance.data['publish'] = True
@@ -80,25 +82,32 @@ class CollecAlembic(pyblish.api.ContextPlugin):
             'uv_write': True,
             'world_space': True,
             'write_visibility': True,
-            'sampling': 1.00
+            'sampling': 1.00,
+            'start_frame': mc.playbackOptions(q=True, minTime=True),
+            'end_frame': mc.playbackOptions(q=True, maxTime=True)
         }
         instance.data['ftrack_components'] = []
 
 
 class ExtractAlembicScene(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
-
     order = pyblish.api.ExtractorOrder
     families = ['ftrack.maya.alembic']
 
     @classmethod
     def _ftrack_options(cls, instance):
+
         '''Return options.'''
         return [
             {
                 'type': 'boolean',
                 'label': 'Include animation',
                 'name': 'animation'
+            },
+            {
+                'type': 'boolean',
+                'label': 'UV Write',
+                'name': 'uv_write'
             },
             {
                 'type': 'text',
@@ -109,11 +118,6 @@ class ExtractAlembicScene(pyblish.api.InstancePlugin):
                 'type': 'text',
                 'label': 'End Frame',
                 'name': 'end_frame'
-            },
-            {
-                'type': 'boolean',
-                'label': 'UV Write',
-                'name': 'uv_write'
             },
             {
                 'type': 'boolean',
@@ -129,6 +133,11 @@ class ExtractAlembicScene(pyblish.api.InstancePlugin):
                 'type': 'text',
                 'label': 'Evaluate Every',
                 'name': 'sampling'
+            },
+            {
+                'type': 'boolean',
+                'label': 'Export Selected',
+                'name': 'export_selected'
             }
         ]
 
@@ -148,6 +157,7 @@ class ExtractAlembicScene(pyblish.api.InstancePlugin):
             keep_expressions = instance.data['options']['expressions']
             keep_shaders = instance.data['options']['shaders']
             attach_scene = instance.data['options']['attach_scene']
+            export_selected = instance.data['options']['export_selected']
 
             temporaryPath = tempfile.NamedTemporaryFile(
                 suffix='.mb', delete=False
@@ -164,7 +174,7 @@ class ExtractAlembicScene(pyblish.api.InstancePlugin):
                 constraints=keep_constraints,
                 expressions=keep_expressions,
                 shader=keep_shaders,
-                # exportSelected=exportSelectedMode, # HOW DO I HAVE A SWITCH ?
+                exportSelected=export_selected,
                 exportAll=attach_scene,
                 force=True
             )
