@@ -11,7 +11,7 @@ identifier = 'ftrack-publish-publish-media-action'
 def open_dialog():
     '''Open dialog.'''
     dialog = ftrack_connect_pipeline.ui.publish_dialog.PublishDialog(
-        label='Media',
+        label='Geometry',
         description=(
             'from here you can select and publish any media from maya to '
             'ftrack.'
