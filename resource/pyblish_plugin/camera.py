@@ -17,12 +17,13 @@ class CollectMayaCamera(pyblish.api.ContextPlugin):
 
         instance.data['publish'] = True
         instance.data['options'] = {
-            'reference': False,
+            'start_frame': 0,
+            'end_frame': 1,
+            'include_mayabinary_camera': False,
+            'bake_camera': False,
+            'lock_camera': False,
             'history': False,
-            'channels': False,
             'expression': False,
-            'constraint': False,
-            'shaders': True,
             'attach_scene': False
         }
         instance.data['ftrack_components'] = []
@@ -38,9 +39,29 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
         '''Return options.'''
         return [
             {
+                'type': 'text',
+                'label': 'Start Frame',
+                'name': 'start_frame'
+            },
+            {
+                'type': 'text',
+                'label': 'End Frame',
+                'name': 'end_frame'
+            },
+            {
                 'type': 'boolean',
-                'label': 'Preserve reference',
-                'name': 'reference'
+                'label': 'Include Maya Binary',
+                'name': 'include_mayabinary_camera'
+            },
+            {
+                'type': 'boolean',
+                'label': 'Bake Camera',
+                'name': 'bake_camera'
+            },
+            {
+                'type': 'boolean',
+                'label': 'Lock Camera',
+                'name': 'lock_camera'
             },
             {
                 'type': 'boolean',
@@ -49,29 +70,14 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
             },
             {
                 'type': 'boolean',
-                'label': 'Channels',
-                'name': 'channels'
-            },
-            {
-                'type': 'boolean',
-                'label': 'Expressions',
-                'name': 'expressions'
-            },
-            {
-                'type': 'boolean',
-                'label': 'Constraints',
-                'name': 'constraint'
-            },
-            {
-                'type': 'boolean',
-                'label': 'Shaders',
-                'name': 'shaders'
+                'label': 'Expression',
+                'name': 'expression'
             },
             {
                 'type': 'boolean',
                 'label': 'Attach Scene',
                 'name': 'attach_scene'
-            }
+            },
         ]
 
     def process(self, instance):
