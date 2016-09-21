@@ -3,9 +3,8 @@ import maya.cmds as mc
 import tempfile
 
 
-class CollecAlembic(pyblish.api.ContextPlugin):
+class CollectAlembic(pyblish.api.ContextPlugin):
     '''Collect nuke write nodes fr`om scene.'''
-    name = 'Publish write node content'
 
     order = pyblish.api.CollectorOrder
 
@@ -29,7 +28,7 @@ class CollecAlembic(pyblish.api.ContextPlugin):
         instance.data['ftrack_components'] = []
 
 
-class ExtractAlembicScene(pyblish.api.InstancePlugin):
+class ExtractAlembic(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
     families = ['ftrack.maya.alembic']
@@ -83,6 +82,9 @@ class ExtractAlembicScene(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         '''Process *instance* and extract media.'''
+
+        print 'PROCESSING ALEMBIC'
+
         if instance.data.get('publish'):
             print (
                 'Extracting media using options:',

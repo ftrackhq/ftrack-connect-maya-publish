@@ -98,11 +98,7 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
 
     order = pyblish.api.IntegratorOrder + 0.1
 
-    # THESE ARE NOT WORKING BUT THEY SHOULD FILTER !
-    # families = ['ftrack.maya.*']
-    # families = ['ftrack.*']
-
-    families = ['*']
+    families = ['ftrack.maya.*']
 
     def process(self, instance):
         '''Process *instance* and create components.'''
@@ -112,7 +108,11 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
         asset_version = context.data['asset_version']
         session = asset_version.session
         location = session.pick_location()
-        for component_item in instance.data.get('ftrack_components', []):
+        components = instance.data.get('ftrack_components', [])
+
+        print 'COMPONENTS:', components
+
+        for component_item in components:
             session.create_component(
                 component_item['path'],
                 {

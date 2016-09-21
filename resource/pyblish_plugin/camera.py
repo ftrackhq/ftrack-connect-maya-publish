@@ -10,6 +10,7 @@ class CollectMayaCamera(pyblish.api.ContextPlugin):
 
     def process(self, context):
         '''Process *context* and add maya scene.'''
+        print 'COLLECTING CAMERA'
 
         instance = context.create_instance(
             'maya.camera', family='ftrack.maya.camera'
@@ -88,6 +89,8 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
         ]
 
     def process(self, instance):
+        print 'PROCESSING CAMERA'
+
         '''Process *instance* and extract media.'''
         if instance.data.get('publish'):
             print (
@@ -105,11 +108,12 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
             attach_scene = instance.data['options']['attach_scene']
             export_selected = instance.data['options']['export_selected']
 
+            # generate temp file
             temporaryPath = tempfile.NamedTemporaryFile(
                 suffix='.mb', delete=False
             ).name
 
-            # generate temp file
+            # create new maya file in temp
             mc.file(
                 temporaryPath,
                 op='v=0',
