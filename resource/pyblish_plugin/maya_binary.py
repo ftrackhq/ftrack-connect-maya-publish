@@ -1,6 +1,4 @@
 import pyblish.api
-import maya.cmds as mc
-import tempfile
 
 
 class CollectMayaScene(pyblish.api.ContextPlugin):
@@ -84,6 +82,9 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
     def process(self, instance):
         '''Process *instance* and extract media.'''
         print 'PROCESSING MAYA SCENE'
+
+        import tempfile
+        import maya.cmds as mc
 
         if instance.data.get('publish'):
             print (

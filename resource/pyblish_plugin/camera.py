@@ -1,6 +1,4 @@
 import pyblish.api
-import maya.cmds as mc
-import tempfile
 
 
 class CollectMayaCamera(pyblish.api.ContextPlugin):
@@ -90,6 +88,8 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         print 'PROCESSING CAMERA'
+        import maya.cmds as mc
+        import tempfile
 
         '''Process *instance* and extract media.'''
         if instance.data.get('publish'):
