@@ -8,6 +8,7 @@ class CollectAlembic(pyblish.api.ContextPlugin):
 
     def process(self, context):
         '''Process *context* and add maya camera instances.'''
+        import maya.cmds as mc
 
         instance = context.create_instance(
             'maya.alembic', family='ftrack.maya.alembic'

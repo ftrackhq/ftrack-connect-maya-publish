@@ -92,9 +92,6 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
                 instance.data.get('options')
             )
 
-            print 'INSIDE PROCESSING MAYA SCENE'
-
-            print 1
             # extract options
             keep_reference = instance.data['options']['reference']
             keep_history = instance.data['options']['history']
@@ -105,14 +102,10 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
             attach_scene = instance.data['options']['attach_scene']
             export_selected = instance.data['options']['export_selected']
 
-            print 2
-
             # generate temp file
             temporaryPath = tempfile.NamedTemporaryFile(
                 suffix='.mb', delete=False
             ).name
-
-            print 3
 
             # save maya file
             mc.file(
@@ -129,13 +122,11 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
                 exportAll=attach_scene,
                 force=True
             )
-            print 4
 
             new_component = {
                 'name': instance.name,
                 'path': temporaryPath,
             }
-            print 5
 
             print 'Adding new component: %s' % new_component
             instance.data['ftrack_components'].append(new_component)
