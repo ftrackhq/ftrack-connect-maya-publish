@@ -24,7 +24,9 @@ class CollectMayaCamera(pyblish.api.ContextPlugin):
             'lock_camera': False,
             'history': False,
             'expression': False,
-            'attach_scene': False
+            'attach_scene': False,
+            'export_sected': False
+
         }
         instance.data['ftrack_components'] = []
 
@@ -78,6 +80,11 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
                 'label': 'Attach Scene',
                 'name': 'attach_scene'
             },
+            {
+                'type': 'boolean',
+                'label': 'Export Selected',
+                'name': 'export_selected'
+            }
         ]
 
     def process(self, instance):
@@ -96,6 +103,7 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
             keep_expressions = instance.data['options']['expressions']
             keep_shaders = instance.data['options']['shaders']
             attach_scene = instance.data['options']['attach_scene']
+            export_selected = instance.data['options']['export_selected']
 
             temporaryPath = tempfile.NamedTemporaryFile(
                 suffix='.mb', delete=False
@@ -112,14 +120,15 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
                 constraints=keep_constraints,
                 expressions=keep_expressions,
                 shader=keep_shaders,
-                # exportSelected=exportSelectedMode, # HOW DO I HAVE A SWITCH ?
+                exportSelected=export_selected,
                 exportAll=attach_scene,
                 force=True
             )
 
-            instance.data['ftrack_components'].append(
-                {
-                    'name': instance.name,
-                    'path': temporaryPath,
-                }
-            )
+            new_component = {
+                'name': instance.name,
+                'path': temporaryPath,
+            }
+
+            print 'Adding new component: %s' % new_component
+            instance.data['ftrack_components'].append(new_component)

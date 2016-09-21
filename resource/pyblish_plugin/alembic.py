@@ -2,12 +2,11 @@ import pyblish.api
 import maya.cmds as mc
 import tempfile
 
-from PySide import QtCore, QtGui
-
 
 class CollecAlembic(pyblish.api.ContextPlugin):
     '''Collect nuke write nodes fr`om scene.'''
     name = 'Publish write node content'
+
     order = pyblish.api.CollectorOrder
 
     def process(self, context):
@@ -18,7 +17,6 @@ class CollecAlembic(pyblish.api.ContextPlugin):
         )
 
         instance.data['publish'] = True
-
         instance.data['options'] = {
             'animation': False,
             'uv_write': True,
@@ -143,9 +141,10 @@ class ExtractAlembicScene(pyblish.api.InstancePlugin):
             if selectednodes:
                 mc.select(selectednodes)
 
-            instance.data['ftrack_components'].append(
-                {
-                    'name': instance.name,
-                    'path': temporaryPath,
-                }
-            )
+            new_component = {
+                'name': instance.name,
+                'path': temporaryPath,
+            }
+
+            print 'Adding new component: %s' % new_component
+            instance.data['ftrack_components'].append(new_component)

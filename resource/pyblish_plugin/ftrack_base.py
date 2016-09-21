@@ -10,6 +10,8 @@ class FtrackPublishCollector(pyblish.api.ContextPlugin):
     order = pyblish.api.CollectorOrder
 
     def process(self, context):
+        print 'COLLECT CONTEXT'
+
         '''Process *context* and add ftrack entity.'''
         session = ftrack_api.Session()
         ftrack_entity = session.get(
@@ -18,7 +20,7 @@ class FtrackPublishCollector(pyblish.api.ContextPlugin):
         context.data['ftrack_entity'] = ftrack_entity
 
 
-class IntegratorCreateMayaSceneAsset(pyblish.api.ContextPlugin):
+class IntegratorCreateAsset(pyblish.api.ContextPlugin):
     '''Create asset and prepare publish.'''
 
     order = pyblish.api.IntegratorOrder
@@ -42,6 +44,8 @@ class IntegratorCreateMayaSceneAsset(pyblish.api.ContextPlugin):
         return asset_selector
 
     def process(self, context):
+        print 'CREATEA ASSET'
+
         '''Process *context* create asset.'''
         ftrack_entity = context.data['ftrack_entity']
         session = ftrack_entity.session
@@ -94,10 +98,15 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
 
     order = pyblish.api.IntegratorOrder + 0.1
 
-    families = ['ftrack.maya.*']
+    # THESE ARE NOT WORKING BUT THEY SHOULD FILTER !
+    # families = ['ftrack.maya.*']
+    # families = ['ftrack.*']
+
+    families = ['*']
 
     def process(self, instance):
         '''Process *instance* and create components.'''
+        print 'CREATE COMPONENT'
 
         context = instance.context
         asset_version = context.data['asset_version']
@@ -122,6 +131,8 @@ class IntegratorPublishVersion(pyblish.api.ContextPlugin):
     order = pyblish.api.IntegratorOrder + 0.2
 
     def process(self, context):
+        print 'PUBLISHING VERSION'
+
         '''Process *context*.'''
         asset_version = context.data['asset_version']
         session = asset_version.session
