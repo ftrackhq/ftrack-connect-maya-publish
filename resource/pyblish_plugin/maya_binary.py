@@ -25,7 +25,7 @@ class CollectMayaScene(pyblish.api.ContextPlugin):
             'constraint': False,
             'shaders': True,
             'attach_scene': False,
-            'export_sected': False
+            'export_selected': False
         }
         instance.data['ftrack_components'] = []
 
@@ -99,7 +99,7 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
             keep_history = instance.data['options']['history']
             keep_channels = instance.data['options']['channels']
             keep_constraints = instance.data['options']['constraint']
-            keep_expressions = instance.data['options']['expressions']
+            keep_expressions = instance.data['options']['expression']
             keep_shaders = instance.data['options']['shaders']
             attach_scene = instance.data['options']['attach_scene']
             export_selected = instance.data['options']['export_selected']
