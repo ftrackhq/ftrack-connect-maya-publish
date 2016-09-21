@@ -12,7 +12,7 @@ class CollectMayaScene(pyblish.api.ContextPlugin):
         '''Process *context* and add maya scene.'''
 
         instance = context.create_instance(
-            'mayascene', family='ftrack.maya.scene'
+            'maya.scene', family='ftrack.maya.scene'
         )
 
         instance.data['publish'] = True
