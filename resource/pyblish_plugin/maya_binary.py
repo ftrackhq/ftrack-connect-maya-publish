@@ -22,7 +22,6 @@ class CollectMayaScene(pyblish.api.ContextPlugin):
             'expression': False,
             'constraint': False,
             'shaders': True,
-            'attach_scene': False,
             'export_selected': False
         }
         instance.data['ftrack_components'] = []
@@ -69,11 +68,6 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
             },
             {
                 'type': 'boolean',
-                'label': 'Attach Scene',
-                'name': 'attach_scene'
-            },
-            {
-                'type': 'boolean',
                 'label': 'Export Selected',
                 'name': 'export_selected'
             }
@@ -99,13 +93,12 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
             keep_constraints = instance.data['options']['constraint']
             keep_expressions = instance.data['options']['expression']
             keep_shaders = instance.data['options']['shaders']
-            attach_scene = instance.data['options']['attach_scene']
             export_selected = instance.data['options']['export_selected']
 
             # generate temp file
-            temporaryPath = tempfile.NamedTemporaryFile(
-                suffix='.mb', delete=False
-            ).name
+            temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
+
+            print 'about to save temp file'
 
             # save maya file
             mc.file(
@@ -119,9 +112,11 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
                 expressions=keep_expressions,
                 shader=keep_shaders,
                 exportSelected=export_selected,
-                exportAll=attach_scene,
+                exportAll=not export_selected,
                 force=True
             )
+
+            print 'temp file saved'
 
             new_component = {
                 'name': instance.name,

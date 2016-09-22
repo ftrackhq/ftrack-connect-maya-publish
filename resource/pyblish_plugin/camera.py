@@ -23,7 +23,6 @@ class CollectMayaCamera(pyblish.api.ContextPlugin):
             'lock_camera': False,
             'history': False,
             'expression': False,
-            'attach_scene': False,
             'export_selected': False
 
         }
@@ -76,11 +75,6 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
             },
             {
                 'type': 'boolean',
-                'label': 'Attach Scene',
-                'name': 'attach_scene'
-            },
-            {
-                'type': 'boolean',
                 'label': 'Export Selected',
                 'name': 'export_selected'
             }
@@ -105,14 +99,12 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
             keep_constraints = instance.data['options']['constraint']
             keep_expressions = instance.data['options']['expression']
             keep_shaders = instance.data['options']['shaders']
-            attach_scene = instance.data['options']['attach_scene']
             export_selected = instance.data['options']['export_selected']
 
             # generate temp file
-            temporaryPath = tempfile.NamedTemporaryFile(
-                suffix='.mb', delete=False
-            ).name
+            temporaryPath = tempfile.mkstemp(suffix='.mb')
 
+            print 'about to save temp file'
             # create new maya file in temp
             mc.file(
                 temporaryPath,
@@ -125,9 +117,10 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
                 expressions=keep_expressions,
                 shader=keep_shaders,
                 exportSelected=export_selected,
-                exportAll=attach_scene,
+                exportAll=not export_selected,
                 force=True
             )
+            print 'temp file saved'
 
             new_component = {
                 'name': instance.name,

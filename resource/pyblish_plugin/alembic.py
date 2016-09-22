@@ -104,9 +104,7 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
             export_selected = instance.data['options']['export_selected']
 
             # export alembic file
-            temporaryPath = tempfile.NamedTemporaryFile(
-                suffix='.abc', delete=False
-            ).name
+            temporaryPath = tempfile.mkstemp(suffix='.abc')[-1]
 
             if export_selected:
                 nodes = mc.ls(sl=True, long=True)
