@@ -8,8 +8,6 @@ class CollectMayaScene(pyblish.api.ContextPlugin):
 
     def process(self, context):
         '''Process *context* and add maya scene.'''
-        print 'COLLECTING MAYA SCENE'
-
         instance = context.create_instance(
             'maya.scene', family='ftrack.maya.scene'
         )
@@ -75,8 +73,6 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         '''Process *instance* and extract media.'''
-        print 'PROCESSING MAYA SCENE'
-
         import tempfile
         import maya.cmds as mc
 
@@ -98,8 +94,6 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
             # generate temp file
             temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
 
-            print 'about to save temp file'
-
             # save maya file
             mc.file(
                 temporaryPath,
@@ -116,12 +110,9 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
                 force=True
             )
 
-            print 'temp file saved'
-
             new_component = {
                 'name': instance.name,
                 'path': temporaryPath,
             }
 
-            print 'Adding new component: %s' % new_component
             instance.data['ftrack_components'].append(new_component)

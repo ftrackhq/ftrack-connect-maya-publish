@@ -8,7 +8,6 @@ class CollectMayaCamera(pyblish.api.ContextPlugin):
 
     def process(self, context):
         '''Process *context* and add maya scene.'''
-        print 'COLLECTING CAMERA'
 
         instance = context.create_instance(
             'maya.camera', family='ftrack.maya.camera'
@@ -81,7 +80,6 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
         ]
 
     def process(self, instance):
-        print 'PROCESSING CAMERA'
         import maya.cmds as mc
         import tempfile
 
@@ -102,9 +100,8 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
             export_selected = instance.data['options']['export_selected']
 
             # generate temp file
-            temporaryPath = tempfile.mkstemp(suffix='.mb')
+            temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
 
-            print 'about to save temp file'
             # create new maya file in temp
             mc.file(
                 temporaryPath,
@@ -120,12 +117,9 @@ class ExtractMayaCamera(pyblish.api.InstancePlugin):
                 exportAll=not export_selected,
                 force=True
             )
-            print 'temp file saved'
-
             new_component = {
                 'name': instance.name,
                 'path': temporaryPath,
             }
 
-            print 'Adding new component: %s' % new_component
             instance.data['ftrack_components'].append(new_component)

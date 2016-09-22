@@ -82,8 +82,6 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
     def process(self, instance):
         '''Process *instance* and extract media.'''
 
-        print 'PROCESSING ALEMBIC'
-
         import maya.cmds as mc
         import tempfile
 
