@@ -1,4 +1,3 @@
-
 import tempfile
 
 import ftrack_api
@@ -9,7 +8,62 @@ from ftrack_connect_pipeline.ui.widget.field.base import BaseField
 from PySide import QtGui
 import maya.cmds as mc
 
+
 IDENTIFIER = 'geometry'
+
+
+class MayaBinaryFileProcessor(object):
+
+    @property
+    def options():
+        return [
+            {
+                'type': 'boolean',
+                'label': 'Preserve reference',
+                'name': 'reference',
+                'value': False
+            },
+            {
+                'type': 'boolean',
+                'label': 'History',
+                'name': 'history',
+                'value': False
+            },
+            {
+                'type': 'boolean',
+                'label': 'Channels',
+                'name': 'channels',
+                'value': False
+            },
+            {
+                'type': 'boolean',
+                'label': 'Expressions',
+                'name': 'expressions',
+                'value': False
+            },
+            {
+                'type': 'boolean',
+                'label': 'Constraints',
+                'name': 'constraint',
+                'value': False
+            },
+            {
+                'type': 'boolean',
+                'label': 'Shaders',
+                'name': 'shaders',
+                'value': True
+            },
+            {
+                'type': 'boolean',
+                'label': 'Export Selected',
+                'name': 'export_selected',
+                'value': False
+            }
+        ]
+
+    def process(self, options):
+
+
 
 
 class StartEndFrameFields(BaseField):
@@ -232,7 +286,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
             alembicJobArgs += '-frameRange {0} {1} -step {2} '.format(
                 options['frame_range'].get('start_frame', 0),
                 options['frame_range'].get('end_frame', 0),
-                options.get('sampling', 1)
+                options['sampling'].get('sampling', 1)
             )
 
         mc.loadPlugin('AbcExport.so', qt=1)
@@ -267,7 +321,7 @@ def register(session):
     if not isinstance(session, ftrack_api.Session):
         return
 
-    image_asset = ftrack_connect_pipeline.asset.Asset(
+    geo_asset = ftrack_connect_pipeline.asset.Asset(
         identifier=IDENTIFIER,
         publish_asset=PublishGeometry(
             label=IDENTIFIER,
@@ -277,4 +331,4 @@ def register(session):
     )
     # Register media asset on session. This makes sure that discover is called
     # for import and publish.
-    image_asset.register(session)
+    geo_asset.register(session)
