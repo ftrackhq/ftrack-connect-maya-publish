@@ -11,6 +11,8 @@ import maya.cmds as mc
 
 IDENTIFIER = 'geometry'
 
+# MAYA AND ALEMBIC PROCESSOR CLASSES
+
 
 class MayaBinaryFileProcessor(object):
 
@@ -184,6 +186,8 @@ class AlembicProcessor(object):
 
         return temporaryPath
 
+# CUSTOM WIDGETS
+
 
 class StartEndFrameFields(BaseField):
 
@@ -232,6 +236,9 @@ class SamplingField(BaseField):
         return {
             'samples': self.samples.value(),
         }
+
+
+# ACTUAL PUBLISHER
 
 
 class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
