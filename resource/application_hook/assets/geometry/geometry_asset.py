@@ -6,8 +6,7 @@ import ftrack_api
 import ftrack_connect_pipeline.asset
 from ftrack_connect_pipeline.ui.widget.field.base import BaseField
 
-from PySide import QtGui, QtCore
-
+from PySide import QtGui
 import maya.cmds as mc
 
 IDENTIFIER = 'geometry'
@@ -16,12 +15,9 @@ IDENTIFIER = 'geometry'
 class StartEndFrameFields(BaseField):
 
     def __init__(self):
-        '''Instantiate asset selector with *ftrack_entity*.'''
         super(StartEndFrameFields, self).__init__()
         layout = QtGui.QHBoxLayout()
         self.setLayout(layout)
-
-        self.label = QtGui.QLabel('Frame Range')
 
         self.start_f = QtGui.QDoubleSpinBox()
         self.start_f.setValue(mc.playbackOptions(q=True, minTime=True))
@@ -29,7 +25,6 @@ class StartEndFrameFields(BaseField):
         self.end_f = QtGui.QDoubleSpinBox()
         self.end_f.setValue(mc.playbackOptions(q=True, maxTime=True))
 
-        self.layout().addWidget(self.label)
         self.layout().addWidget(self.start_f)
         self.layout().addWidget(self.end_f)
 
@@ -41,6 +36,28 @@ class StartEndFrameFields(BaseField):
         return {
             'start_frame': self.start_f.value(),
             'end_frame': self.end_f.value()
+        }
+
+
+class SamplingField(BaseField):
+
+    def __init__(self):
+        super(SamplingField, self).__init__()
+        layout = QtGui.QHBoxLayout()
+        self.setLayout(layout)
+
+        self.samples = QtGui.QDoubleSpinBox()
+        self.samples.setValue(0.1)
+
+        self.layout().addWidget(self.samples)
+
+    def notify_changed(self, *args, **kwargs):
+        '''Notify the world about the changes.'''
+        self.value_changed.emit(self.value())
+
+    def value(self):
+        return {
+            'samples': self.samples.value(),
         }
 
 
@@ -127,6 +144,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
                 },
                 {
                     'widget': StartEndFrameFields(),
+                    'label': 'start/end frame',
                     'type': 'qt_widget',
                     'name': 'frame_range'
                 },
@@ -144,10 +162,10 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
 
                 },
                 {
-                    'type': 'text',
+                    'type': 'qt_widget',
                     'label': 'Evaluate Every',
                     'name': 'sampling',
-                    'value': 0.1
+                    'widget': SamplingField()
                 },
                 {
                     'type': 'boolean',
@@ -254,7 +272,7 @@ def register(session):
         publish_asset=PublishGeometry(
             label=IDENTIFIER,
             description='publish geometry to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/9Tp/erx/9Tperxqrc.png'
+            icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
         )
     )
     # Register media asset on session. This makes sure that discover is called
