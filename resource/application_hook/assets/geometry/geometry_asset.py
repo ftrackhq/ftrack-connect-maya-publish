@@ -35,79 +35,96 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
                 {
                     'type': 'boolean',
                     'label': 'Preserve reference',
-                    'name': 'reference'
+                    'name': 'reference',
+                    'value': False
                 },
                 {
                     'type': 'boolean',
                     'label': 'History',
-                    'name': 'history'
+                    'name': 'history',
+                    'value': False
                 },
                 {
                     'type': 'boolean',
                     'label': 'Channels',
-                    'name': 'channels'
+                    'name': 'channels',
+                    'value': False
                 },
                 {
                     'type': 'boolean',
                     'label': 'Expressions',
-                    'name': 'expressions'
+                    'name': 'expressions',
+                    'value': False
                 },
                 {
                     'type': 'boolean',
                     'label': 'Constraints',
-                    'name': 'constraint'
+                    'name': 'constraint',
+                    'value': False
                 },
                 {
                     'type': 'boolean',
                     'label': 'Shaders',
-                    'name': 'shaders'
+                    'name': 'shaders',
+                    'value': True
                 },
                 {
                     'type': 'boolean',
                     'label': 'Export Selected',
-                    'name': 'export_selected'
+                    'name': 'export_selected',
+                    'value': False
                 }
             ],
             'maya.alembic': [
                 {
                     'type': 'boolean',
                     'label': 'Include animation',
-                    'name': 'animation'
+                    'name': 'animation',
+                    'value': False
+
                 },
                 {
                     'type': 'boolean',
                     'label': 'UV Write',
-                    'name': 'uv_write'
+                    'name': 'uv_write',
+                    'value': True
                 },
                 {
                     'type': 'text',
                     'label': 'Start Frame',
-                    'name': 'start_frame'
+                    'name': 'start_frame',
+                    'value': mc.playbackOptions(q=True, minTime=True)
                 },
                 {
                     'type': 'text',
                     'label': 'End Frame',
-                    'name': 'end_frame'
+                    'name': 'end_frame',
+                    'value': mc.playbackOptions(q=True, maxTime=True)
                 },
                 {
                     'type': 'boolean',
                     'label': 'World Space',
-                    'name': 'world_space'
+                    'name': 'world_space',
+                    'value': True,
                 },
                 {
                     'type': 'boolean',
                     'label': 'Write Visibility',
-                    'name': 'write_visibility'
+                    'name': 'write_visibility',
+                    'value': True,
+
                 },
                 {
                     'type': 'text',
                     'label': 'Evaluate Every',
-                    'name': 'sampling'
+                    'name': 'sampling',
+                    'value': 0.1
                 },
                 {
                     'type': 'boolean',
                     'label': 'Export Selected',
-                    'name': 'export_selected'
+                    'name': 'export_selected',
+                    'value': False
                 }
             ]
         }
