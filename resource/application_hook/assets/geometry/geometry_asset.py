@@ -1,11 +1,47 @@
+
+import tempfile
+
 import ftrack_api
 
 import ftrack_connect_pipeline.asset
+from ftrack_connect_pipeline.ui.widget.field.base import BaseField
 
-import tempfile
+from PySide import QtGui, QtCore
+
 import maya.cmds as mc
 
 IDENTIFIER = 'geometry'
+
+
+class StartEndFrameFields(BaseField):
+
+    def __init__(self):
+        '''Instantiate asset selector with *ftrack_entity*.'''
+        super(StartEndFrameFields, self).__init__()
+        layout = QtGui.QHBoxLayout()
+        self.setLayout(layout)
+
+        self.label = QtGui.QLabel('Frame Range')
+
+        self.start_f = QtGui.QDoubleSpinBox()
+        self.start_f.setValue(mc.playbackOptions(q=True, minTime=True))
+
+        self.end_f = QtGui.QDoubleSpinBox()
+        self.end_f.setValue(mc.playbackOptions(q=True, maxTime=True))
+
+        self.layout().addWidget(self.label)
+        self.layout().addWidget(self.start_f)
+        self.layout().addWidget(self.end_f)
+
+    def notify_changed(self, *args, **kwargs):
+        '''Notify the world about the changes.'''
+        self.value_changed.emit(self.value())
+
+    def value(self):
+        return {
+            'start_frame': self.start_f.value(),
+            'end_frame': self.end_f.value()
+        }
 
 
 class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
@@ -90,16 +126,9 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
                     'value': True
                 },
                 {
-                    'type': 'text',
-                    'label': 'Start Frame',
-                    'name': 'start_frame',
-                    'value': mc.playbackOptions(q=True, minTime=True)
-                },
-                {
-                    'type': 'text',
-                    'label': 'End Frame',
-                    'name': 'end_frame',
-                    'value': mc.playbackOptions(q=True, maxTime=True)
+                    'widget': StartEndFrameFields(),
+                    'type': 'qt_widget',
+                    'name': 'frame_range'
                 },
                 {
                     'type': 'boolean',
@@ -183,8 +212,8 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
 
         if options.get('animation', False):
             alembicJobArgs += '-frameRange {0} {1} -step {2} '.format(
-                options.get('start_frame', 0),
-                options.get('end_frame', 0),
+                options['frame_range'].get('start_frame', 0),
+                options['frame_range'].get('end_frame', 0),
                 options.get('sampling', 1)
             )
 
