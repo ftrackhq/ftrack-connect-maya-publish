@@ -1,53 +1,19 @@
-import os
-
 import pyblish.api
-import ftrack_api
-
-
-class FtrackPublishCollector(pyblish.api.ContextPlugin):
-    '''Prepare ftrack publish.'''
-
-    order = pyblish.api.CollectorOrder
-
-    def process(self, context):
-        '''Process *context* and add ftrack entity.'''
-        session = ftrack_api.Session()
-        ftrack_entity = session.get(
-            'Context', os.environ['FTRACK_CONTEXT_ID']
-        )
-        context.data['ftrack_entity'] = ftrack_entity
 
 
 class IntegratorCreateAsset(pyblish.api.ContextPlugin):
     '''Create asset and prepare publish.'''
 
     order = pyblish.api.IntegratorOrder
-    families = ['ftrack.maya.*']
-
-    @classmethod
-    def _ftrack_options(cls, context):
-        '''Return options.'''
-        from ftrack_connect_pipeline.ui.widget import asset_selector
-        asset_selector = asset_selector.AssetSelector(
-            context.data['ftrack_entity']
-        )
-
-        def handle_change(value):
-            context.data['options'] = {}
-            context.data['options']['asset_name'] = value['asset_name']
-            context.data['options']['asset_type'] = value['asset_type']
-
-        asset_selector.asset_changed.connect(handle_change)
-
-        return asset_selector
 
     def process(self, context):
         '''Process *context* create asset.'''
+        print 'step1'
         ftrack_entity = context.data['ftrack_entity']
         session = ftrack_entity.session
 
-        asset_type_id = context.data['options']['asset_type']
-        asset_name = context.data['options']['asset_name']
+        asset_type_id = context.data['options']['asset']['asset_type']
+        asset_name = context.data['options']['asset']['asset_name']
         context_id = ftrack_entity['id']
 
         asset = session.query(
@@ -95,18 +61,15 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
     order = pyblish.api.IntegratorOrder + 0.1
 
     families = ['*']
-    # families = ['ftrack.maya.*'] doesn't seems to be working.... :\
 
     def process(self, instance):
         '''Process *instance* and create components.'''
-
+        import ftrack_api.symbol
         context = instance.context
         asset_version = context.data['asset_version']
         session = asset_version.session
         location = session.pick_location()
-        components = instance.data.get('ftrack_components', [])
-
-        for component_item in components:
+        for component_item in instance.data.get('ftrack_components', []):
             session.create_component(
                 component_item['path'],
                 {
@@ -125,10 +88,14 @@ class IntegratorPublishVersion(pyblish.api.ContextPlugin):
     order = pyblish.api.IntegratorOrder + 0.2
 
     def process(self, context):
-
         '''Process *context*.'''
         asset_version = context.data['asset_version']
         session = asset_version.session
 
         asset_version['is_published'] = True
         session.commit()
+
+
+pyblish.api.register_plugin(IntegratorCreateAsset)
+pyblish.api.register_plugin(IntegratorCreateComponents)
+pyblish.api.register_plugin(IntegratorPublishVersion)
