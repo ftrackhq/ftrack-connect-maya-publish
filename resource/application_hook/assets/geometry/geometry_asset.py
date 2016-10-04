@@ -14,7 +14,7 @@ IDENTIFIER = 'geometry'
 
 class MayaBinaryFileProcessor(object):
 
-    @property
+    @staticmethod
     def options():
         return [
             {
@@ -61,9 +61,128 @@ class MayaBinaryFileProcessor(object):
             }
         ]
 
-    def process(self, options):
+    @staticmethod
+    def process(options):
+
+        import tempfile
+        # generate temp file
+        temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
+
+        export_selected = options.get('export_selected', False)
+        # save maya file
+        mc.file(
+            temporaryPath,
+            op='v=0',
+            typ='mayaBinary',
+            preserveReferences=options.get('reference', False),
+            constructionHistory=options.get('keep_history', False),
+            channels=options.get('keep_channels', False),
+            constraints=options.get('keep_constraints', False),
+            expressions=options.get('keep_expressions', False),
+            shader=options.get('keep_shaders', False),
+            exportSelected=export_selected,
+            exportAll=not export_selected,
+            force=True
+        )
+
+        return temporaryPath
 
 
+class AlembicProcessor(object):
+
+    @staticmethod
+    def options():
+        return [
+            {
+                'type': 'boolean',
+                'label': 'Include animation',
+                'name': 'animation',
+                'value': False
+
+            },
+            {
+                'type': 'boolean',
+                'label': 'UV Write',
+                'name': 'uv_write',
+                'value': True
+            },
+            {
+                'widget': StartEndFrameFields(),
+                'label': 'start/end frame',
+                'type': 'qt_widget',
+                'name': 'frame_range'
+            },
+            {
+                'type': 'boolean',
+                'label': 'World Space',
+                'name': 'world_space',
+                'value': True,
+            },
+            {
+                'type': 'boolean',
+                'label': 'Write Visibility',
+                'name': 'write_visibility',
+                'value': True,
+
+            },
+            {
+                'type': 'qt_widget',
+                'label': 'Evaluate Every',
+                'name': 'sampling',
+                'widget': SamplingField()
+            },
+            {
+                'type': 'boolean',
+                'label': 'Export Selected',
+                'name': 'export_selected',
+                'value': False
+            }
+        ]
+
+    @staticmethod
+    def process(options):
+
+        # export alembic file
+        temporaryPath = tempfile.mkstemp(suffix='.abc')[-1]
+
+        if options.get('export_selected', False):
+            nodes = mc.ls(sl=True, long=True)
+            selectednodes = None
+        else:
+            selectednodes = mc.ls(sl=True, long=True)
+            nodes = mc.ls(type='transform', long=True)
+
+        objCommand = ''
+        for n in nodes:
+            objCommand = objCommand + '-root ' + n + ' '
+
+        alembicJobArgs = ''
+
+        if options.get('uv_write', False):
+            alembicJobArgs += '-uvWrite '
+
+        if options.get('world_space', False):
+            alembicJobArgs += '-worldSpace '
+
+        if options.get('write_visibility', False):
+            alembicJobArgs += '-writeVisibility '
+
+        if options.get('animation', False):
+            alembicJobArgs += '-frameRange {0} {1} -step {2} '.format(
+                options['frame_range'].get('start_frame', 0),
+                options['frame_range'].get('end_frame', 0),
+                options['sampling'].get('sampling', 1)
+            )
+
+        mc.loadPlugin('AbcExport.so', qt=1)
+
+        alembicJobArgs += ' ' + objCommand + '-file ' + temporaryPath
+        mc.AbcExport(j=alembicJobArgs)
+
+        if selectednodes:
+            mc.select(selectednodes)
+
+        return temporaryPath
 
 
 class StartEndFrameFields(BaseField):
@@ -138,172 +257,17 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PublishAsset):
         '''Return options for publishable item with *name*.'''
 
         options = {
-            'maya.binary': [
-                {
-                    'type': 'boolean',
-                    'label': 'Preserve reference',
-                    'name': 'reference',
-                    'value': False
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'History',
-                    'name': 'history',
-                    'value': False
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'Channels',
-                    'name': 'channels',
-                    'value': False
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'Expressions',
-                    'name': 'expressions',
-                    'value': False
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'Constraints',
-                    'name': 'constraint',
-                    'value': False
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'Shaders',
-                    'name': 'shaders',
-                    'value': True
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'Export Selected',
-                    'name': 'export_selected',
-                    'value': False
-                }
-            ],
-            'maya.alembic': [
-                {
-                    'type': 'boolean',
-                    'label': 'Include animation',
-                    'name': 'animation',
-                    'value': False
-
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'UV Write',
-                    'name': 'uv_write',
-                    'value': True
-                },
-                {
-                    'widget': StartEndFrameFields(),
-                    'label': 'start/end frame',
-                    'type': 'qt_widget',
-                    'name': 'frame_range'
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'World Space',
-                    'name': 'world_space',
-                    'value': True,
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'Write Visibility',
-                    'name': 'write_visibility',
-                    'value': True,
-
-                },
-                {
-                    'type': 'qt_widget',
-                    'label': 'Evaluate Every',
-                    'name': 'sampling',
-                    'widget': SamplingField()
-                },
-                {
-                    'type': 'boolean',
-                    'label': 'Export Selected',
-                    'name': 'export_selected',
-                    'value': False
-                }
-            ]
+            'maya.binary': MayaBinaryFileProcessor.options(),
+            'maya.alembic': AlembicProcessor.options()
         }
 
         return options.get(name, [])
 
-    def _process_mayabinary(self, options):
-        # generate temp file
-        temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
-
-        export_selected = options.get('export_selected', False)
-        # save maya file
-        mc.file(
-            temporaryPath,
-            op='v=0',
-            typ='mayaBinary',
-            preserveReferences=options.get('reference', False),
-            constructionHistory=options.get('keep_history', False),
-            channels=options.get('keep_channels', False),
-            constraints=options.get('keep_constraints', False),
-            expressions=options.get('keep_expressions', False),
-            shader=options.get('keep_shaders', False),
-            exportSelected=export_selected,
-            exportAll=not export_selected,
-            force=True
-        )
-
-        return temporaryPath
-
-    def _process_alembic(self, options):
-
-        # export alembic file
-        temporaryPath = tempfile.mkstemp(suffix='.abc')[-1]
-
-        if options.get('export_selected', False):
-            nodes = mc.ls(sl=True, long=True)
-            selectednodes = None
-        else:
-            selectednodes = mc.ls(sl=True, long=True)
-            nodes = mc.ls(type='transform', long=True)
-
-        objCommand = ''
-        for n in nodes:
-            objCommand = objCommand + '-root ' + n + ' '
-
-        alembicJobArgs = ''
-
-        if options.get('uv_write', False):
-            alembicJobArgs += '-uvWrite '
-
-        if options.get('world_space', False):
-            alembicJobArgs += '-worldSpace '
-
-        if options.get('write_visibility', False):
-            alembicJobArgs += '-writeVisibility '
-
-        if options.get('animation', False):
-            alembicJobArgs += '-frameRange {0} {1} -step {2} '.format(
-                options['frame_range'].get('start_frame', 0),
-                options['frame_range'].get('end_frame', 0),
-                options['sampling'].get('sampling', 1)
-            )
-
-        mc.loadPlugin('AbcExport.so', qt=1)
-
-        alembicJobArgs += ' ' + objCommand + '-file ' + temporaryPath
-        mc.AbcExport(j=alembicJobArgs)
-
-        if selectednodes:
-            mc.select(selectednodes)
-
-        return temporaryPath
-
     def publish(self, publish_data):
         '''Publish or raise exception if not valid.'''
         processors = {
-            'maya.binary': self._process_mayabinary,
-            'maya.alembic': self._process_alembic
+            'maya.binary': MayaBinaryFileProcessor.process,
+            'maya.alembic': AlembicProcessor.process
         }
         results = {}
         for exporter in publish_data['item_options']:
