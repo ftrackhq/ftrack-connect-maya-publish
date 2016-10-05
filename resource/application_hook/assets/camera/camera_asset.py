@@ -373,7 +373,6 @@ class PublishCamera(ftrack_connect_pipeline.asset.PublishAsset):
         lock_camera = publish_data['options'].get('camera_lock', False)
 
         camera = self.get_camera()
-        print 'CAMERA', camera
         original_values = {}
 
         if bake_camera:
