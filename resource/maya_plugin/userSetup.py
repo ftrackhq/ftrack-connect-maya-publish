@@ -27,7 +27,7 @@ def create_publish_menu():
         parent=efesto_menu,
         label="Publish",
         stp="python",
-        c='open_publish()'
+        command=lambda x: open_publish()
     )
 
 
