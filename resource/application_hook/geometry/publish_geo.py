@@ -1,12 +1,125 @@
 import ftrack_api
 
 import ftrack_connect_pipeline.asset
-
 IDENTIFIER = 'geometry'
+
+from ftrack_connect_pipeline.ui.widget.field.base import BaseField
+from PySide import QtGui
+import maya.cmds as cmds
+
+
+class MayaBinaryOptions(BaseField):
+
+    def __init__(self):
+        super(MayaBinaryOptions, self).__init__()
+        layout = QtGui.QVBoxLayout()
+        self.setLayout(layout)
+
+        # preserve reference
+        self.preserve_reference = QtGui.QCheckBox('preserve reference')
+        self.layout().addWidget(self.preserve_reference)
+
+        self.history = QtGui.QCheckBox('history')
+        self.layout().addWidget(self.history)
+
+        self.channels = QtGui.QCheckBox('channels')
+        self.layout().addWidget(self.channels)
+
+        self.expressions = QtGui.QCheckBox('expressions')
+        self.layout().addWidget(self.expressions)
+
+        self.constraints = QtGui.QCheckBox('constraints')
+        self.layout().addWidget(self.constraints)
+
+        self.shaders = QtGui.QCheckBox('shaders')
+        self.layout().addWidget(self.shaders)
+
+        self.export_selected = QtGui.QCheckBox('export_selected')
+        self.layout().addWidget(self.export_selected)
+
+    def notify_changed(self, *args, **kwargs):
+        '''Notify the world about the changes.'''
+        self.value_changed.emit(self.value())
+
+    def value(self):
+        return {
+            'preserve_reference': self.preserve_reference.checked(),
+            'history': self.history.checked(),
+            'channels': self.channels.checked(),
+            'expressions': self.expressions.checked(),
+            'constraints': self.constraints.checked(),
+            'shaders': self.shaders.checked(),
+            'export_selected': self.export_selected.checked(),
+        }
+
+
+class AlembicOptions(BaseField):
+
+    def __init__(self):
+        super(AlembicOptions, self).__init__()
+        layout = QtGui.QVBoxLayout()
+        self.setLayout(layout)
+
+        # preserve reference
+        self.preserve_reference = QtGui.QCheckBox('preserve reference')
+        self.layout().addWidget(self.preserve_reference)
+
+        self.history = QtGui.QCheckBox('history')
+        self.layout().addWidget(self.history)
+
+        self.channels = QtGui.QCheckBox('channels')
+        self.layout().addWidget(self.channels)
+
+        self.expressions = QtGui.QCheckBox('expressions')
+        self.layout().addWidget(self.expressions)
+
+        self.constraints = QtGui.QCheckBox('constraints')
+        self.layout().addWidget(self.constraints)
+
+        self.shaders = QtGui.QCheckBox('shaders')
+        self.layout().addWidget(self.shaders)
+
+        self.export_selected = QtGui.QCheckBox('export_selected')
+        self.layout().addWidget(self.export_selected)
+
+    def notify_changed(self, *args, **kwargs):
+        '''Notify the world about the changes.'''
+        self.value_changed.emit(self.value())
+
+    def value(self):
+        return {
+            'preserve_reference': self.preserve_reference.checked(),
+            'history': self.history.checked(),
+            'channels': self.channels.checked(),
+            'expressions': self.expressions.checked(),
+            'constraints': self.constraints.checked(),
+            'shaders': self.shaders.checked(),
+            'export_selected': self.export_selected.checked(),
+        }
 
 
 class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
     '''Handle publish of maya image.'''
+
+    def get_options(self, publish_data):
+        options = [
+            {
+                'type': 'qt_widget',
+                'label': 'MayaBinaryOptions',
+                'name': 'mboptions',
+                'widget': MayaBinaryOptions()
+            },
+            {
+                'type': 'qt_widget',
+                'label': 'AlembicOptions',
+                'name': 'abcoptions',
+                'widget': AlembicOptions()
+            },
+        ]
+
+        default_options = super(PublishGeometry, self).get_options(publish_data)
+        options += default_options
+        return options
 
     def get_publish_items(self, publish_data):
         '''Return list of items that can be published.'''
@@ -27,50 +140,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
         '''Return options for publishable item with *name*.'''
         for instance in publish_data:
             if instance.id == name:
-                return [
-                    {
-                        'type': 'boolean',
-                        'label': 'Preserve reference',
-                        'name': 'reference',
-                        'value': False
-                    },
-                    {
-                        'type': 'boolean',
-                        'label': 'History',
-                        'name': 'history',
-                        'value': False
-                    },
-                    {
-                        'type': 'boolean',
-                        'label': 'Channels',
-                        'name': 'channels',
-                        'value': False
-                    },
-                    {
-                        'type': 'boolean',
-                        'label': 'Expressions',
-                        'name': 'expressions',
-                        'value': False
-                    },
-                    {
-                        'type': 'boolean',
-                        'label': 'Constraints',
-                        'name': 'constraint',
-                        'value': False
-                    },
-                    {
-                        'type': 'boolean',
-                        'label': 'Shaders',
-                        'name': 'shaders',
-                        'value': True
-                    },
-                    {
-                        'type': 'boolean',
-                        'label': 'Export Selected',
-                        'name': 'export_selected',
-                        'value': False
-                    }
-                ]
+                return []
 
         return []
 
