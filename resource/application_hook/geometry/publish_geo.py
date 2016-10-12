@@ -120,7 +120,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
         '''Return list of items that can be published.'''
         options = []
         for instance in publish_data:
-            if instance.data['family'] in ('ftrack.maya.mayabinary', 'ftrack.maya.alembic'):
+            if instance.data['family'] in ('ftrack.maya.mayabinary.geometry', 'ftrack.maya.alembic.geometry'):
                 options.append(
                     {
                         'label': instance.name,

@@ -16,7 +16,6 @@ class FtrackPublishCollector(pyblish.api.ContextPlugin):
 class CollectCameras(pyblish.api.ContextPlugin):
 
     order = pyblish.api.CollectorOrder
-    families = ['ftrack.maya.camera']
 
     def process(self, context):
         '''Process *context* and add maya camera instances.'''
@@ -24,7 +23,7 @@ class CollectCameras(pyblish.api.ContextPlugin):
 
         for grp in mc.ls(assemblies=True, long=True):
             if mc.ls(grp, dag=True, type="camera"):
-                for family in ['ftrack.maya.mayabinary', 'ftrack.maya.alembic']:
+                for family in ['ftrack.maya.mayabinary.camera', 'ftrack.maya.alembic.camera']:
                     instance = context.create_instance(
                         grp, family=family
                     )

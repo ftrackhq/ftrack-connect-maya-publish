@@ -4,7 +4,7 @@ import pyblish.api
 class ExtractAlembic(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
-    families = ['ftrack.maya.alembic']
+    families = ['ftrack.maya.alembic.geometry']
 
     def process(self, instance):
 

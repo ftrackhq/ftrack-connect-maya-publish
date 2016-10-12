@@ -17,15 +17,13 @@ class CollectGeometries(pyblish.api.ContextPlugin):
 
     order = pyblish.api.CollectorOrder
 
-    families = ['ftrack.maya.geometry']
-
     def process(self, context):
         '''Process *context* and add maya camera instances.'''
         import maya.cmds as mc
 
         for grp in mc.ls(assemblies=True, long=True):
             if mc.ls(grp, dag=True, type="mesh"):
-                for family in ['ftrack.maya.mayabinary', 'ftrack.maya.alembic']:
+                for family in ['ftrack.maya.mayabinary.geometry', 'ftrack.maya.alembic.geometry']:
                     instance = context.create_instance(
                         grp, family=family
                     )
