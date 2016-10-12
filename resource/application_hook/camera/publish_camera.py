@@ -1,7 +1,7 @@
 import ftrack_api
 
 import ftrack_connect_pipeline.asset
-IDENTIFIER = 'geometry'
+IDENTIFIER = 'camera'
 
 from ftrack_connect_pipeline.ui.widget.field.base import BaseField
 from PySide import QtGui
@@ -90,7 +90,32 @@ class AlembicOptions(BaseField):
         }
 
 
-class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
+class CameraOptions(BaseField):
+
+    def __init__(self):
+        super(CameraOptions, self).__init__()
+        layout = QtGui.QVBoxLayout()
+        self.setLayout(layout)
+
+        # preserve reference
+        self.bake = QtGui.QCheckBox('Bake')
+        self.layout().addWidget(self.bake)
+
+        self.lock = QtGui.QCheckBox('Lock')
+        self.layout().addWidget(self.lock)
+
+    def notify_changed(self, *args, **kwargs):
+        '''Notify the world about the changes.'''
+        self.value_changed.emit(self.value())
+
+    def value(self):
+        return {
+            'bake': self.bake.checked(),
+            'lock': self.lock.checked(),
+        }
+
+
+class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
     '''Handle publish of maya image.'''
 
     def get_options(self, publish_data):
@@ -107,10 +132,16 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
                 'name': 'abcoptions',
                 'widget': AlembicOptions()
             },
+            {
+                'type': 'qt_widget',
+                'label': 'CameraOptions',
+                'name': 'camoptions',
+                'widget': CameraOptions()
+            },
         ]
 
         default_options = super(
-            PublishGeometry, self
+            PublishCamera, self
         ).get_options(publish_data)
 
         options += default_options
@@ -147,7 +178,7 @@ def register(session):
 
     image_asset = ftrack_connect_pipeline.asset.Asset(
         identifier=IDENTIFIER,
-        publish_asset=PublishGeometry(
+        publish_asset=PublishCamera(
             label='Geometry',
             description='publish geometry to ftrack.',
             icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
