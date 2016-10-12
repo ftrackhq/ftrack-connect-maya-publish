@@ -179,9 +179,9 @@ def register(session):
     image_asset = ftrack_connect_pipeline.asset.Asset(
         identifier=IDENTIFIER,
         publish_asset=PublishCamera(
-            label='Geometry',
-            description='publish geometry to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
+            label='Camera',
+            description='publish camera to ftrack.',
+            icon='http://www.clipartbest.com/cliparts/LiK/dLB/LiKdLB6zT.png'
         )
     )
     # Register media asset on session. This makes sure that discover is called
