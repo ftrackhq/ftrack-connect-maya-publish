@@ -38,6 +38,8 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
         import maya.cmds as mc
         import tempfile
 
+        mc.select(str(instance), replace=True)
+
         if instance.data.get('publish'):
             print (
                 'Extracting media using options:',
