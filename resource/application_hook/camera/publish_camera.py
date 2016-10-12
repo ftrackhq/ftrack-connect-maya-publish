@@ -5,7 +5,6 @@ IDENTIFIER = 'camera'
 
 from ftrack_connect_pipeline.ui.widget.field.base import BaseField
 from PySide import QtGui
-import maya.cmds as cmds
 
 
 # TEMP SOLUTION WHILE WAITING TO BUILD OPTIONS OUT OF DICTS
@@ -44,13 +43,13 @@ class MayaBinaryOptions(BaseField):
 
     def value(self):
         return {
-            'reference': self.preserve_reference.checked(),
-            'history': self.history.checked(),
-            'channels': self.channels.checked(),
-            'expressions': self.expressions.checked(),
-            'constraints': self.constraints.checked(),
-            'shaders': self.shaders.checked(),
-            'export_selected': self.export_selected.checked(),
+            'reference': self.preserve_reference.checkState(),
+            'history': self.history.checkState(),
+            'channels': self.channels.checkState(),
+            'expressions': self.expressions.checkState(),
+            'constraints': self.constraints.checkState(),
+            'shaders': self.shaders.checkState(),
+            'export_selected': self.export_selected.checkState()
         }
 
 
@@ -83,10 +82,10 @@ class AlembicOptions(BaseField):
 
     def value(self):
         return {
-            'include_animation': self.include_animation.checked(),
-            'uv_write': self.uv_write.checked(),
-            'world_space': self.world_space.checked(),
-            'write_visibility': self.write_visibility.checked(),
+            'include_animation': self.include_animation.checkState(),
+            'uv_write': self.uv_write.checkState(),
+            'world_space': self.world_space.checkState(),
+            'write_visibility': self.write_visibility.checkState()
         }
 
 
@@ -110,8 +109,8 @@ class CameraOptions(BaseField):
 
     def value(self):
         return {
-            'bake': self.bake.checked(),
-            'lock': self.lock.checked(),
+            'bake': self.bake.checkState(),
+            'lock': self.lock.checkState()
         }
 
 
@@ -122,20 +121,20 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
         options = [
             {
                 'type': 'qt_widget',
-                'label': 'MayaBinaryOptions',
-                'name': 'mboptions',
+                'label': 'Maya Binary Options',
+                'name': 'mb_options',
                 'widget': MayaBinaryOptions()
             },
             {
                 'type': 'qt_widget',
-                'label': 'AlembicOptions',
-                'name': 'abcoptions',
+                'label': 'Alembic Options',
+                'name': 'abc_options',
                 'widget': AlembicOptions()
             },
             {
                 'type': 'qt_widget',
-                'label': 'CameraOptions',
-                'name': 'camoptions',
+                'label': 'Camera Options',
+                'name': 'cam_options',
                 'widget': CameraOptions()
             },
         ]

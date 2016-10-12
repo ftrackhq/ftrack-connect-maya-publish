@@ -44,13 +44,13 @@ class MayaBinaryOptions(BaseField):
 
     def value(self):
         return {
-            'reference': self.preserve_reference.checked(),
-            'history': self.history.checked(),
-            'channels': self.channels.checked(),
-            'expressions': self.expressions.checked(),
-            'constraints': self.constraints.checked(),
-            'shaders': self.shaders.checked(),
-            'export_selected': self.export_selected.checked(),
+            'reference': self.preserve_reference.checkState(),
+            'history': self.history.checkState(),
+            'channels': self.channels.checkState(),
+            'expressions': self.expressions.checkState(),
+            'constraints': self.constraints.checkState(),
+            'shaders': self.shaders.checkState(),
+            'export_selected': self.export_selected.checkState(),
         }
 
 
@@ -83,10 +83,10 @@ class AlembicOptions(BaseField):
 
     def value(self):
         return {
-            'include_animation': self.include_animation.checked(),
-            'uv_write': self.uv_write.checked(),
-            'world_space': self.world_space.checked(),
-            'write_visibility': self.write_visibility.checked(),
+            'include_animation': self.include_animation.checkState(),
+            'uv_write': self.uv_write.checkState(),
+            'world_space': self.world_space.checkState(),
+            'write_visibility': self.write_visibility.checkState(),
         }
 
 
@@ -118,6 +118,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
 
     def get_publish_items(self, publish_data):
         '''Return list of items that can be published.'''
+
         options = []
         for instance in publish_data:
             if instance.data['family'] in ('ftrack.maya.geometry',):
@@ -133,9 +134,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
 
     def get_item_options(self, publish_data, name):
         '''Return options for publishable item with *name*.'''
-        for instance in publish_data:
-            if instance.id == name:
-                return []
+        # print 'get_item_options', publish_data
 
         return []
 
