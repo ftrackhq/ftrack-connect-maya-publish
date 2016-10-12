@@ -23,12 +23,11 @@ class CollectCameras(pyblish.api.ContextPlugin):
 
         for grp in mc.ls(assemblies=True, long=True):
             if mc.ls(grp, dag=True, type="camera"):
-                for family in ['ftrack.maya.mayabinary.camera', 'ftrack.maya.alembic.camera']:
-                    instance = context.create_instance(
-                        grp, family=family
-                    )
-                    instance.data['publish'] = True
-                    instance.data['ftrack_components'] = []
+                instance = context.create_instance(
+                    grp, family='ftrack.maya.camera'
+                )
+                instance.data['publish'] = True
+                instance.data['ftrack_components'] = []
 
 
 pyblish.api.register_plugin(FtrackPublishCollector)

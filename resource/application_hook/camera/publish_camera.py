@@ -151,7 +151,7 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
         '''Return list of items that can be published.'''
         options = []
         for instance in publish_data:
-            if instance.data['family'] in ('ftrack.maya.mayabinary.camera', 'ftrack.maya.alembic.camera'):
+            if instance.data['family'] in ('ftrack.maya.camera',):
                 options.append(
                     {
                         'label': instance.name,

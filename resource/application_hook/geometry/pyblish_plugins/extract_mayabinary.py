@@ -4,7 +4,7 @@ import pyblish.api
 class ExtractMayaBinary(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
-    families = ['ftrack.maya.mayabinary.geometry']
+    families = ['ftrack.maya.geometry']
 
     def process(self, instance):
         '''Process *instance* and extract media.'''
