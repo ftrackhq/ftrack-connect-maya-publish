@@ -17,6 +17,8 @@ class CollectGeometries(pyblish.api.ContextPlugin):
 
     order = pyblish.api.CollectorOrder
 
+    families = ['ftrack.maya.geometry']
+
     def process(self, context):
         '''Process *context* and add maya camera instances.'''
         import maya.cmds as mc
