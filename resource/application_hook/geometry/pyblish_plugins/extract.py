@@ -16,7 +16,7 @@ class CollectGeometries(pyblish.api.ContextPlugin):
                 instance.data['ftrack_components'] = []
 
 
-class ExtractMayaScene(pyblish.api.InstancePlugin):
+class ExtractGeometries(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
     families = ['ftrack.maya.geometry']
@@ -67,5 +67,6 @@ class ExtractMayaScene(pyblish.api.InstancePlugin):
 
             instance.data['ftrack_components'].append(new_component)
 
+
 pyblish.api.register_plugin(CollectGeometries)
-pyblish.api.register_plugin(ExtractMayaScene)
+pyblish.api.register_plugin(ExtractGeometries)

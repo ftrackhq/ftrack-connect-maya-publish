@@ -8,7 +8,6 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
 
     def process(self, context):
         '''Process *context* create asset.'''
-        print 'step1'
         ftrack_entity = context.data['ftrack_entity']
         session = ftrack_entity.session
 
