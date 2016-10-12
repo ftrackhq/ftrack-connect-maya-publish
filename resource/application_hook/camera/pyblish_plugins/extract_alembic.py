@@ -1,22 +1,6 @@
 import pyblish.api
 
 
-class CollectAlembic(pyblish.api.ContextPlugin):
-
-    order = pyblish.api.CollectorOrder
-
-    def process(self, context):
-        '''Process *context* and add maya camera instances.'''
-        import maya.cmds as mc
-        for grp in mc.ls(assemblies=True, long=True):
-            if mc.ls(grp, dag=True, type="mesh"):
-                instance = context.create_instance(
-                    grp, family='ftrack.maya.alembic'
-                )
-                instance.data['publish'] = True
-                instance.data['ftrack_components'] = []
-
-
 class ExtractAlembic(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
@@ -92,3 +76,5 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
 
             print 'Adding new component: %s' % new_component
             instance.data['ftrack_components'].append(new_component)
+
+pyblish.api.register_plugin(ExtractAlembic)
