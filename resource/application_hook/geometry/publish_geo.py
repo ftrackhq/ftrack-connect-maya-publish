@@ -8,6 +8,7 @@ from PySide import QtGui
 import maya.cmds as cmds
 
 
+# TEMP SOLUTION WHILE WAITING TO BUILD OPTIONS OUT OF DICTS
 class MayaBinaryOptions(BaseField):
 
     def __init__(self):
@@ -43,7 +44,7 @@ class MayaBinaryOptions(BaseField):
 
     def value(self):
         return {
-            'preserve_reference': self.preserve_reference.checked(),
+            'reference': self.preserve_reference.checked(),
             'history': self.history.checked(),
             'channels': self.channels.checked(),
             'expressions': self.expressions.checked(),
@@ -53,6 +54,7 @@ class MayaBinaryOptions(BaseField):
         }
 
 
+# NOTE THIS LACK OF TWO FILEDS, AS SOON AS I CAN BUILD OUT OF THE DICT I'LL BE UPDATING THIS
 class AlembicOptions(BaseField):
 
     def __init__(self):
@@ -61,26 +63,17 @@ class AlembicOptions(BaseField):
         self.setLayout(layout)
 
         # preserve reference
-        self.preserve_reference = QtGui.QCheckBox('preserve reference')
-        self.layout().addWidget(self.preserve_reference)
+        self.include_animation = QtGui.QCheckBox('include animation')
+        self.layout().addWidget(self.include_animation)
 
-        self.history = QtGui.QCheckBox('history')
-        self.layout().addWidget(self.history)
+        self.uv_write = QtGui.QCheckBox('Write UV')
+        self.layout().addWidget(self.uv_write)
 
-        self.channels = QtGui.QCheckBox('channels')
-        self.layout().addWidget(self.channels)
+        self.world_space = QtGui.QCheckBox('World Space')
+        self.layout().addWidget(self.world_space)
 
-        self.expressions = QtGui.QCheckBox('expressions')
-        self.layout().addWidget(self.expressions)
-
-        self.constraints = QtGui.QCheckBox('constraints')
-        self.layout().addWidget(self.constraints)
-
-        self.shaders = QtGui.QCheckBox('shaders')
-        self.layout().addWidget(self.shaders)
-
-        self.export_selected = QtGui.QCheckBox('export_selected')
-        self.layout().addWidget(self.export_selected)
+        self.write_visibility = QtGui.QCheckBox('Write Visibility')
+        self.layout().addWidget(self.write_visibility)
 
     def notify_changed(self, *args, **kwargs):
         '''Notify the world about the changes.'''
@@ -88,13 +81,10 @@ class AlembicOptions(BaseField):
 
     def value(self):
         return {
-            'preserve_reference': self.preserve_reference.checked(),
-            'history': self.history.checked(),
-            'channels': self.channels.checked(),
-            'expressions': self.expressions.checked(),
-            'constraints': self.constraints.checked(),
-            'shaders': self.shaders.checked(),
-            'export_selected': self.export_selected.checked(),
+            'include_animation': self.include_animation.checked(),
+            'uv_write': self.uv_write.checked(),
+            'world_space': self.world_space.checked(),
+            'write_visibility': self.write_visibility.checked(),
         }
 
 
