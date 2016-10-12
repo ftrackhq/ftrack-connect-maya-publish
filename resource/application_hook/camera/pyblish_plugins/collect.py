@@ -27,6 +27,7 @@ class CollectCameras(pyblish.api.ContextPlugin):
                 instance = context.create_instance(
                     grp, family='ftrack.maya.camera'
                 )
+
                 instance.data['publish'] = True
                 instance.data['ftrack_components'] = []
 

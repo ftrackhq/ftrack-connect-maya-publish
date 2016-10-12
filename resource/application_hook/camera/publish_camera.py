@@ -37,6 +37,14 @@ class MayaBinaryOptions(BaseField):
         self.export_selected = QtGui.QCheckBox('export_selected')
         self.layout().addWidget(self.export_selected)
 
+        self.preserve_reference.stateChanged.connect(self.notify_changed)
+        self.history.stateChanged.connect(self.notify_changed)
+        self.channels.stateChanged.connect(self.notify_changed)
+        self.expressions.stateChanged.connect(self.notify_changed)
+        self.constraints.stateChanged.connect(self.notify_changed)
+        self.shaders.stateChanged.connect(self.notify_changed)
+        self.export_selected.stateChanged.connect(self.notify_changed)
+
     def notify_changed(self, *args, **kwargs):
         '''Notify the world about the changes.'''
         self.value_changed.emit(self.value())
@@ -76,6 +84,11 @@ class AlembicOptions(BaseField):
         self.write_visibility = QtGui.QCheckBox('Write Visibility')
         self.layout().addWidget(self.write_visibility)
 
+        self.include_animation.stateChanged.connect(self.notify_changed)
+        self.uv_write.stateChanged.connect(self.notify_changed)
+        self.world_space.stateChanged.connect(self.notify_changed)
+        self.write_visibility.stateChanged.connect(self.notify_changed)
+
     def notify_changed(self, *args, **kwargs):
         '''Notify the world about the changes.'''
         self.value_changed.emit(self.value())
@@ -102,6 +115,9 @@ class CameraOptions(BaseField):
 
         self.lock = QtGui.QCheckBox('Lock')
         self.layout().addWidget(self.lock)
+
+        self.bake.stateChanged.connect(self.notify_changed)
+        self.lock.stateChanged.connect(self.notify_changed)
 
     def notify_changed(self, *args, **kwargs):
         '''Notify the world about the changes.'''
@@ -163,10 +179,6 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
 
     def get_item_options(self, publish_data, name):
         '''Return options for publishable item with *name*.'''
-        for instance in publish_data:
-            if instance.id == name:
-                return []
-
         return []
 
 

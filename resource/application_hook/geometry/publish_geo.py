@@ -38,6 +38,14 @@ class MayaBinaryOptions(BaseField):
         self.export_selected = QtGui.QCheckBox('export_selected')
         self.layout().addWidget(self.export_selected)
 
+        self.preserve_reference.stateChanged.connect(self.notify_changedd)
+        self.history.stateChanged.connect(self.notify_changedd)
+        self.channels.stateChanged.connect(self.notify_changedd)
+        self.expressions.stateChanged.connect(self.notify_changed)
+        self.constraints.stateChanged.connect(self.notify_changed)
+        self.shaders.stateChanged.connect(self.notify_changed)
+        self.export_selected.stateChanged.connect(self.notify_changed)
+
     def notify_changed(self, *args, **kwargs):
         '''Notify the world about the changes.'''
         self.value_changed.emit(self.value())
@@ -50,7 +58,7 @@ class MayaBinaryOptions(BaseField):
             'expressions': self.expressions.checkState(),
             'constraints': self.constraints.checkState(),
             'shaders': self.shaders.checkState(),
-            'export_selected': self.export_selected.checkState(),
+            'export_selected': self.export_selected.checkState()
         }
 
 
@@ -77,6 +85,11 @@ class AlembicOptions(BaseField):
         self.write_visibility = QtGui.QCheckBox('Write Visibility')
         self.layout().addWidget(self.write_visibility)
 
+        self.include_animation.stateChanged.connect(self.notify_changed)
+        self.uv_write.stateChanged.connect(self.notify_changed)
+        self.world_space.stateChanged.connect(self.notify_changed)
+        self.write_visibility.stateChanged.connect(self.notify_changed)
+
     def notify_changed(self, *args, **kwargs):
         '''Notify the world about the changes.'''
         self.value_changed.emit(self.value())
@@ -86,8 +99,9 @@ class AlembicOptions(BaseField):
             'include_animation': self.include_animation.checkState(),
             'uv_write': self.uv_write.checkState(),
             'world_space': self.world_space.checkState(),
-            'write_visibility': self.write_visibility.checkState(),
+            'write_visibility': self.write_visibility.checkState()
         }
+
 
 
 class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
