@@ -1,27 +1,10 @@
 import pyblish.api
 
 
-class CollectGeometries(pyblish.api.ContextPlugin):
-
-    order = pyblish.api.CollectorOrder
-
-    def process(self, context):
-        '''Process *context* and add maya camera instances.'''
-        import maya.cmds as mc
-
-        for grp in mc.ls(assemblies=True, long=True):
-            if mc.ls(grp, dag=True, type="mesh"):
-                instance = context.create_instance(
-                    grp, family='ftrack.maya.geometry'
-                )
-                instance.data['publish'] = True
-                instance.data['ftrack_components'] = []
-
-
-class ExtractGeometries(pyblish.api.InstancePlugin):
+class ExtractMayaBinary(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
-    families = ['ftrack.maya.geometry']
+    families = ['ftrack.maya.mayabinary']
 
     def process(self, instance):
         '''Process *instance* and extract media.'''
@@ -73,5 +56,4 @@ class ExtractGeometries(pyblish.api.InstancePlugin):
             instance.data['ftrack_components'].append(new_component)
 
 
-pyblish.api.register_plugin(CollectGeometries)
-pyblish.api.register_plugin(ExtractGeometries)
+pyblish.api.register_plugin(ExtractMayaBinary)
