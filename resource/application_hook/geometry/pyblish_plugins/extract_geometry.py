@@ -65,7 +65,7 @@ class ExtractGeometries(pyblish.api.InstancePlugin):
             )
 
             new_component = {
-                'name': instance.name,
+                'name': '%s.mayabinary' % instance.name,
                 'path': temporaryPath,
             }
 

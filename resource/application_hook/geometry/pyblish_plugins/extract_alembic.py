@@ -97,7 +97,7 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
                 mc.select(selectednodes)
 
             new_component = {
-                'name': instance.name,
+                'name': '%s.alembic' % instance.name,
                 'path': temporaryPath,
             }
 
