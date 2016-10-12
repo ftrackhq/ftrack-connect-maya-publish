@@ -13,6 +13,7 @@ class CollectGeometries(pyblish.api.ContextPlugin):
                 instance = context.create_instance(
                     grp, family='ftrack.maya.geometry'
                 )
+                instance.data['publish'] = True
                 instance.data['ftrack_components'] = []
 
 
@@ -26,20 +27,23 @@ class ExtractGeometries(pyblish.api.InstancePlugin):
         import tempfile
         import maya.cmds as mc
 
+        # select the given geometries
+        mc.select(str(instance), replace=True)
+
         if instance.data.get('publish'):
             print (
                 'Extracting media using options:',
                 instance.data.get('options')
             )
 
-            # extract options
-            keep_reference = instance.data['options']['reference']
-            keep_history = instance.data['options']['history']
-            keep_channels = instance.data['options']['channels']
-            keep_constraints = instance.data['options']['constraint']
-            keep_expressions = instance.data['options']['expression']
-            keep_shaders = instance.data['options']['shaders']
-            export_selected = instance.data['options']['export_selected']
+            # extract options and provide defaults
+            keep_reference = instance.data['options'].get('reference', False)
+            keep_history = instance.data['options'].get('history', False)
+            keep_channels = instance.data['options'].get('channels', False)
+            keep_constraints = instance.data['options'].get('constraint', False)
+            keep_expressions = instance.data['options'].get('expression', False)
+            keep_shaders = instance.data['options'].get('shaders', True)
+            export_selected = instance.data['options'].get('export_selected', True)
 
             # generate temp file
             temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]

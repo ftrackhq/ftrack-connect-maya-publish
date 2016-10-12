@@ -55,6 +55,8 @@ class MayaBinaryOptions(BaseField):
 
 
 # NOTE THIS LACK OF TWO FILEDS, AS SOON AS I CAN BUILD OUT OF THE DICT I'LL BE UPDATING THIS
+# BEING THIS A GEOMETRY, ANIMATION MIGHT NOT BE NEEDED THOUGH, AND SHOULD GO IN A CACHE ASSET TYPE
+
 class AlembicOptions(BaseField):
 
     def __init__(self):
@@ -118,7 +120,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
         '''Return list of items that can be published.'''
         options = []
         for instance in publish_data:
-            if instance.data['family'] in ('ftrack.maya.geometry', ):
+            if instance.data['family'] in ('ftrack.maya.geometry', 'ftrack.maya.alembic'):
                 options.append(
                     {
                         'label': instance.name,
