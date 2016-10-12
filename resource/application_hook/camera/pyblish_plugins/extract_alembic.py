@@ -77,4 +77,5 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
             print 'Adding new component: %s' % new_component
             instance.data['ftrack_components'].append(new_component)
 
+
 pyblish.api.register_plugin(ExtractAlembic)
