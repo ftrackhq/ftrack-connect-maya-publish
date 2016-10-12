@@ -1,7 +1,7 @@
 import ftrack_api
 
 import ftrack_connect_pipeline.asset
-IDENTIFIER = 'geometry'
+IDENTIFIER = 'camera'
 
 from ftrack_connect_pipeline.ui.widget.field.base import BaseField
 from PySide import QtGui
@@ -90,6 +90,31 @@ class AlembicOptions(BaseField):
         }
 
 
+class CameraOptions(BaseField):
+
+    def __init__(self):
+        super(CameraOptions, self).__init__()
+        layout = QtGui.QVBoxLayout()
+        self.setLayout(layout)
+
+        # preserve reference
+        self.bake = QtGui.QCheckBox('Bake Camera')
+        self.layout().addWidget(self.bake)
+
+        self.lock = QtGui.QCheckBox('Lock Camera')
+        self.layout().addWidget(self.lock)
+
+    def notify_changed(self, *args, **kwargs):
+        '''Notify the world about the changes.'''
+        self.value_changed.emit(self.value())
+
+    def value(self):
+        return {
+            'lock': self.lock.checked(),
+            'backe': self.bake.checked()
+        }
+
+
 class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
     '''Handle publish of maya image.'''
 
@@ -107,6 +132,12 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
                 'name': 'abcoptions',
                 'widget': AlembicOptions()
             },
+            {
+                'type': 'qt_widget',
+                'label': 'CameraOptions',
+                'name': 'coptions',
+                'widget': CameraOptions()
+            }
         ]
 
         default_options = super(
@@ -148,9 +179,9 @@ def register(session):
     image_asset = ftrack_connect_pipeline.asset.Asset(
         identifier=IDENTIFIER,
         publish_asset=PublishGeometry(
-            label='Geometry',
-            description='publish geometry to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
+            label='Camera',
+            description='publish camera to ftrack.',
+            icon='http://www.clipartbest.com/cliparts/9Tp/erx/9Tperxqrc.png'
         )
     )
     # Register media asset on session. This makes sure that discover is called
