@@ -8,6 +8,8 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         '''Process *instance* and extract media.'''
+        print 'PROCESSING MAYABINARY', instance.data.get('publish')
+
         import tempfile
         import maya.cmds as mc
 

@@ -7,6 +7,7 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
     families = ['ftrack.maya.geometry']
 
     def process(self, instance):
+        print 'PROCESSING ALEMBIC', instance.data.get('publish')
 
         import maya.cmds as mc
         import tempfile
