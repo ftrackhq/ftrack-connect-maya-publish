@@ -50,19 +50,19 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
                 'name': 'alembic',
                 'options': [{
                     'name': 'include_animation',
-                    'label': 'include_animation',
+                    'label': 'Include animation',
                     'type': 'boolean'
                 }, {
                     'name': 'uv_write',
-                    'label': 'uv_write',
+                    'label': 'UV write',
                     'type': 'boolean'
                 }, {
                     'name': 'world_space',
-                    'label': 'world_space',
+                    'label': 'World space',
                     'type': 'boolean'
                 }, {
                     'name': 'write_visibility',
-                    'label': 'write_visibility',
+                    'label': 'Write visibility',
                     'type': 'boolean'
                 }]
             },
@@ -76,7 +76,7 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
                     'type': 'boolean'
                 }, {
                     'name': 'Bake',
-                    'label': 'bake',
+                    'label': 'Bake',
                     'type': 'boolean'
                 }]
             }
