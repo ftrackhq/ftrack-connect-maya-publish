@@ -38,9 +38,9 @@ class MayaBinaryOptions(BaseField):
         self.export_selected = QtGui.QCheckBox('export_selected')
         self.layout().addWidget(self.export_selected)
 
-        self.preserve_reference.stateChanged.connect(self.notify_changedd)
-        self.history.stateChanged.connect(self.notify_changedd)
-        self.channels.stateChanged.connect(self.notify_changedd)
+        self.preserve_reference.stateChanged.connect(self.notify_changed)
+        self.history.stateChanged.connect(self.notify_changed)
+        self.channels.stateChanged.connect(self.notify_changed)
         self.expressions.stateChanged.connect(self.notify_changed)
         self.constraints.stateChanged.connect(self.notify_changed)
         self.shaders.stateChanged.connect(self.notify_changed)
