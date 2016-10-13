@@ -2,45 +2,6 @@ import pyblish.api
 import maya.cmds as mc
 
 
-"""
-     def publish(self, publish_data):
-        '''Publish or raise exception if not valid.'''
-
-        processors = {
-            'maya.binary': MayaBinaryFileProcessor.process,
-            'maya.alembic': AlembicProcessor.process
-        }
-
-        bake_camera = publish_data['options'].get('camera_bake', False)
-        lock_camera = publish_data['options'].get('camera_lock', False)
-
-        camera = self.get_camera()
-        original_values = {}
-
-        if bake_camera:
-            camera = self.bake_camera(camera)
-
-        if lock_camera:
-            original_values = self.lock_camera(camera)
-
-        results = {}
-        for exporter in publish_data['item_options']:
-            process = processors.get(exporter)
-            if process:
-                results[exporter] = process(
-                    publish_data['item_options'][exporter]
-                )
-
-        if lock_camera:
-            self.unlock_camera(camera, original_values)
-
-        if bake_camera:
-            self.cleanup_bake(camera)
-
-        print results
-"""
-
-
 # Helper functions
 
 def bake(camera):
@@ -78,16 +39,11 @@ def cleanup_bake(camera):
 def lock_camera(camera):
     channels = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
     camera_values = {}
-    print 'locking camera:', camera
 
     for channel in channels:
         channel_name = '{0}.{1}'.format(camera, channel)
         channel_value = mc.getAttr(channel_name, l=True)
-
-        print 'getting : %s:%s' % (channel_name, channel_value)
-
         camera_values.setdefault(channel, channel_value)
-        print "setting value to : %s" % channel_name
         mc.setAttr(channel_name, l=True)
 
     return camera_values
@@ -132,7 +88,6 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
-
         camera_options = instance.context.data['options'].get(
             'camera_options', {}
         )
