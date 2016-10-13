@@ -14,7 +14,7 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
         mc.select(str(instance), replace=True)
 
         if instance.data.get('publish'):
-            context_options = instance.context.data['options']
+            context_options = instance.context.data['options'].get('alembic', {})
             print (
                 'Extracting Alembic using options:',
                 context_options

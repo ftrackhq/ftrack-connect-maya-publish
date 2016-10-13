@@ -15,7 +15,7 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
         mc.select(str(instance), replace=True)
 
         if instance.data.get('publish'):
-            context_options = instance.context.data['options']
+            context_options = instance.context.data['options'].get('maya_binary', {})
             print (
                 'Extracting MayaBinary using options:',
                 context_options
