@@ -12,7 +12,7 @@ def open_publish():
 
 def create_publish_menu():
     gMainWindow = mm.eval('$temp1=$gMainWindow')
-    menu_name = '&ftrack new'
+    menu_name = 'ftrack new'
     if mc.menu(menu_name, exists=True):
         mc.deleteUI(menu_name)
 
@@ -27,7 +27,7 @@ def create_publish_menu():
         parent=efesto_menu,
         label="Publish",
         stp="python",
-        c='open_publish()'
+        command=lambda x: open_publish()
     )
 
 
