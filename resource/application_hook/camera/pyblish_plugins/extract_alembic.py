@@ -14,11 +14,11 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
         mc.select(str(instance), replace=True)
 
         if instance.data.get('publish'):
-            print (
-                'Extracting media using options:',
-                instance.data.get('options')
-            )
             context_options = instance.context.data['options']
+            print (
+                'Extracting Alembic using options:',
+                context_options
+            )
 
             # extract options
             animation = context_options.get('animation', False)

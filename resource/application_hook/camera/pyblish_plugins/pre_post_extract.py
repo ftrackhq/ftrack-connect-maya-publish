@@ -108,9 +108,11 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
         locked_attrs = {}
 
         if bake_camera:
+            print 'PRE PROCESSING CAMERA BAKE'
             camera = bake(camera)
 
         if lock_camera:
+            print 'PRE PROCESSING CAMERA LOCK'
             locked_attrs = lock_camera(camera)
 
         instance.data['camera'] = camera
@@ -131,9 +133,11 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
         locked_attrs = instance.data['locked_attrs']
 
         if lock_camera:
+            print 'POST PROCESSING CAMERA LOCK'
             locked_attrs = unlock_camera(camera, locked_attrs)
 
         if bake_camera:
+            print 'POST PROCESSING CAMERA BAKE'
             camera = cleanup_bake(camera)
 
 

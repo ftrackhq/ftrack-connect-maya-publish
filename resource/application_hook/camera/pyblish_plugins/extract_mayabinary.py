@@ -15,12 +15,11 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
         mc.select(str(instance), replace=True)
 
         if instance.data.get('publish'):
-            print (
-                'Extracting media using options:',
-                instance.data.get('options')
-            )
             context_options = instance.context.data['options']
-
+            print (
+                'Extracting MayaBinary using options:',
+                context_options
+            )
             # extract options and provide defaults
             keep_reference = context_options.get('reference', False)
             keep_history = context_options.get('history', False)
@@ -54,6 +53,7 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
                 'path': temporaryPath,
             }
 
+            print 'Adding new component: %s' % new_component
             instance.data['ftrack_components'].append(new_component)
 
 
