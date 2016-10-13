@@ -71,11 +71,11 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
                 'label': 'Camera options',
                 'name': 'camera_options',
                 'options': [{
-                    'name': 'Lock',
-                    'label': 'lock',
+                    'name': 'lock',
+                    'label': 'Lock',
                     'type': 'boolean'
                 }, {
-                    'name': 'Bake',
+                    'name': 'bake',
                     'label': 'Bake',
                     'type': 'boolean'
                 }]
