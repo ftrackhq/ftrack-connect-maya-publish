@@ -52,13 +52,13 @@ class MayaBinaryOptions(BaseField):
 
     def value(self):
         return {
-            'reference': self.preserve_reference.checkState(),
-            'history': self.history.checkState(),
-            'channels': self.channels.checkState(),
-            'expressions': self.expressions.checkState(),
-            'constraints': self.constraints.checkState(),
-            'shaders': self.shaders.checkState(),
-            'export_selected': self.export_selected.checkState()
+            'reference': bool(self.preserve_reference.checkState()),
+            'history': bool(self.history.checkState()),
+            'channels': bool(self.channels.checkState()),
+            'expressions': bool(self.expressions.checkState()),
+            'constraints': bool(self.constraints.checkState()),
+            'shaders': bool(self.shaders.checkState()),
+            'export_selected': bool(self.export_selected.checkState())
         }
 
 
@@ -96,10 +96,10 @@ class AlembicOptions(BaseField):
 
     def value(self):
         return {
-            'include_animation': self.include_animation.checkState(),
-            'uv_write': self.uv_write.checkState(),
-            'world_space': self.world_space.checkState(),
-            'write_visibility': self.write_visibility.checkState()
+            'include_animation': bool(self.include_animation.checkState()),
+            'uv_write': bool(self.uv_write.checkState()),
+            'world_space': bool(self.world_space.checkState()),
+            'write_visibility': bool(self.write_visibility.checkState())
         }
 
 

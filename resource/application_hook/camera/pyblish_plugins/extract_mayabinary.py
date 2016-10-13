@@ -19,15 +19,16 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
                 'Extracting media using options:',
                 instance.data.get('options')
             )
+            context_options = instance.context.data['options']
 
             # extract options and provide defaults
-            keep_reference = instance.data['options'].get('reference', False)
-            keep_history = instance.data['options'].get('history', False)
-            keep_channels = instance.data['options'].get('channels', False)
-            keep_constraints = instance.data['options'].get('constraint', False)
-            keep_expressions = instance.data['options'].get('expression', False)
-            keep_shaders = instance.data['options'].get('shaders', True)
-            export_selected = instance.data['options'].get('export_selected', True)
+            keep_reference = context_options.get('reference', False)
+            keep_history = context_options.get('history', False)
+            keep_channels = context_options.get('channels', False)
+            keep_constraints = context_options.get('constraint', False)
+            keep_expressions = context_options.get('expression', False)
+            keep_shaders = context_options.get('shaders', True)
+            export_selected = context_options.get('export_selected', True)
 
             # generate temp file
             temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]

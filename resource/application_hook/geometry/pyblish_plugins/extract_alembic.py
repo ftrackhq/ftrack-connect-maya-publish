@@ -18,16 +18,17 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
                 'Extracting media using options:',
                 instance.data.get('options')
             )
+            context_options = instance.context.data['options']
 
             # extract options
-            animation = instance.data['options'].get('animation', False)
-            uv_write = instance.data['options'].get('uv_write', True)
-            start_frame = instance.data['options'].get('start_frame', 0)
-            end_frame = instance.data['options'].get('end_frame', 1)
-            world_space = instance.data['options'].get('world_space', True)
-            write_visibility = instance.data['options'].get('write_visibility', True)
-            sampling = instance.data['options'].get('sampling', 0.1)
-            export_selected = instance.data['options'].get('export_selected', True)
+            animation = context_options.get('animation', False)
+            uv_write = context_options.get('uv_write', True)
+            start_frame = context_options.get('start_frame', 0)
+            end_frame = context_options.get('end_frame', 1)
+            world_space = context_options.get('world_space', True)
+            write_visibility = context_options.get('write_visibility', True)
+            sampling = context_options.get('sampling', 0.1)
+            export_selected = context_options.get('export_selected', True)
 
             # export alembic file
             temporaryPath = tempfile.mkstemp(suffix='.abc')[-1]
