@@ -18,7 +18,7 @@ Installation guide
 #.  Install all dependencies to a ftrack-connect-maya-publish into a directory
     with::
 
-        pip install --target=dependencies --verbose --process-dependency-links .
+        pip install --target=dependencies --verbose --upgrade --process-dependency-links .
 
 Usage
 =====
