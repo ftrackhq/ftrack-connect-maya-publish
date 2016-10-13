@@ -107,28 +107,20 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
-        print 'PRE PROCESSING....'
         camera_options = instance.context.data['options'].get(
             'camera_options', {}
         )
-        print 'camera options:', camera_options
-        bake_camera = camera_options['bake']
-        lock_camera = camera_options['lock']
-
-        print 'LOCK %s, BAKE: %s ' % (lock_camera, bake_camera)
+        bake_camera_option = camera_options['bake']
+        lock_camera_option = camera_options['lock']
 
         camera = str(instance)
         locked_attrs = {}
 
-        if bake_camera:
-            print 'PRE PROCESSING CAMERA BAKE'
+        if bake_camera_option:
             camera = bake(camera)
-            print 'PRE PROCESSING CAMERA BAKE DONE'
 
-        if lock_camera:
-            print 'PRE PROCESSING CAMERA LOCK'
+        if lock_camera_option:
             locked_attrs = lock_camera(camera)
-            print 'PRE PROCESSING CAMERA LOCK DONE'
 
         instance.data['camera'] = camera
         instance.data['locked_attrs'] = locked_attrs
@@ -140,28 +132,22 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
-        print 'POST PROCESSING....'
 
         camera_options = instance.context.data['options'].get(
             'camera_options', {}
         )
-        print 'camera options:', camera_options
 
-        bake_camera = camera_options['bake']
-        lock_camera = camera_options['lock']
+        bake_camera_option = camera_options['bake']
+        lock_camera_option = camera_options['lock']
 
         camera = instance.data['camera']
         locked_attrs = instance.data['locked_attrs']
 
-        if lock_camera:
-            print 'POST PROCESSING CAMERA LOCK'
+        if lock_camera_option:
             locked_attrs = unlock_camera(camera, locked_attrs)
-            print 'POST PROCESSING CAMERA LOCK DONE'
 
-        if bake_camera:
-            print 'POST PROCESSING CAMERA BAKE'
+        if bake_camera_option:
             camera = cleanup_bake(camera)
-            print 'POST PROCESSING CAMERA BAKE DONE'
 
 
 pyblish.api.register_plugin(PreCameraExtract)
