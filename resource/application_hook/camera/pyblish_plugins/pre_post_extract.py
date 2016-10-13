@@ -100,13 +100,21 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
+        camera_options = instance.context.data['options']['cam_options']
+        bake_camera = camera_options['bake']
+        lock_camera = camera_options['lock']
 
-        print 'Running PRE processing...', instance.data
-        # bake
-        # lock
+        camera = str(instance)
+        locked_attrs = {}
 
-        # unlock
-        # del bake
+        if bake_camera:
+            camera = bake(camera)
+
+        if lock_camera:
+            locked_attrs = lock_camera(camera)
+
+        instance.data['camera'] = camera
+        instance.data['locked_attrs'] = locked_attrs
 
 
 class PostCameraExtract(pyblish.api.InstancePlugin):
@@ -115,13 +123,18 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
-        print 'Running POST processing...', instance.data
+        camera_options = instance.context.data['options']['cam_options']
+        bake_camera = camera_options['bake']
+        lock_camera = camera_options['lock']
 
-        # bake
-        # lock
+        camera = instance.data['camera']
+        locked_attrs = instance.data['locked_attrs']
 
-        # unlock
-        # del bake
+        if lock_camera:
+            locked_attrs = unlock_camera(camera, locked_attrs)
+
+        if bake_camera:
+            camera = cleanup_bake(camera)
 
 
 pyblish.api.register_plugin(PreCameraExtract)
