@@ -78,9 +78,16 @@ def cleanup_bake(camera):
 def lock_camera(camera):
     channels = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
     camera_values = {}
+    print 'locking camera:', camera
+
     for channel in channels:
         channel_name = '{0}.{1}'.format(camera, channel)
-        camera_values.setdefault(channel, mc.getAttr(channel_name, l=True))
+        channel_value = mc.getAttr(channel_name, l=True)
+
+        print 'getting : %s:%s' % (channel_name, channel_value)
+
+        camera_values.setdefault(channel, channel_value)
+        print "setting value to : %s" % channel_name
         mc.setAttr(channel_name, l=True)
 
     return camera_values
@@ -110,10 +117,12 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
         if bake_camera:
             print 'PRE PROCESSING CAMERA BAKE'
             camera = bake(camera)
+            print 'PRE PROCESSING CAMERA BAKE DONE'
 
         if lock_camera:
             print 'PRE PROCESSING CAMERA LOCK'
             locked_attrs = lock_camera(camera)
+            print 'PRE PROCESSING CAMERA LOCK DONE'
 
         instance.data['camera'] = camera
         instance.data['locked_attrs'] = locked_attrs
@@ -135,10 +144,13 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
         if lock_camera:
             print 'POST PROCESSING CAMERA LOCK'
             locked_attrs = unlock_camera(camera, locked_attrs)
+            print 'POST PROCESSING CAMERA LOCK DONE'
 
         if bake_camera:
             print 'POST PROCESSING CAMERA BAKE'
-            camera = cleanup_bake(camera)
+            camera = cleanup_bake(camera) 
+            print 'POST PROCESSING CAMERA BAKE DONE'
+
 
 
 pyblish.api.register_plugin(PreCameraExtract)
