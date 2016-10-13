@@ -1,11 +1,12 @@
 import ftrack_api
-
+import maya.cmds as cmds
 import ftrack_connect_pipeline.asset
+
 IDENTIFIER = 'camera'
 
 
 class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
-    '''Handle publish of maya image.'''
+    '''Handle publish of maya camera.'''
 
     def get_options(self, publish_data):
         '''Return global options.'''
@@ -97,7 +98,7 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
                 options.append(
                     {
                         'label': instance.name,
-                        'name': instance.id,
+                        'name': instance.name,
                         'value': True
                     }
                 )
@@ -108,6 +109,10 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
         '''Return options for publishable item with *name*.'''
         options = []
         return options
+
+    def get_scene_selection(self):
+        '''Return a list of names for scene selection.'''
+        return cmds.ls(assemblies=True, long=True, sl=1)
 
 
 def register(session):

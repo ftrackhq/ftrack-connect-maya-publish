@@ -139,7 +139,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
                 options.append(
                     {
                         'label': instance.name,
-                        'name': instance.id,
+                        'name': instance.name,
                         'value': True
                     }
                 )
@@ -152,6 +152,9 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
 
         return []
 
+    def get_scene_selection(self):
+        '''Return a list of names for scene selection.'''
+        return cmds.ls(assemblies=True, long=True, sl=1)
 
 def register(session):
     '''Subscribe to *session*.'''
