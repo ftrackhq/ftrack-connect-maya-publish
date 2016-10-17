@@ -3,105 +3,7 @@ import ftrack_api
 import ftrack_connect_pipeline.asset
 IDENTIFIER = 'geometry'
 
-from ftrack_connect_pipeline.ui.widget.field.base import BaseField
-from PySide import QtGui
 import maya.cmds as cmds
-
-
-# TEMP SOLUTION WHILE WAITING TO BUILD OPTIONS OUT OF DICTS
-class MayaBinaryOptions(BaseField):
-
-    def __init__(self):
-        super(MayaBinaryOptions, self).__init__()
-        layout = QtGui.QVBoxLayout()
-        self.setLayout(layout)
-
-        # preserve reference
-        self.preserve_reference = QtGui.QCheckBox('preserve reference')
-        self.layout().addWidget(self.preserve_reference)
-
-        self.history = QtGui.QCheckBox('history')
-        self.layout().addWidget(self.history)
-
-        self.channels = QtGui.QCheckBox('channels')
-        self.layout().addWidget(self.channels)
-
-        self.expressions = QtGui.QCheckBox('expressions')
-        self.layout().addWidget(self.expressions)
-
-        self.constraints = QtGui.QCheckBox('constraints')
-        self.layout().addWidget(self.constraints)
-
-        self.shaders = QtGui.QCheckBox('shaders')
-        self.layout().addWidget(self.shaders)
-
-        self.export_selected = QtGui.QCheckBox('export_selected')
-        self.layout().addWidget(self.export_selected)
-
-        self.preserve_reference.stateChanged.connect(self.notify_changed)
-        self.history.stateChanged.connect(self.notify_changed)
-        self.channels.stateChanged.connect(self.notify_changed)
-        self.expressions.stateChanged.connect(self.notify_changed)
-        self.constraints.stateChanged.connect(self.notify_changed)
-        self.shaders.stateChanged.connect(self.notify_changed)
-        self.export_selected.stateChanged.connect(self.notify_changed)
-
-    def notify_changed(self, *args, **kwargs):
-        '''Notify the world about the changes.'''
-        self.value_changed.emit(self.value())
-
-    def value(self):
-        return {
-            'reference': bool(self.preserve_reference.checkState()),
-            'history': bool(self.history.checkState()),
-            'channels': bool(self.channels.checkState()),
-            'expressions': bool(self.expressions.checkState()),
-            'constraints': bool(self.constraints.checkState()),
-            'shaders': bool(self.shaders.checkState()),
-            'export_selected': bool(self.export_selected.checkState())
-        }
-
-
-# NOTE THIS LACK OF TWO FILEDS, AS SOON AS I CAN BUILD OUT OF THE DICT I'LL BE UPDATING THIS
-# BEING THIS A GEOMETRY, ANIMATION MIGHT NOT BE NEEDED THOUGH, AND SHOULD GO IN A CACHE ASSET TYPE
-
-class AlembicOptions(BaseField):
-
-    def __init__(self):
-        super(AlembicOptions, self).__init__()
-        layout = QtGui.QVBoxLayout()
-        self.setLayout(layout)
-
-        # preserve reference
-        self.include_animation = QtGui.QCheckBox('include animation')
-        self.layout().addWidget(self.include_animation)
-
-        self.uv_write = QtGui.QCheckBox('Write UV')
-        self.layout().addWidget(self.uv_write)
-
-        self.world_space = QtGui.QCheckBox('World Space')
-        self.layout().addWidget(self.world_space)
-
-        self.write_visibility = QtGui.QCheckBox('Write Visibility')
-        self.layout().addWidget(self.write_visibility)
-
-        self.include_animation.stateChanged.connect(self.notify_changed)
-        self.uv_write.stateChanged.connect(self.notify_changed)
-        self.world_space.stateChanged.connect(self.notify_changed)
-        self.write_visibility.stateChanged.connect(self.notify_changed)
-
-    def notify_changed(self, *args, **kwargs):
-        '''Notify the world about the changes.'''
-        self.value_changed.emit(self.value())
-
-    def value(self):
-        return {
-            'include_animation': bool(self.include_animation.checkState()),
-            'uv_write': bool(self.uv_write.checkState()),
-            'world_space': bool(self.world_space.checkState()),
-            'write_visibility': bool(self.write_visibility.checkState())
-        }
-
 
 
 class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
@@ -110,17 +12,61 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
     def get_options(self, publish_data):
         options = [
             {
-                'type': 'qt_widget',
-                'label': 'MayaBinaryOptions',
-                'name': 'mboptions',
-                'widget': MayaBinaryOptions()
+                'type': 'group',
+                'label': 'Maya binary',
+                'name': 'maya_binary',
+                'options': [{
+                    'name': 'reference',
+                    'label': 'Reference',
+                    'type': 'boolean',
+                }, {
+                    'name': 'history',
+                    'label': 'History',
+                    'type': 'boolean',
+                }, {
+                    'name': 'channels',
+                    'label': 'Channels',
+                    'type': 'boolean',
+                }, {
+                    'name': 'expressions',
+                    'label': 'Expressions',
+                    'type': 'boolean',
+                }, {
+                    'name': 'constraints',
+                    'label': 'Constraints',
+                    'type': 'boolean',
+                }, {
+                    'name': 'shaders',
+                    'label': 'Shaders',
+                    'type': 'boolean',
+                }, {
+                    'name': 'export_selected',
+                    'label': 'Export selected',
+                    'type': 'boolean',
+                }]
             },
             {
-                'type': 'qt_widget',
-                'label': 'AlembicOptions',
-                'name': 'abcoptions',
-                'widget': AlembicOptions()
-            },
+                'type': 'group',
+                'label': 'Alembic',
+                'name': 'alembic',
+                'options': [{
+                    'name': 'include_animation',
+                    'label': 'Include animation',
+                    'type': 'boolean'
+                }, {
+                    'name': 'uv_write',
+                    'label': 'UV write',
+                    'type': 'boolean'
+                }, {
+                    'name': 'world_space',
+                    'label': 'World space',
+                    'type': 'boolean'
+                }, {
+                    'name': 'write_visibility',
+                    'label': 'Write visibility',
+                    'type': 'boolean'
+                }]
+            }
         ]
 
         default_options = super(
@@ -155,6 +101,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
     def get_scene_selection(self):
         '''Return a list of names for scene selection.'''
         return cmds.ls(assemblies=True, long=True, sl=1)
+
 
 def register(session):
     '''Subscribe to *session*.'''

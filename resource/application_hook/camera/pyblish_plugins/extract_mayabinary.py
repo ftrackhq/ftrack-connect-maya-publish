@@ -8,15 +8,16 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         '''Process *instance* and extract media.'''
-        print 'PROCESSING MAYA BINARY', instance.data.get('publish')
-
         import tempfile
         import maya.cmds as mc
 
         # select the given geometries
         mc.select(str(instance), replace=True)
 
-        context_options = instance.context.data['options'].get('maya_binary', {})
+        context_options = instance.context.data['options'].get(
+            'maya_binary', {}
+        )
+
         print (
             'Extracting MayaBinary using options:',
             context_options
