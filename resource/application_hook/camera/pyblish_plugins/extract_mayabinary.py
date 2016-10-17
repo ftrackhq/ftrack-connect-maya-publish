@@ -1,7 +1,7 @@
 import pyblish.api
 
 
-class ExtractMayaBinary(pyblish.api.InstancePlugin):
+class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
     families = ['ftrack.maya.camera']
@@ -59,4 +59,4 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
         instance.data['ftrack_components'].append(new_component)
 
 
-pyblish.api.register_plugin(ExtractMayaBinary)
+pyblish.api.register_plugin(ExtractCameraMayaBinary)

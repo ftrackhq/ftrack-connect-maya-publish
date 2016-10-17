@@ -1,7 +1,7 @@
 import pyblish.api
 
 
-class ExtractMayaBinary(pyblish.api.InstancePlugin):
+class ExtractGometryMayaBinary(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
     order = pyblish.api.ExtractorOrder
     families = ['ftrack.maya.geometry']
@@ -16,7 +16,10 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
         # select the given geometries
         mc.select(str(instance), replace=True)
 
-        context_options = instance.context.data['options'].get('maya_binary', {})
+        context_options = instance.context.data['options'].get(
+            'maya_binary', {}
+        )
+
         print (
             'Extracting MayaBinary using options:',
             context_options
@@ -58,4 +61,4 @@ class ExtractMayaBinary(pyblish.api.InstancePlugin):
         instance.data['ftrack_components'].append(new_component)
 
 
-pyblish.api.register_plugin(ExtractMayaBinary)
+pyblish.api.register_plugin(ExtractGometryMayaBinary)

@@ -1,7 +1,7 @@
 import pyblish.api
 
 
-class ExtractAlembic(pyblish.api.InstancePlugin):
+class ExtractGeometryAlembic(pyblish.api.InstancePlugin):
     '''Prepare component to be published.'''
 
     order = pyblish.api.ExtractorOrder
@@ -81,4 +81,4 @@ class ExtractAlembic(pyblish.api.InstancePlugin):
         print 'Adding new component: %s' % new_component
         instance.data['ftrack_components'].append(new_component)
 
-pyblish.api.register_plugin(ExtractAlembic)
+pyblish.api.register_plugin(ExtractGeometryAlembic)
