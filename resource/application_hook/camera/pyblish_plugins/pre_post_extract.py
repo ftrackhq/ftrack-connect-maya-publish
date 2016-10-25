@@ -66,8 +66,8 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
         camera_options = instance.context.data['options'].get(
             'camera_options', {}
         )
-        bake_camera_option = camera_options['bake']
-        lock_camera_option = camera_options['lock']
+        bake_camera_option = camera_options.get('bake', False)
+        lock_camera_option = camera_options.get('lock', False)
 
         camera = str(instance)
         locked_attrs = {}
@@ -92,8 +92,8 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
             'camera_options', {}
         )
 
-        bake_camera_option = camera_options['bake']
-        lock_camera_option = camera_options['lock']
+        bake_camera_option = camera_options.get('bake', False)
+        lock_camera_option = camera_options.get('lock', False)
 
         camera = instance.data['camera']
         locked_attrs = instance.data['locked_attrs']
