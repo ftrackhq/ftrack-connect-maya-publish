@@ -39,10 +39,6 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
                     'name': 'shaders',
                     'label': 'Shaders',
                     'type': 'boolean',
-                }, {
-                    'name': 'export_selected',
-                    'label': 'Export selected',
-                    'type': 'boolean',
                 }]
             },
             {
