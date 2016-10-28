@@ -78,6 +78,8 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
         if lock_camera_option:
             locked_attrs = lock_camera(camera)
 
+        mc.select(str(camera), replace=True)
+
         instance.data['camera'] = camera
         instance.data['locked_attrs'] = locked_attrs
 

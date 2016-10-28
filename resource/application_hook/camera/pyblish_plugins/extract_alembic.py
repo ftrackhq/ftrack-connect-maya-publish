@@ -12,7 +12,6 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         '''Process *instance*.'''
         import maya.cmds as mc
         import tempfile
-
         mc.select(str(instance), replace=True)
 
         context_options = instance.context.data['options'].get(
@@ -23,25 +22,22 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
             context_options
         )
 
+        currentStartFrame = mc.playbackOptions(min=True, q=True)
+        currentEndFrame = mc.playbackOptions(max=True, q=True)
+
         # extract options
-        animation = context_options.get('animation', False)
+        animation = context_options.get('include_animation', False)
         uv_write = context_options.get('uv_write', True)
-        start_frame = context_options.get('start_frame', 0)
-        end_frame = context_options.get('end_frame', 1)
+        start_frame = context_options.get('start_frame', currentStartFrame)
+        end_frame = context_options.get('end_frame', currentEndFrame)
         world_space = context_options.get('world_space', True)
         write_visibility = context_options.get('write_visibility', True)
         sampling = context_options.get('sampling', 0.1)
-        export_selected = context_options.get('export_selected', True)
 
         # export alembic file
         temporaryPath = tempfile.mkstemp(suffix='.abc')[-1]
 
-        if export_selected:
-            nodes = mc.ls(sl=True, long=True)
-            selectednodes = None
-        else:
-            selectednodes = mc.ls(sl=True, long=True)
-            nodes = mc.ls(type='transform', long=True)
+        nodes = mc.ls(sl=True, long=True)
 
         objCommand = ''
         for n in nodes:
@@ -68,13 +64,15 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         mc.loadPlugin('AbcExport.so', qt=1)
 
         alembicJobArgs += ' ' + objCommand + '-file ' + temporaryPath
+
         mc.AbcExport(j=alembicJobArgs)
 
-        if selectednodes:
-            mc.select(selectednodes)
+        name = instance.name
+        if name.startswith('|'):
+            name = name[1:]
 
         new_component = {
-            'name': '%s.alembic' % instance.name,
+            'name': '%s.alembic' % name,
             'path': temporaryPath,
         }
 

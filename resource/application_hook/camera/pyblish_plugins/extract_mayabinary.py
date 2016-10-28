@@ -50,8 +50,12 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
             force=True
         )
 
+        name = instance.name
+        if name.startswith('|'):
+            name = name[1:]
+
         new_component = {
-            'name': '%s.mayabinary' % instance.name,
+            'name': '%s.mayabinary' % name,
             'path': temporaryPath,
         }
 

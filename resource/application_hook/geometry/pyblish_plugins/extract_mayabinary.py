@@ -51,9 +51,12 @@ class ExtractGometryMayaBinary(pyblish.api.InstancePlugin):
             exportAll=not export_selected,
             force=True
         )
+        name = instance.name
+        if name.startswith('|'):
+            name = name[1:]
 
         new_component = {
-            'name': '%s.mayabinary' % instance.name,
+            'name': '%s.mayabinary' % name,
             'path': temporaryPath,
         }
 
