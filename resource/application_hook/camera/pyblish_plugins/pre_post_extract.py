@@ -5,7 +5,6 @@ import maya.cmds as mc
 # Helper functions
 
 def bake(camera):
-    print 'baking camera', camera
     tmpCamComponents = mc.duplicate(camera, un=1, rc=1)
     if mc.nodeType(tmpCamComponents[0]) == 'transform':
         tmpCam = tmpCamComponents[0]
@@ -15,7 +14,8 @@ def bake(camera):
     try:
         mc.parent(tmpCam, world=True)
     except RuntimeError:
-        print 'camera already in world space'
+        # camera is already in world space
+        pass
 
     mc.bakeResults(
         tmpCam,
@@ -39,8 +39,6 @@ def cleanup_bake(camera):
 
 
 def lock_camera(camera):
-    print 'locking camera', camera
-
     channels = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
     camera_values = {}
 
@@ -54,8 +52,6 @@ def lock_camera(camera):
 
 
 def unlock_camera(camera, original_values):
-    print 'unlocking camera', camera
-
     for channel, value in original_values.items():
         channel_name = '{0}.{1}'.format(camera, channel)
         mc.setAttr(channel_name, l=value)
@@ -85,9 +81,7 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
         if lock_camera_option:
             locked_attrs = lock_camera(camera)
 
-        print 'selecting camera:', camera
         mc.select(str(camera), replace=True)
-
         instance.data['camera'] = camera
         instance.data['locked_attrs'] = locked_attrs
 
