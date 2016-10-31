@@ -15,7 +15,8 @@ def bake(camera):
     try:
         mc.parent(tmpCam, world=True)
     except RuntimeError:
-        print 'camera already in world space'
+        # camera is already in world space
+        pass
 
     mc.bakeResults(
         tmpCam,
@@ -87,7 +88,6 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
 
         print 'selecting camera:', camera
         mc.select(str(camera), replace=True)
-
         instance.data['camera'] = camera
         instance.data['locked_attrs'] = locked_attrs
 
