@@ -11,8 +11,12 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
         import tempfile
         import maya.cmds as mc
 
-        # select the given geometries
-        mc.select(str(instance), replace=True)
+        # get the camera, either from the pre processor, if 
+        # bake or/and lock is selected, or the original one.
+        baked_camera = instance.data.get('camera')
+        camera = baked_camera or instance
+
+        mc.select(str(camera), replace=True)
 
         context_options = instance.context.data['options'].get(
             'maya_binary', {}

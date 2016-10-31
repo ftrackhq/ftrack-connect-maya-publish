@@ -12,7 +12,13 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         '''Process *instance*.'''
         import maya.cmds as mc
         import tempfile
-        mc.select(str(instance), replace=True)
+
+        # get the camera, either from the pre processor, if 
+        # bake or/and lock is selected, or the original one.
+        baked_camera = instance.data.get('camera')
+        camera = baked_camera or instance
+
+        mc.select(str(camera), replace=True)
 
         context_options = instance.context.data['options'].get(
             'alembic', {}
@@ -64,6 +70,8 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         mc.loadPlugin('AbcExport.so', qt=1)
 
         alembicJobArgs += ' ' + objCommand + '-file ' + temporaryPath
+
+        print 'alembicJobArgs', alembicJobArgs
 
         mc.AbcExport(j=alembicJobArgs)
 
