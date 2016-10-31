@@ -3,7 +3,9 @@ import pyblish.api
 
 class ExtractGometryMayaBinary(pyblish.api.InstancePlugin):
     '''prepare component to be published'''
+
     order = pyblish.api.ExtractorOrder
+
     families = ['ftrack.maya.geometry']
 
     def process(self, instance):

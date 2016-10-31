@@ -7,7 +7,7 @@ import maya.cmds as cmds
 
 
 class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
-    '''Handle publish of maya image.'''
+    '''Handle publish of maya geometry.'''
 
     def get_options(self, publish_data):
         options = [
@@ -104,7 +104,7 @@ def register(session):
     if not isinstance(session, ftrack_api.Session):
         return
 
-    image_asset = ftrack_connect_pipeline.asset.Asset(
+    geometry_asset = ftrack_connect_pipeline.asset.Asset(
         identifier=IDENTIFIER,
         publish_asset=PublishGeometry(
             label='Geometry',
@@ -114,4 +114,4 @@ def register(session):
     )
     # Register media asset on session. This makes sure that discover is called
     # for import and publish.
-    image_asset.register(session)
+    geometry_asset.register(session)
