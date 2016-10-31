@@ -18,7 +18,7 @@ class CollectGeometries(pyblish.api.ContextPlugin):
     order = pyblish.api.CollectorOrder
 
     def process(self, context):
-        '''Process *context* and add maya camera instances.'''
+        '''Process *context* and add maya mesh instances.'''
         import maya.cmds as mc
 
         for grp in mc.ls(assemblies=True, long=True):
