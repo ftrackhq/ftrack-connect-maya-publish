@@ -13,6 +13,8 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
 
         asset_type_id = context.data['options']['asset']['asset_type']
         asset_name = context.data['options']['asset']['asset_name']
+        comment = context.data['options']['comment'] or 'no comment set'
+
         context_id = ftrack_entity['id']
 
         asset = session.query(
@@ -37,7 +39,8 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
             'AssetVersion',
             {
                 'asset': asset,
-                'is_published': False
+                'is_published': False,
+                'comment': comment
             }
         )
 
