@@ -71,8 +71,6 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
 
         alembicJobArgs += ' ' + objCommand + '-file ' + temporaryPath
 
-        print 'alembicJobArgs', alembicJobArgs
-
         mc.AbcExport(j=alembicJobArgs)
 
         name = instance.name
