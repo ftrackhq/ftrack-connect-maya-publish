@@ -13,10 +13,10 @@ def open_publish():
     ftrack_connect_pipeline.ui.publish_actions_dialog.show(session)
 
     def callback(event):
-        from ftrack_connect_maya_publish import __version__
+        import ftrack_connect_maya_publish
         return {
             'application_id': 'maya',
-            'plugin_version': __version__
+            'plugin_version': ftrack_connect_maya_publish._version
         }
 
     session.event_hub.subscribe(
