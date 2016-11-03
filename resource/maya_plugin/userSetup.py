@@ -1,3 +1,6 @@
+# :coding: utf-8
+# :copyright: Copyright (c) 2014 ftrack
+
 import maya.cmds as mc
 import maya.mel as mm
 
@@ -16,7 +19,7 @@ def create_publish_menu():
     if mc.menu(menu_name, exists=True):
         mc.deleteUI(menu_name)
 
-    efesto_menu = mc.menu(
+    menu = mc.menu(
         menu_name,
         parent=gMainWindow,
         tearOff=False,
@@ -24,7 +27,7 @@ def create_publish_menu():
     )
 
     mc.menuItem(
-        parent=efesto_menu,
+        parent=menu,
         label="Publish",
         stp="python",
         command=lambda x: open_publish()
