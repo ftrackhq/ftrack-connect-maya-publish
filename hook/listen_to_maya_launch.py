@@ -77,8 +77,7 @@ def register(registry):
         # Not a session, let us early out to avoid registering multiple times.
         return
 
-    #: TODO: Only apply when Maya application launches.
     ftrack.EVENT_HUB.subscribe(
-        'topic=ftrack.connect.application.launch',
+        'topic=ftrack.connect.application.launch and data.application.identifier=maya*',
         on_application_launch
     )
