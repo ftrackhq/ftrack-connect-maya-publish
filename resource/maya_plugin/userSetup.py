@@ -12,6 +12,18 @@ def open_publish():
     import ftrack_connect_pipeline.ui.publish_actions_dialog
     ftrack_connect_pipeline.ui.publish_actions_dialog.show(session)
 
+    def callback(event):
+        from ftrack_connect_maya_publish import __version__
+        return {
+            'application_id': 'maya',
+            'plugin_version': __version__
+        }
+
+    session.event_hub.subscribe(
+        'topic=ftrack.pipeline.get-plugin-information',
+        callback
+    )
+
 
 def create_publish_menu():
     gMainWindow = mm.eval('$temp1=$gMainWindow')

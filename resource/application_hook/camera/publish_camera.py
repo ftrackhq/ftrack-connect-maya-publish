@@ -135,6 +135,7 @@ def register(session):
             icon='http://www.clipartbest.com/cliparts/LiK/dLB/LiKdLB6zT.png'
         )
     )
+
     # Register media asset on session. This makes sure that discover is called
     # for import and publish.
     image_asset.register(session)
