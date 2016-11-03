@@ -120,7 +120,7 @@ def register(session):
         publish_asset=PublishScene(
             label='Scene',
             description='publish geometry to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
+            icon='http://www.clipartbest.com/cliparts/ace/Brb/aceBrbBc4.png'
         )
     )
     # Register scene asset on session. This makes sure that discover is called
