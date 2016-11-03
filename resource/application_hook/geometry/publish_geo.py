@@ -27,18 +27,22 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
                     'name': 'channels',
                     'label': 'Channels',
                     'type': 'boolean',
+                    'value': True
                 }, {
                     'name': 'expressions',
                     'label': 'Expressions',
                     'type': 'boolean',
+                    'value': True
                 }, {
                     'name': 'constraints',
                     'label': 'Constraints',
                     'type': 'boolean',
+                    'value': True
                 }, {
                     'name': 'shaders',
                     'label': 'Shaders',
                     'type': 'boolean',
+                    'value': True
                 }]
             },
             {
@@ -48,19 +52,23 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
                 'options': [{
                     'name': 'include_animation',
                     'label': 'Include animation',
-                    'type': 'boolean'
+                    'type': 'boolean',
+                    'value': True
                 }, {
                     'name': 'uv_write',
                     'label': 'UV write',
-                    'type': 'boolean'
+                    'type': 'boolean',
+                    'value': True
                 }, {
                     'name': 'world_space',
                     'label': 'World space',
-                    'type': 'boolean'
+                    'type': 'boolean',
+                    'value': True
                 }, {
                     'name': 'write_visibility',
                     'label': 'Write visibility',
-                    'type': 'boolean'
+                    'type': 'boolean',
+                    'value': True
                 }]
             }
         ]
