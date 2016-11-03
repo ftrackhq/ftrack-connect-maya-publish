@@ -23,6 +23,8 @@ class CollectCameras(pyblish.api.ContextPlugin):
 
         for grp in mc.ls(assemblies=True, long=True):
             if mc.ls(grp, dag=True, type="camera"):
+                if grp in ['|top', '|front', '|side']:
+                    continue
 
                 instance = context.create_instance(
                     grp, family='ftrack.maya.camera'
