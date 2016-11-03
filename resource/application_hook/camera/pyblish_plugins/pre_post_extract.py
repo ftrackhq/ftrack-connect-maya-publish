@@ -5,20 +5,20 @@ import maya.cmds as mc
 # Helper functions
 
 def bake(camera):
-    tmpCamComponents = mc.duplicate(camera, un=1, rc=1)
-    if mc.nodeType(tmpCamComponents[0]) == 'transform':
-        tmpCam = tmpCamComponents[0]
+    tmp_cam_components = mc.duplicate(camera, un=1, rc=1)
+    if mc.nodeType(tmp_cam_components[0]) == 'transform':
+        tmp_cam = tmp_cam_components[0]
     else:
-        tmpCam = mc.ls(tmpCamComponents, type='transform')[0]
-    pConstraint = mc.parentConstraint(camera, tmpCam)
+        tmp_cam = mc.ls(tmp_cam_components, type='transform')[0]
+    pConstraint = mc.parentConstraint(camera, tmp_cam)
     try:
-        mc.parent(tmpCam, world=True)
+        mc.parent(tmp_cam, world=True)
     except RuntimeError:
         # camera is already in world space
         pass
 
     mc.bakeResults(
-        tmpCam,
+        tmp_cam,
         simulation=True,
         t=(
             mc.playbackOptions(q=True, minTime=True),
@@ -29,7 +29,7 @@ def bake(camera):
         hi='below')
 
     mc.delete(pConstraint)
-    camera = tmpCam
+    camera = tmp_cam
     return camera
 
 
