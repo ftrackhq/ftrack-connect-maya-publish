@@ -41,27 +41,27 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         sampling = context_options.get('sampling', 0.1)
 
         # export alembic file
-        temporaryPath = tempfile.mkstemp(suffix='.abc')[-1]
+        temporary_path = tempfile.mkstemp(suffix='.abc')[-1]
 
         nodes = mc.ls(sl=True, long=True)
 
-        objCommand = ''
+        abc_command = ''
         for n in nodes:
-            objCommand = objCommand + '-root ' + n + ' '
+            abc_command = abc_command + '-root ' + n + ' '
 
-        alembicJobArgs = ''
+        alembic_args = ''
 
         if uv_write:
-            alembicJobArgs += '-uvWrite '
+            alembic_args += '-uvWrite '
 
         if world_space:
-            alembicJobArgs += '-worldSpace '
+            alembic_args += '-worldSpace '
 
         if write_visibility:
-            alembicJobArgs += '-writeVisibility '
+            alembic_args += '-writeVisibility '
 
         if animation:
-            alembicJobArgs += '-frameRange {0} {1} -step {2} '.format(
+            alembic_args += '-frameRange {0} {1} -step {2} '.format(
                 start_frame,
                 end_frame,
                 sampling
@@ -69,9 +69,9 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
 
         mc.loadPlugin('AbcExport.so', qt=1)
 
-        alembicJobArgs += ' ' + objCommand + '-file ' + temporaryPath
+        alembic_args += ' ' + abc_command + '-file ' + temporary_path
 
-        mc.AbcExport(j=alembicJobArgs)
+        mc.AbcExport(j=alembic_args)
 
         name = instance.name
         if name.startswith('|'):
@@ -79,7 +79,7 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
 
         new_component = {
             'name': '%s.alembic' % name,
-            'path': temporaryPath,
+            'path': temporary_path,
         }
 
         print 'Adding new component: %s' % new_component

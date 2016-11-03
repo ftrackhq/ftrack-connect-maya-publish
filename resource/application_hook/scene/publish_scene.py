@@ -7,7 +7,7 @@ import maya.cmds as cmds
 
 
 class PublishScene(ftrack_connect_pipeline.asset.PyblishAsset):
-    '''Handle publish of maya geometry.'''
+    '''Handle publish of maya scene.'''
 
     def get_options(self, publish_data):
         options = [
@@ -120,6 +120,6 @@ def register(session):
             icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
         )
     )
-    # Register media asset on session. This makes sure that discover is called
+    # Register scene asset on session. This makes sure that discover is called
     # for import and publish.
     geometry_asset.register(session)

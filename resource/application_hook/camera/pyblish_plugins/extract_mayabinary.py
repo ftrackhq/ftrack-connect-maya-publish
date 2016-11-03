@@ -36,11 +36,11 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
         export_selected = context_options.get('export_selected', True)
 
         # generate temp file
-        temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
+        temporary_path = tempfile.mkstemp(suffix='.mb')[-1]
 
         # save maya file
         mc.file(
-            temporaryPath,
+            temporary_path,
             op='v=0',
             typ='mayaBinary',
             preserveReferences=keep_reference,
@@ -60,7 +60,7 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
 
         new_component = {
             'name': '%s.mayabinary' % name,
-            'path': temporaryPath,
+            'path': temporary_path,
         }
 
         print 'Adding new component: %s' % new_component

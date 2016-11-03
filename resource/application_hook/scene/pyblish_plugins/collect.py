@@ -1,6 +1,5 @@
 import pyblish.api
 import ftrack_connect_pipeline.util
-import tempfile
 
 
 class FtrackPublishCollector(pyblish.api.ContextPlugin):
@@ -19,7 +18,7 @@ class CollectScene(pyblish.api.ContextPlugin):
     order = pyblish.api.CollectorOrder
 
     def process(self, context):
-        '''Process *context* and add maya mesh instances.'''
+        '''Process *context* and add scene instances.'''
         instance = context.create_instance(
             'scene', family='ftrack.maya.scene'
         )

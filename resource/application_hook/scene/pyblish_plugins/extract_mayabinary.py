@@ -9,7 +9,7 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
     families = ['ftrack.maya.scene']
 
     def process(self, instance):
-        '''Process *instance* and extract media.'''
+        '''Process *instance* and extract scene.'''
         import tempfile
         import maya.cmds as mc
 
@@ -34,11 +34,11 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
         export_selected = context_options.get('export_selected', True)
 
         # generate temp file
-        temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
+        temporary_path = tempfile.mkstemp(suffix='.mb')[-1]
 
         # save maya file
         mc.file(
-            temporaryPath,
+            temporary_path,
             op='v=0',
             typ='mayaBinary',
             preserveReferences=keep_reference,
@@ -57,7 +57,7 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
 
         new_component = {
             'name': '%s.mayabinary' % name,
-            'path': temporaryPath,
+            'path': temporary_path,
         }
 
         print 'Adding new component: %s' % new_component
