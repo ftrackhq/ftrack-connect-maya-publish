@@ -1,11 +1,11 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014 ftrack
+# :copyright: Copyright (c) 2016 ftrack
 
 import pyblish.api
-import ftrack_connect_pipeline.util
 
 
 class CollectCameras(pyblish.api.ContextPlugin):
+    '''Collect cameras from Maya.'''
 
     order = pyblish.api.CollectorOrder
 
@@ -26,5 +26,4 @@ class CollectCameras(pyblish.api.ContextPlugin):
                 instance.data['ftrack_components'] = []
 
 
-pyblish.api.register_plugin(FtrackPublishCollector)
 pyblish.api.register_plugin(CollectCameras)
