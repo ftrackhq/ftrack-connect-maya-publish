@@ -16,7 +16,9 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
 
         asset_type_id = context.data['options']['asset']['asset_type']
         asset_name = context.data['options']['asset']['asset_name']
-        comment = context.data['options'].get('comment_field', {}).get('comment', 'No comment set')
+        comment = context.data['options'].get(
+            'comment_field', {}
+        ).get('comment', 'No comment set')
 
         context_id = ftrack_entity['id']
 
@@ -69,7 +71,6 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         '''Process *instance* and create components.'''
-        import ftrack_api.symbol
         context = instance.context
         asset_version = context.data['asset_version']
         session = asset_version.session

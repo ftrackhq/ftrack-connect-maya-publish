@@ -5,8 +5,10 @@ import pyblish.api
 
 
 class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
-    '''prepare component to be published'''
+    '''Exctract camera as maya binary.'''
+
     order = pyblish.api.ExtractorOrder
+
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
@@ -14,7 +16,7 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
         import tempfile
         import maya.cmds as mc
 
-        # get the camera, either from the pre processor, if 
+        # Get the camera, either from the pre processor, if
         # bake or/and lock is selected, or the original one.
         baked_camera = instance.data.get('camera')
         camera = baked_camera or instance
@@ -25,11 +27,7 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
             'maya_binary', {}
         )
 
-        print (
-            'Extracting MayaBinary using options:',
-            context_options
-        )
-        # extract options and provide defaults
+        # Extract options and provide defaults.
         keep_reference = context_options.get('reference', False)
         keep_history = context_options.get('history', False)
         keep_channels = context_options.get('channels', False)
@@ -38,10 +36,10 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
         keep_shaders = context_options.get('shaders', True)
         export_selected = context_options.get('export_selected', True)
 
-        # generate temp file
+        # Generate temp file.
         temporary_path = tempfile.mkstemp(suffix='.mb')[-1]
 
-        # save maya file
+        # Save maya file.
         mc.file(
             temporary_path,
             op='v=0',
@@ -62,11 +60,10 @@ class ExtractCameraMayaBinary(pyblish.api.InstancePlugin):
             name = name[1:]
 
         new_component = {
-            'name': '%s.mayabinary' % name,
+            'name': '{0}.mayabinary'.format(name),
             'path': temporary_path,
         }
 
-        print 'Adding new component: %s' % new_component
         instance.data['ftrack_components'].append(new_component)
 
 

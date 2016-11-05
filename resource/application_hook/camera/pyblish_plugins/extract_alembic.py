@@ -5,7 +5,7 @@ import pyblish.api
 
 
 class ExtractCameraAlembic(pyblish.api.InstancePlugin):
-    '''Prepare component to be published.'''
+    '''Extract camera as alembic.'''
 
     order = pyblish.api.ExtractorOrder
 
@@ -16,8 +16,8 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         import maya.cmds as mc
         import tempfile
 
-        # get the camera, either from the pre processor, if 
-        # bake or/and lock is selected, or the original one.
+        # Get the camera, either from the pre processor, if bake or/and lock is
+        # selected, or the original one.
         baked_camera = instance.data.get('camera')
         camera = baked_camera or instance
 
@@ -26,24 +26,20 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         context_options = instance.context.data['options'].get(
             'alembic', {}
         )
-        print (
-            'Extracting Alembic using options:',
-            context_options
-        )
 
-        currentStartFrame = mc.playbackOptions(min=True, q=True)
-        currentEndFrame = mc.playbackOptions(max=True, q=True)
+        current_start_frame = mc.playbackOptions(min=True, q=True)
+        current_end_frame = mc.playbackOptions(max=True, q=True)
 
-        # extract options
+        # Extract options.
         animation = context_options.get('include_animation', False)
         uv_write = context_options.get('uv_write', True)
-        start_frame = context_options.get('start_frame', currentStartFrame)
-        end_frame = context_options.get('end_frame', currentEndFrame)
+        start_frame = context_options.get('start_frame', current_start_frame)
+        end_frame = context_options.get('end_frame', current_end_frame)
         world_space = context_options.get('world_space', True)
         write_visibility = context_options.get('write_visibility', True)
         sampling = context_options.get('sampling', 0.1)
 
-        # export alembic file
+        # Export alembic file.
         temporary_path = tempfile.mkstemp(suffix='.abc')[-1]
 
         nodes = mc.ls(sl=True, long=True)
@@ -81,11 +77,10 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
             name = name[1:]
 
         new_component = {
-            'name': '%s.alembic' % name,
+            'name': '{0}.alembic'.format(name),
             'path': temporary_path,
         }
 
-        print 'Adding new component: %s' % new_component
         instance.data['ftrack_components'].append(new_component)
 
 

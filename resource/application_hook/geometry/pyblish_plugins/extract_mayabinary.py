@@ -4,8 +4,8 @@
 import pyblish.api
 
 
-class ExtractGometryMayaBinary(pyblish.api.InstancePlugin):
-    '''prepare component to be published'''
+class ExtractGeometryMayaBinary(pyblish.api.InstancePlugin):
+    '''Extract geometry as maya binary.'''
 
     order = pyblish.api.ExtractorOrder
 
@@ -16,18 +16,14 @@ class ExtractGometryMayaBinary(pyblish.api.InstancePlugin):
         import tempfile
         import maya.cmds as mc
 
-        # select the given geometries
+        # Select the given geometries.
         mc.select(str(instance), replace=True)
 
         context_options = instance.context.data['options'].get(
             'maya_binary', {}
         )
 
-        print (
-            'Extracting MayaBinary using options:',
-            context_options
-        )
-        # extract options and provide defaults
+        # Extract options and provide defaults.
         keep_reference = context_options.get('reference', False)
         keep_history = context_options.get('history', False)
         keep_channels = context_options.get('channels', False)
@@ -36,12 +32,12 @@ class ExtractGometryMayaBinary(pyblish.api.InstancePlugin):
         keep_shaders = context_options.get('shaders', True)
         export_selected = context_options.get('export_selected', True)
 
-        # generate temp file
-        temporaryPath = tempfile.mkstemp(suffix='.mb')[-1]
+        # Generate temp file.
+        temporary_path = tempfile.mkstemp(suffix='.mb')[-1]
 
-        # save maya file
+        # Save maya file.
         mc.file(
-            temporaryPath,
+            temporary_path,
             op='v=0',
             typ='mayaBinary',
             preserveReferences=keep_reference,
@@ -59,12 +55,11 @@ class ExtractGometryMayaBinary(pyblish.api.InstancePlugin):
             name = name[1:]
 
         new_component = {
-            'name': '%s.mayabinary' % name,
-            'path': temporaryPath,
+            'name': '{0}.mayabinary'.format(name),
+            'path': temporary_path,
         }
 
-        print 'Adding new component: %s' % new_component
         instance.data['ftrack_components'].append(new_component)
 
 
-pyblish.api.register_plugin(ExtractGometryMayaBinary)
+pyblish.api.register_plugin(ExtractGeometryMayaBinary)

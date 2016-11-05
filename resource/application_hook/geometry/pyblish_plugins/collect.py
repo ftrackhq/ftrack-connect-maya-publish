@@ -5,6 +5,7 @@ import pyblish.api
 
 
 class CollectGeometries(pyblish.api.ContextPlugin):
+    '''Collect maya geometry.'''
 
     order = pyblish.api.CollectorOrder
 
@@ -12,10 +13,10 @@ class CollectGeometries(pyblish.api.ContextPlugin):
         '''Process *context* and add maya mesh instances.'''
         import maya.cmds as mc
 
-        for grp in mc.ls(assemblies=True, long=True):
-            if mc.ls(grp, dag=True, type="mesh"):
+        for group in mc.ls(assemblies=True, long=True):
+            if mc.ls(group, dag=True, type='mesh'):
                 instance = context.create_instance(
-                    grp, family='ftrack.maya.geometry'
+                    group, family='ftrack.maya.geometry'
                 )
                 instance.data['publish'] = True
                 instance.data['ftrack_components'] = []

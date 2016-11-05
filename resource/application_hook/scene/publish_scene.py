@@ -4,7 +4,6 @@
 import ftrack_api
 
 import ftrack_connect_pipeline.asset
-IDENTIFIER = 'scene'
 
 import maya.cmds as cmds
 
@@ -13,6 +12,7 @@ class PublishScene(ftrack_connect_pipeline.asset.PyblishAsset):
     '''Handle publish of maya scene.'''
 
     def get_options(self, publish_data):
+        '''Return global options.'''
         options = [
             {
                 'type': 'group',
@@ -101,8 +101,6 @@ class PublishScene(ftrack_connect_pipeline.asset.PyblishAsset):
 
     def get_item_options(self, publish_data, name):
         '''Return options for publishable item with *name*.'''
-        # print 'get_item_options', publish_data
-
         return []
 
     def get_scene_selection(self):
@@ -116,13 +114,11 @@ def register(session):
         return
 
     geometry_asset = ftrack_connect_pipeline.asset.Asset(
-        identifier=IDENTIFIER,
+        identifier='scene',
         publish_asset=PublishScene(
             label='Scene',
             description='publish geometry to ftrack.',
             icon='http://www.clipartbest.com/cliparts/ace/Brb/aceBrbBc4.png'
         )
     )
-    # Register scene asset on session. This makes sure that discover is called
-    # for import and publish.
     geometry_asset.register(session)

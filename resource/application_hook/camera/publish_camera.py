@@ -5,8 +5,6 @@ import ftrack_api
 import maya.cmds as cmds
 import ftrack_connect_pipeline.asset
 
-IDENTIFIER = 'camera'
-
 
 class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
     '''Handle publish of maya camera.'''
@@ -128,14 +126,11 @@ def register(session):
         return
 
     image_asset = ftrack_connect_pipeline.asset.Asset(
-        identifier=IDENTIFIER,
+        identifier='camera',
         publish_asset=PublishCamera(
             label='Camera',
             description='publish camera to ftrack.',
             icon='http://www.clipartbest.com/cliparts/LiK/dLB/LiKdLB6zT.png'
         )
     )
-
-    # Register media asset on session. This makes sure that discover is called
-    # for import and publish.
     image_asset.register(session)

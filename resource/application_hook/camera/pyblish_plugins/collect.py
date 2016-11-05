@@ -13,13 +13,13 @@ class CollectCameras(pyblish.api.ContextPlugin):
         '''Process *context* and add maya camera instances.'''
         import maya.cmds as mc
 
-        for grp in mc.ls(assemblies=True, long=True):
-            if mc.ls(grp, dag=True, type="camera"):
-                if grp in ['|top', '|front', '|side']:
+        for group in mc.ls(assemblies=True, long=True):
+            if mc.ls(group, dag=True, type='camera'):
+                if group in ['|top', '|front', '|side']:
                     continue
 
                 instance = context.create_instance(
-                    grp, family='ftrack.maya.camera'
+                    group, family='ftrack.maya.camera'
                 )
 
                 instance.data['publish'] = True

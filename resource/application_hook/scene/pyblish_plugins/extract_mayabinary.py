@@ -5,7 +5,7 @@ import pyblish.api
 
 
 class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
-    '''prepare component to be published'''
+    '''Extract scene as maya binary.'''
 
     order = pyblish.api.ExtractorOrder
 
@@ -16,18 +16,14 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
         import tempfile
         import maya.cmds as mc
 
-        # select the given geometries
+        # Select all.
         mc.select(all=True, replace=True)
 
         context_options = instance.context.data['options'].get(
             'maya_binary', {}
         )
 
-        print (
-            'Extracting MayaBinary using options:',
-            context_options
-        )
-        # extract options and provide defaults
+        # Extract options and provide defaults.
         keep_reference = context_options.get('reference', False)
         keep_history = context_options.get('history', False)
         keep_channels = context_options.get('channels', False)
@@ -36,10 +32,10 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
         keep_shaders = context_options.get('shaders', True)
         export_selected = context_options.get('export_selected', True)
 
-        # generate temp file
+        # Generate temp file.
         temporary_path = tempfile.mkstemp(suffix='.mb')[-1]
 
-        # save maya file
+        # Save maya file.
         mc.file(
             temporary_path,
             op='v=0',
@@ -59,11 +55,10 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
             name = name[1:]
 
         new_component = {
-            'name': '%s.mayabinary' % name,
+            'name': '{0}.mayabinary'.format(name),
             'path': temporary_path,
         }
 
-        print 'Adding new component: %s' % new_component
         instance.data['ftrack_components'].append(new_component)
 
 

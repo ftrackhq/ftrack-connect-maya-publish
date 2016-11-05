@@ -5,6 +5,7 @@ import pyblish.api
 
 
 class CollectScene(pyblish.api.ContextPlugin):
+    '''Collect maya scene.'''
 
     order = pyblish.api.CollectorOrder
 

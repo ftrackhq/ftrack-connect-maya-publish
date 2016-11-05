@@ -5,23 +5,25 @@ import pyblish.api
 import maya.cmds as mc
 
 
-# Helper functions
-
 def bake(camera):
-    tmp_cam_components = mc.duplicate(camera, un=1, rc=1)
-    if mc.nodeType(tmp_cam_components[0]) == 'transform':
-        tmp_cam = tmp_cam_components[0]
+    '''Return baked *camera*.'''
+    temporary_cam_components = mc.duplicate(camera, un=1, rc=1)
+
+    if mc.nodeType(temporary_cam_components[0]) == 'transform':
+        temporary_camera = temporary_cam_components[0]
     else:
-        tmp_cam = mc.ls(tmp_cam_components, type='transform')[0]
-    pConstraint = mc.parentConstraint(camera, tmp_cam)
+        temporary_camera = mc.ls(temporary_cam_components, type='transform')[0]
+
+    pConstraint = mc.parentConstraint(camera, temporary_camera)
+
     try:
-        mc.parent(tmp_cam, world=True)
+        mc.parent(temporary_camera, world=True)
     except RuntimeError:
-        # camera is already in world space
+        # Camera is already in world space.
         pass
 
     mc.bakeResults(
-        tmp_cam,
+        temporary_camera,
         simulation=True,
         t=(
             mc.playbackOptions(q=True, minTime=True),
@@ -32,16 +34,18 @@ def bake(camera):
         hi='below')
 
     mc.delete(pConstraint)
-    camera = tmp_cam
+
+    camera = temporary_camera
     return camera
 
 
 def cleanup_bake(camera):
+    '''Clean up baked *camera*.'''
     mc.delete(camera)
 
 
 def lock_camera(camera):
-
+    '''Return locked *camera*.'''
     channels = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
     camera_values = {}
 
@@ -55,20 +59,20 @@ def lock_camera(camera):
 
 
 def unlock_camera(camera, original_values):
-
+    '''Unlock *camera* with *original_values*.'''
     for channel, value in original_values.items():
         channel_name = '{0}.{1}'.format(camera, channel)
         mc.setAttr(channel_name, l=value)
 
 
-# Instance plugins
-
 class PreCameraExtract(pyblish.api.InstancePlugin):
-    '''prepare component to be published'''
+    '''Prepare camera for extraction.'''
+
     order = pyblish.api.ExtractorOrder - 0.1
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
+        '''Process *instance*.'''
         camera_options = instance.context.data['options'].get(
             'camera_options', {}
         )
@@ -91,11 +95,13 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
 
 
 class PostCameraExtract(pyblish.api.InstancePlugin):
-    '''prepare component to be published'''
+    '''Restore camera after ectraction.'''
+
     order = pyblish.api.ExtractorOrder + 0.1
     families = ['ftrack.maya.camera']
 
     def process(self, instance):
+        '''Process *instance*.'''
         camera_options = instance.context.data['options'].get(
             'camera_options', {}
         )
