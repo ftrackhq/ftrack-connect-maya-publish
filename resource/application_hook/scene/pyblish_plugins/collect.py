@@ -1,12 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import logging
-
 import pyblish.api
-
-
-logger = logging.getLogger(__file__)
 
 
 class CollectScene(pyblish.api.ContextPlugin):
@@ -16,7 +11,7 @@ class CollectScene(pyblish.api.ContextPlugin):
 
     def process(self, context):
         '''Process *context* and add scene instances.'''
-        logger.debug('Started collecting geometry from scene.')
+        self.log.debug('Started collecting geometry from scene.')
 
         instance = context.create_instance(
             'scene', family='ftrack.maya.scene'
@@ -24,6 +19,6 @@ class CollectScene(pyblish.api.ContextPlugin):
         instance.data['publish'] = True
         instance.data['ftrack_components'] = []
 
-        logger.debug('Collected scene instance {0!r}.'.format(instance))
+        self.log.debug('Collected scene instance {0!r}.'.format(instance))
 
 pyblish.api.register_plugin(CollectScene)

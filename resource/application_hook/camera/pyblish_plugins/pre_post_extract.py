@@ -1,13 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import logging
-
 import pyblish.api
 import maya.cmds as mc
-
-
-logger = logging.getLogger(__file__)
 
 
 def bake(camera):
@@ -98,7 +93,7 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
         instance.data['camera'] = camera
         instance.data['locked_attrs'] = locked_attrs
 
-        logger.debug(
+        self.log.debug(
             'Completed pre camera extract on {0!r} with {1!r}.'.format(
                 instance.name, camera_options
             )
@@ -129,7 +124,7 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
         if bake_camera_option:
             camera = cleanup_bake(camera)
 
-        logger.debug(
+        self.log.debug(
             'Completed post camera extract on {0!r} with {1!r}.'.format(
                 instance.name, camera_options
             )

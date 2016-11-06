@@ -1,12 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import logging
-
 import pyblish.api
-
-
-logger = logging.getLogger(__file__)
 
 
 class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
@@ -28,7 +23,7 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
             'maya_binary', {}
         )
 
-        logger.debug(
+        self.log.debug(
             'Started extracting camera {0!r} with options '
             '{1!r}.'.format(
                 instance.name, context_options
@@ -73,7 +68,7 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
 
         instance.data['ftrack_components'].append(new_component)
 
-        logger.debug(
+        self.log.debug(
             'Extracted {0!r} from {1!r}'.format(new_component, instance.name)
         )
 

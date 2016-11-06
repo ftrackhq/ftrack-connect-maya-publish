@@ -1,14 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import logging
-
 import pyblish.api
 
-
-logger = logging.getLogger(__file__)
-
-print 'MAYA'
 
 class IntegratorCreateAsset(pyblish.api.ContextPlugin):
     '''Create asset and prepare publish.'''
@@ -35,7 +29,7 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
             )
         ).first()
 
-        logger.debug(
+        self.log.debug(
             'Found asset {0!r} based on context id {1!r}, name {2!r} and type '
             '{3!r}'.format(
                 asset, context_id, asset_name, asset_type_id
@@ -51,7 +45,7 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
                     'name': asset_name
                 }
             )
-            logger.debug(
+            self.log.debug(
                 'Created asset with name {0!r} on {1!r}'.format(
                     asset_name, ftrack_entity
                 )
@@ -71,7 +65,7 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
 
         context.data['asset_version'] = asset_version
 
-        logger.debug('Created asset version {0!r}.'.format(asset_version))
+        self.log.debug('Created asset version {0!r}.'.format(asset_version))
 
 
 class IntegratorCreateComponents(pyblish.api.InstancePlugin):
@@ -87,7 +81,7 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
         asset_version = context.data['asset_version']
         session = asset_version.session
         location = session.pick_location()
-        logger.debug('Picked location {0!r}.'.format(location['name']))
+        self.log.debug('Picked location {0!r}.'.format(location['name']))
 
         for component_item in instance.data.get('ftrack_components', []):
             session.create_component(
@@ -98,7 +92,7 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
                 },
                 location=location
             )
-            logger.debug(
+            self.log.debug(
                 'Created component from data: {0!r}.'.format(component_item)
             )
 
@@ -118,7 +112,7 @@ class IntegratorPublishVersion(pyblish.api.ContextPlugin):
         asset_version['is_published'] = True
         session.commit()
 
-        logger.debug(
+        self.log.debug(
             'Set asset version {0!r} to published.'.format(asset_version)
         )
 

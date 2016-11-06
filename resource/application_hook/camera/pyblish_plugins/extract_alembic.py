@@ -1,12 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import logging
-
 import pyblish.api
-
-
-logger = logging.getLogger(__file__)
 
 
 class ExtractCameraAlembic(pyblish.api.InstancePlugin):
@@ -31,7 +26,7 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         context_options = instance.context.data['options'].get(
             'alembic', {}
         )
-        logger.debug(
+        self.log.debug(
             'Started extracting camera {0!r} with options '
             '{1!r}.'.format(
                 instance.name, context_options
@@ -82,7 +77,7 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         alembic_args += ' ' + abc_command + '-file ' + temporary_path
 
         mc.AbcExport(j=alembic_args)
-        logger.debug(
+        self.log.debug(
             'Exported alembic with arguments {0!r}.'.format(alembic_args)
         )
 
@@ -96,7 +91,7 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
         }
 
         instance.data['ftrack_components'].append(new_component)
-        logger.debug(
+        self.log.debug(
             'Extracted {0!r} from {1!r}'.format(new_component, instance.name)
         )
 
