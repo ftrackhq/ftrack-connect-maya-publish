@@ -1,7 +1,12 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
+import logging
+
 import pyblish.api
+
+
+logger = logging.getLogger(__file__)
 
 
 class IntegratorCreateAsset(pyblish.api.ContextPlugin):
@@ -29,6 +34,13 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
             )
         ).first()
 
+        logger.debug(
+            'Found asset {0!r} based on context id {1!r}, name {2!r} and type '
+            '{3!r}'.format(
+                asset, context_id, asset_name, asset_type_id
+            )
+        )
+
         if asset is None:
             asset = session.create(
                 'Asset',
@@ -37,6 +49,11 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
                     'type_id': asset_type_id,
                     'name': asset_name
                 }
+            )
+            logger.debug(
+                'Created asset with name {0!r} on {1!r}'.format(
+                    asset_name, ftrack_entity
+                )
             )
 
         # Create an asset version in a pre-published state.
@@ -53,13 +70,7 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
 
         context.data['asset_version'] = asset_version
 
-        print (
-            'Integrating with options',
-            asset_version,
-            context.data.get('options', {}),
-            context.data.get('ftrack_entity'),
-            list(context)
-        )
+        logger.debug('Created asset version {0!r}.'.format(asset_version))
 
 
 class IntegratorCreateComponents(pyblish.api.InstancePlugin):
@@ -75,6 +86,8 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
         asset_version = context.data['asset_version']
         session = asset_version.session
         location = session.pick_location()
+        logger.debug('Picked location {0!r}.'.format(location['name']))
+
         for component_item in instance.data.get('ftrack_components', []):
             session.create_component(
                 component_item['path'],
@@ -83,6 +96,9 @@ class IntegratorCreateComponents(pyblish.api.InstancePlugin):
                     'name': component_item['name']
                 },
                 location=location
+            )
+            logger.debug(
+                'Created component from data: {0!r}.'.format(component_item)
             )
 
         session.commit()
@@ -100,6 +116,10 @@ class IntegratorPublishVersion(pyblish.api.ContextPlugin):
 
         asset_version['is_published'] = True
         session.commit()
+
+        logger.debug(
+            'Set asset version {0!r} to published.'.format(asset_version)
+        )
 
 
 pyblish.api.register_plugin(IntegratorCreateAsset)
