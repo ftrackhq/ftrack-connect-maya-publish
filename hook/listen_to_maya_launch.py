@@ -27,7 +27,7 @@ publish_actions_path = os.path.join(
 )
 
 pyblish_plugin_path = os.path.join(
-    plugin_base_dir, 'resource', 'pyblish_plugin'
+    plugin_base_dir, 'resource', 'pyblish_plugins'
 )
 
 maya_script_path = os.path.join(

@@ -8,6 +8,7 @@ import pyblish.api
 
 logger = logging.getLogger(__file__)
 
+print 'MAYA'
 
 class IntegratorCreateAsset(pyblish.api.ContextPlugin):
     '''Create asset and prepare publish.'''
