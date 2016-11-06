@@ -20,19 +20,24 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
             'comment_field', {}
         ).get('comment', 'No comment set')
 
-        context_id = ftrack_entity['id']
+        if isinstance(ftrack_entity, session.types['Task']):
+            parent_context_id = ftrack_entity['parent_id']
+            task_id = ftrack_entity['id']
+        else:
+            parent_context_id = ftrack_entity['id']
+            task_id = None
 
         asset = session.query(
             'Asset where context_id is "{0}" and name is "{1}" and '
             'type_id is "{2}"'.format(
-                context_id, asset_name, asset_type_id
+                parent_context_id, asset_name, asset_type_id
             )
         ).first()
 
         self.log.debug(
             'Found asset {0!r} based on context id {1!r}, name {2!r} and type '
             '{3!r}'.format(
-                asset, context_id, asset_name, asset_type_id
+                asset, parent_context_id, asset_name, asset_type_id
             )
         )
 
@@ -40,7 +45,7 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
             asset = session.create(
                 'Asset',
                 {
-                    'context_id': context_id,
+                    'context_id': parent_context_id,
                     'type_id': asset_type_id,
                     'name': asset_name
                 }
@@ -57,7 +62,8 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
             {
                 'asset': asset,
                 'is_published': False,
-                'comment': comment
+                'comment': comment,
+                'task_id': task_id
             }
         )
 
