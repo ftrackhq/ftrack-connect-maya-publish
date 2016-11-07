@@ -1,6 +1,8 @@
 ..
     :copyright: Copyright (c) 2016 ftrack
 
+.. _overview:
+
 ********
 Overview
 ********
@@ -12,6 +14,8 @@ Our goal is to refresh the integrations overall, starting with the publishing
 dialog. Future iterations will provide better Import and Asset switching, but
 also new features like switching between tasks without closing and reopening the
 application.
+
+.. _overview/preview_notice:
 
 Preview notice
 ==============
@@ -66,8 +70,8 @@ This is a list of notes and limitations for the current iteration of the tools:
 Below is a list of limitations in regards to the Developer / TD aspect of the
 tool:
 
-*   At the moment there are not good :term:`event hooks` to use. Examples that
-    we may support.
+*   At the moment there are limited support for modifying the shipped asset
+    plugins.
 *   Validation :term:`pyblish plugin` are not yet supported.
 *   The shipped :term:`pyblish plugin` are sourced by the
     :term:`ftrack-python-api` rather than when calling

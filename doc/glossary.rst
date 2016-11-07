@@ -26,7 +26,7 @@ Glossary
 
     import dialog
         Used for importing assets into Maya, Nuke and other applications. Part
-        of the current :term:`ftrack Connect package` integrations.
+        of the current :term:`ftrack Connect package` integrations. 
 
     publish dialog
         A dialog that shows a list of possible items to publish and necessary
@@ -43,4 +43,3 @@ Glossary
 
     pyblish plugin
         A plugin to :term:`pyblish` used as part of publishing.
-

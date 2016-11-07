@@ -1,6 +1,8 @@
 ..
     :copyright: Copyright (c) 2016 ftrack
 
+.. _usage:
+
 *****
 Usage
 *****
@@ -26,7 +28,7 @@ At the moment there are a limited set of publish actions to choose from:
 *   Scene
 
 What shows up in the :term:`publish dialog` depends on what you select here. In
-:ref:`developing` we will learn more about how to add new publish actions.
+:ref:`development` we will learn more about how to add new publish actions.
 
 Publishing content and settings
 ===============================
