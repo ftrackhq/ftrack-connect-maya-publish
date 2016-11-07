@@ -1,9 +1,9 @@
 ..
     :copyright: Copyright (c) 2016 ftrack
 
-***************************
-Overview and preview notice
-***************************
+********
+Overview
+********
 
 The current iteration of the ftrack Connect integrations has been with us for
 a few years and now is the time to make a bigger overhaul of the tools.
@@ -12,6 +12,9 @@ Our goal is to refresh the integrations overall, starting with the publishing
 dialog. Future iterations will provide better Import and Asset switching, but
 also new features like switching between tasks without closing and reopening the
 application.
+
+Preview notice
+==============
 
 Note that the state of this tool is currently a development preview and should
 *not* be used in production.
@@ -34,6 +37,8 @@ ftrack an can be used together with or without :term:`pyblish`.
 
     To learn more about  :term:`pyblish`, how publishing works under the hood
     and how to extend it. Please refer to the :ref:`development` article.
+
+.. _overview/limitations:
 
 Limitations and the bright future
 =================================

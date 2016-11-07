@@ -5,7 +5,7 @@
 Usage
 *****
 
-Make sure to read the :ref:`preview_notice` and :ref:`installation` instructions
+Make sure to read the :ref:`overview` and :ref:`installation` instructions
 before using the :term:`publish dialog`.
 
 Selecting what to type of content to publish

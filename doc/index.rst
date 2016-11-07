@@ -6,12 +6,12 @@ Maya publish dialog preview
 ***************************
 
 Welcome to the documentation of the Maya publish dialog. Please read the
-:ref:`preview_notice` before you continue.
+:ref:`overview` before you continue.
 
 .. toctree::
     :maxdepth: 1
 
-    preview_notice
+    overview
     usage
     development
     installation

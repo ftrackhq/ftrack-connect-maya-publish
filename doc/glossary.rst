@@ -19,3 +19,28 @@ Glossary
     ftrack Connect package
         ftrack Connect package is a pre-built bundle of :term:`ftrack Connect`
         and the most commonly used :term:`ftrack Connect` plugins.
+
+    ftrack-python-api
+        A python client for the ftrack api. See
+        http://ftrack-python-api.rtd.ftrack.com/en/stable/
+
+    import dialog
+        Used for importing assets into Maya, Nuke and other applications. Part
+        of the current :term:`ftrack Connect package` integrations.
+
+    publish dialog
+        A dialog that shows a list of possible items to publish and necessary
+        options.
+
+    pyblish
+        "Pyblish is a free, open-source (LGPL) framework written in Python that
+        brings test-driven development to visual effects and triple-A game
+        creation."
+
+        -- Pyblish website.
+
+        Please visit http://pyblish.com/ for more information.
+
+    pyblish plugin
+        A plugin to :term:`pyblish` used as part of publishing.
+
