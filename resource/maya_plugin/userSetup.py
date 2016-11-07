@@ -24,6 +24,9 @@ def open_publish():
         lambda event: get_plugin_information()
     )
 
+    import ftrack_connect_maya_publish
+    ftrack_connect_maya_publish.register_assets(session)
+
     import ftrack_connect_pipeline.ui.publish_actions_dialog
     ftrack_connect_pipeline.ui.publish_actions_dialog.show(session)
 
