@@ -117,7 +117,7 @@ def register(session):
         identifier='scene',
         publish_asset=PublishScene(
             label='Scene',
-            description='publish geometry to ftrack.',
+            description='publish maya scene to ftrack.',
             icon='http://www.clipartbest.com/cliparts/ace/Brb/aceBrbBc4.png'
         )
     )
