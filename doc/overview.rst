@@ -15,20 +15,14 @@ flexible framework for Developers and TDs to extend and enhance the tools.
 Our tools offers a standardised way of publishing and managing your assets. A
 brief overview of the functionality:
 
-:Publish asset version:
-    (Available as technical preview now)
-
+:Publish asset version (Technical preview):
     Publish asset versions to ftrack from popular applications. Starting with
     Maya and Nuke.
 
-:Import asset version:
-    (Coming soon)
-
+:Import asset version (Coming soon):
     Import a published asset version from ftrack into your favorite.
 
-:Switch asset version:
-    (Coming soon)
-
+:Switch asset version (Coming soon):
     Switching asset versions that are already in the imported into the
     application. 
 
