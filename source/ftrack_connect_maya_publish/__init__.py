@@ -16,7 +16,6 @@ from ftrack_connect_maya_publish.asset.scene import scene_asset
 
 def register_callback(session, event):
     '''Handle register event.'''
-    print 'Callback on', session
     camera_asset.register(session)
     geometry_asset.register(session)
     scene_asset.register(session)
@@ -31,15 +30,11 @@ def register_callback(session, event):
             'common_pyblish_plugins'
         )
     )
-
-    print 'Register plugin path', path
     pyblish.plugin.register_plugin_path(path)
 
 
 def register_assets(session):
     '''Register by emitting event on *session*.'''
-    print 'Register listener on session', session
-
     session.event_hub.subscribe(
         'topic=ftrack.pipeline.register-assets',
         functools.partial(register_callback, session)
