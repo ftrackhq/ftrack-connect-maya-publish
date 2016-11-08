@@ -7,6 +7,13 @@ Glossary
 
 .. glossary::
 
+    asset plugin
+        A python plugin that is responsible of publish, import and switching of
+        an asset version.
+
+        See :ref:`developing/asset_plugin` to learn more about how to develop
+        your own plugin.
+
     ftrack Connect
         Integration of ftrack with other systems and the desktop. Provided by a
         core service that runs on each individuals machine and then separate
@@ -27,6 +34,10 @@ Glossary
     import dialog
         Used for importing assets into Maya, Nuke and other applications. Part
         of the current :term:`ftrack Connect package` integrations. 
+
+    publish action
+        An action registered by an :term:`asset plugin` that manages the publish
+        of an asset version.
 
     publish dialog
         A dialog that shows a list of possible items to publish and necessary

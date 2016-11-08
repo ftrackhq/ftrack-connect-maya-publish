@@ -24,3 +24,4 @@ Developing
     asset_plugin
     publish
     publish_using_pyblish
+    event

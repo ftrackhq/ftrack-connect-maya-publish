@@ -72,6 +72,13 @@ that is likely to be solved before the final release:
     to import using the current version of the :term:`import dialog`. To publish
     a `Camera` and allow import choose `Camera` asset type when publsihing, for
     `Geometry` choose `Geometry` and so on.
+*   Publishing happens through the ftrack-python-api so no location plugins for
+    the legacy api will be picked up. This also affects how things can be
+    imported from the :term:`import dialog` since it is still using the legacy
+    api. Longterm we will refactor the :term:`import dialog` to use the
+    ftrack-python-api while providing a compatibility layer. For now
+    publish/import workflow requires the Centralised storage scenario or another
+    location that is available in both api clients.
 
 Below is a list of limitations in regards to the Developer / TD aspect of the
 tools that is likely to be solved before the final release:
