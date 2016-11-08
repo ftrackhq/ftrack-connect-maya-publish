@@ -9,9 +9,8 @@ Installation
 
 .. note::
 
-    The installation process is technical at the moment and the current
-    iteration requires basic technical understanding of Git, Terminal and Python.
-    Future itrations will of course be much more userfriendly in this regard.
+    The installation process is manual and requires basic understanding of Git,
+    Terminal and Python. Future releases will be automatic.
 
 Installation guide
 ==================
@@ -37,5 +36,5 @@ Usage
 =====
 
 #.  Start ftrack Connect (close and start if already running).
-#.  Start Maya on a task.
+#.  Start Maya for a task using ftrack connect or the ftrack web UI.
 #.  Open menu `ftrack new` and choose one of the publish actions.
