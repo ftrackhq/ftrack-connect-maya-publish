@@ -94,5 +94,6 @@ tools that is likely to be solved before the final release:
 Feedback
 ========
 
-Please add relevant feedback to the beta forum, http://forum.ftrack.com/, or
-contact support@ftrack.com.
+Please add relevant feedback to the beta forum,
+http://forum.ftrack.com/index.php?/forum/36-new-integrations, or contact
+support@ftrack.com.
