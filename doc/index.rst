@@ -17,3 +17,4 @@ Welcome to the documentation of the Maya publish dialog. Please read the
     developing/index
     glossary
     release/index
+    technical_preview
