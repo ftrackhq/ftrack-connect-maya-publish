@@ -13,8 +13,8 @@ before using the :term:`publish dialog`.
 Selecting what to type of content to publish
 ============================================
 
-To select what to publish you can click on :guilabel:`ftrack new` and a window
-showing the possible actions will appear.
+Select publish from the :guilabel:`ftrack new` menu and a window showing the
+possible actions will appear.
 
 Actions
 -------
@@ -27,18 +27,23 @@ At the moment there are a limited set of publish actions to choose from:
 *   Geometry
 *   Scene
 
-What shows up in the :term:`publish dialog` depends on what you select here. In
-:ref:`development` we will learn more about how to add new publish actions.
+The :term:`publish dialog` is populated with options based on what action you
+select.
+
+.. tip::
+
+    Read more about how to add new publish actions in :ref:`development`.
 
 Publishing content and settings
 ===============================
 
-When you have decided to what type of content you want to publish it is time
-to choose what you want to publish. From the list on the left side of the
-dialog you can pick between different items in the scene. A
-:guilabel:`Scene selection` button lets you select based on scene selection.
+Based on the action you selected, the publish dialog has been populated with
+options and items from the scene that can be published by the action.
 
-To the right there is a list of settings for your publish. Make sure to create
-an asset or select an existing asset to publish a new version of.
+From the list on the left side of the dialog you can pick between different
+items in the scene and a :guilabel:`Scene selection` button lets you select
+based on what is currently selected in the scene.
+
+To the right there is a list of options to control your publish.
 
 .. image:: /image/publish_geometry.png
