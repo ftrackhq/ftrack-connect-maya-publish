@@ -13,7 +13,7 @@ Installation guide
 ==================
 
 Follow the installation instructions here:
-http://ftrack-connect-maya-publish.rtd.ftrack.com/en/latest/
+http://ftrack-connect-maya-publish.rtd.ftrack.com/en/latest/installation.html
 
 Usage
 =====
