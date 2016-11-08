@@ -12,8 +12,8 @@ Welcome to the documentation of the Maya publish dialog. Please read the
     :maxdepth: 1
 
     overview
+    installation
     usage
     developing/index
-    installation
     glossary
     release/index
