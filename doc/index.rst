@@ -13,7 +13,7 @@ Welcome to the documentation of the Maya publish dialog. Please read the
 
     overview
     usage
-    development
+    developing/index
     installation
     glossary
     release/index

@@ -9,7 +9,7 @@ Overview
 
 The current iteration of the
 :term:`ftrack Connect integrations <ftrack Connect package>` has been with us
-for a few years nand now is the time to make a bigger overhaul of the tools.
+for a few years and now is the time to make a bigger overhaul of the tools.
 
 Our goal is to refresh the integrations overall, starting with the publishing
 dialog. Future iterations will provide better Import and Asset switching, as
@@ -18,7 +18,7 @@ the application.
 
 .. warning::
 
-    Note that the state of this tool is currently a development preview and
+    Note that the state of this tool is currently development preview and it
     should **not** be used in production.
 
     Both the interface and the source and structure of the plugin will change
@@ -29,10 +29,11 @@ What is this?
 
 In the first iteration we are focusing on the publish dialog. In Maya you will
 find a new dropdown menu next to ftrack called :guilabel:`ftrack new`. From here
-you can launch different :term:`publish actions <publish action>`.
+you can launch different :term:`publish actions <publish action>` registered by
+different :term:`asset plugins <asset plugin>`.
 
 At the moment there are a limited set of actions to pick from. Please see
-:ref:`usage` for a complete list.
+:ref:`usage` for a complete list of :term:`asset plugins <asset plugin>`.
 
 The publish process can be built on top of :term:`pyblish`, but this is not
 immediately obvious to the end-user since the :term:`pyblish` user interface
