@@ -1,8 +1,6 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import ftrack_api
-
 import ftrack_connect_pipeline.asset
 
 import maya.cmds as cmds
@@ -106,19 +104,3 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
     def get_scene_selection(self):
         '''Return a list of names for scene selection.'''
         return cmds.ls(assemblies=True, long=True, sl=1)
-
-
-def register(session):
-    '''Subscribe to *session*.'''
-    if not isinstance(session, ftrack_api.Session):
-        return
-
-    geometry_asset = ftrack_connect_pipeline.asset.Asset(
-        identifier='geometry',
-        publish_asset=PublishGeometry(
-            label='Geometry',
-            description='publish geometry to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
-        )
-    )
-    geometry_asset.register(session)

@@ -1,7 +1,6 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import ftrack_api
 import maya.cmds as cmds
 import ftrack_connect_pipeline.asset
 
@@ -118,19 +117,3 @@ class PublishCamera(ftrack_connect_pipeline.asset.PyblishAsset):
     def get_scene_selection(self):
         '''Return a list of names for scene selection.'''
         return cmds.ls(assemblies=True, long=True, sl=1)
-
-
-def register(session):
-    '''Subscribe to *session*.'''
-    if not isinstance(session, ftrack_api.Session):
-        return
-
-    image_asset = ftrack_connect_pipeline.asset.Asset(
-        identifier='camera',
-        publish_asset=PublishCamera(
-            label='Camera',
-            description='publish camera to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/LiK/dLB/LiKdLB6zT.png'
-        )
-    )
-    image_asset.register(session)

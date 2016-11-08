@@ -22,6 +22,10 @@ plugin_base_dir = os.path.normpath(
     )
 )
 
+application_hook = os.path.join(
+    plugin_base_dir, 'resource', 'application_hook'
+)
+
 maya_script_path = os.path.join(
     plugin_base_dir, 'resource', 'maya_plugin'
 )
@@ -37,6 +41,12 @@ python_dependencies = os.path.join(
 
 def on_application_launch(event):
     '''Handle application launch and add environment to *event*.'''
+    
+    ftrack_connect.application.appendPath(
+        '/Users/mattiaslagergren/Development/ftrack-connect-pipeline/repo/source',
+        'PYTHONPATH',
+        event['data']['options']['env']
+    )
     ftrack_connect.application.appendPath(
         ftrack_connect_maya_publish_path,
         'PYTHONPATH',
@@ -45,6 +55,11 @@ def on_application_launch(event):
     ftrack_connect.application.appendPath(
         python_dependencies,
         'PYTHONPATH',
+        event['data']['options']['env']
+    )
+    ftrack_connect.application.appendPath(
+        application_hook,
+        'FTRACK_EVENT_PLUGIN_PATH',
         event['data']['options']['env']
     )
     ftrack_connect.application.appendPath(
