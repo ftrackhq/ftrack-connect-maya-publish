@@ -25,7 +25,7 @@ based on :term:`pyblish`.
 .. seealso::
 
     To learn more about :term:`pyblish`, how publishing works under the hood
-    and how to extend it. Please refer to the :ref:`development` article.
+    and how to extend it. Please refer to the :ref:`developing` article.
 
 .. _technical_preview/limitations:
 
