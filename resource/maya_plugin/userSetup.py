@@ -26,6 +26,7 @@ def open_publish():
 
     import ftrack_connect_maya_publish
     ftrack_connect_maya_publish.register_assets(session)
+    ftrack_connect_maya_publish.register_common_pyblish_plugins()
 
     import ftrack_connect_pipeline.ui.publish_actions_dialog
     ftrack_connect_pipeline.ui.publish_actions_dialog.show(session)
