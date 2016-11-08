@@ -34,9 +34,7 @@ Usage
 
 #.  Start ftrack Connect (close and start if already running).
 #.  Start Maya on a task.
-#.  Create a write node and render material.
-#.  Open menu `ftrack new` and choose Media.
-#.  Fill out form and try to publish.
+#.  Open menu `ftrack new` and choose one of the publish actions.
 
 *********************
 Copyright and license
