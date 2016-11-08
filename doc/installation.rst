@@ -24,6 +24,13 @@ Installation guide
 
         pip install --target=dependencies --verbose --upgrade --process-dependency-links .
 
+#.  This is all good if you want to try things out. But if we want to use the
+    source rather than the installed ftrack_connect_maya_publish package you
+    will need to remove it::
+
+        rm -r dependencies/ftrack_connect_maya_publish
+        rm -r dependencies/ftrack_connect_maya_publish-VERSION-py2.7.egg-info
+
 Usage
 =====
 
