@@ -32,7 +32,7 @@ select.
 
 .. tip::
 
-    Read more about how to add new publish actions in :ref:`development`.
+    Read more about how to add new publish actions in :ref:`developing`.
 
 Publishing content and settings
 ===============================
