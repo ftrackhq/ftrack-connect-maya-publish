@@ -22,16 +22,12 @@ plugin_base_dir = os.path.normpath(
     )
 )
 
-publish_actions_path = os.path.join(
-    plugin_base_dir, 'resource', 'application_hook'
-)
-
-pyblish_plugin_path = os.path.join(
-    plugin_base_dir, 'resource', 'pyblish_plugins'
-)
-
 maya_script_path = os.path.join(
     plugin_base_dir, 'resource', 'maya_plugin'
+)
+
+ftrack_connect_maya_publish_path = os.path.join(
+    plugin_base_dir, 'source'
 )
 
 python_dependencies = os.path.join(
@@ -42,8 +38,8 @@ python_dependencies = os.path.join(
 def on_application_launch(event):
     '''Handle application launch and add environment to *event*.'''
     ftrack_connect.application.appendPath(
-        publish_actions_path,
-        'FTRACK_EVENT_PLUGIN_PATH',
+        python_dependencies,
+        'PYTHONPATH',
         event['data']['options']['env']
     )
     ftrack_connect.application.appendPath(
@@ -52,7 +48,7 @@ def on_application_launch(event):
         event['data']['options']['env']
     )
     ftrack_connect.application.appendPath(
-        python_dependencies,
+        ftrack_connect_maya_publish_path,
         'PYTHONPATH',
         event['data']['options']['env']
     )
