@@ -41,12 +41,6 @@ python_dependencies = os.path.join(
 
 def on_application_launch(event):
     '''Handle application launch and add environment to *event*.'''
-    
-    ftrack_connect.application.appendPath(
-        '/Users/mattiaslagergren/Development/ftrack-connect-pipeline/repo/source',
-        'PYTHONPATH',
-        event['data']['options']['env']
-    )
     ftrack_connect.application.appendPath(
         ftrack_connect_maya_publish_path,
         'PYTHONPATH',
