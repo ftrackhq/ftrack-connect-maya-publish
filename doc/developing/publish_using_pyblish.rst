@@ -80,8 +80,9 @@ There are two additional types only available in the new tools:
             'type': 'qt_widget'
         }
 
-    The asset_selector being a subclass of
-    `ftrack_connect_pipeline.ui.widget.field.base.BaseField`. The subclass must:
+    The options will be saved under the `name` key. The asset_selector being a
+    subclass of `ftrack_connect_pipeline.ui.widget.field.base.BaseField`. The
+    widget must:
 
     #.  Implement the `value` method that returns the current value of the
         field.
