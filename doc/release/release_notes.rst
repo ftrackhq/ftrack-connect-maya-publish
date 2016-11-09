@@ -8,6 +8,19 @@
 Release notes
 *************
 
+.. release:: Upcoming
+    :date: 2016-11-08
+
+    .. change:: new
+        :tags: Documentation
+
+        Improve documentation about publish options.
+
+    .. change:: fixed
+        :tags: Plugin
+
+        Plugin version not reported correctly.
+
 .. release:: 0.1.0
     :date: 2016-11-08
 
