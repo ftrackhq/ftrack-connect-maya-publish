@@ -74,14 +74,14 @@ There are two additional types only available in the new tools:
     The `qt_widget` type can be used to present a custom widget to the user::
 
         {
-            'widget': asset_selector,
-            'name': 'asset',
+            'widget': StartEndFrameField(start_frame=0, end_frame=1001),
+            'name': 'frame_range',
             'type': 'qt_widget'
         }
 
-    The options will be saved under the `name` key. The asset_selector being a
-    subclass of `ftrack_connect_pipeline.ui.widget.field.base.BaseField`. The
-    widget must:
+    The options will be saved under the `name` key. The StartEndFrameField
+    being a subclass of
+    `ftrack_connect_pipeline.ui.widget.field.base.BaseField`. The widget must:
 
     #.  Implement the `value` method that returns the current value of the
         field.
