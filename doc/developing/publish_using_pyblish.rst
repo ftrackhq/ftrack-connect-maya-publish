@@ -68,7 +68,6 @@ There are two additional types only available in the new tools:
             'name': 'maya_binary',
             'options': [..]
         }
-
     
 :qt_widget:
     
@@ -88,6 +87,10 @@ There are two additional types only available in the new tools:
         field.
     #.  Emit `value_changed` signal with value when the underlying value
         changes.
+
+    Here is an example of a start/end frame qt based widget:
+
+    .. literalinclude:: /resource/start_end_frame_widget_example.py
 
 Notable methods that are implemented on the `PublishGeometry` class:
 
