@@ -54,6 +54,44 @@ interface. These options are defined in the methods on the `PublishGeometry`
 class and and are following the syntax described in
 :ref:`Developing actions user interface <developing/actions/user-interface>`.
 
+
+There are two additional types only available in the new tools:
+
+:group:
+
+    Visually group a number of options in the UI. Options will be saved under
+    the `name` key::
+
+        {
+            'type': 'group',
+            'label': 'Maya binary',
+            'name': 'maya_binary',
+            'options': [..]
+        }
+    
+:qt_widget:
+    
+    The `qt_widget` type can be used to present a custom widget to the user::
+
+        {
+            'widget': StartEndFrameField(start_frame=0, end_frame=1001),
+            'name': 'frame_range',
+            'type': 'qt_widget'
+        }
+
+    The options will be saved under the `name` key. The StartEndFrameField
+    being a subclass of
+    `ftrack_connect_pipeline.ui.widget.field.base.BaseField`. The widget must:
+
+    #.  Implement the `value` method that returns the current value of the
+        field.
+    #.  Emit `value_changed` signal with value when the underlying value
+        changes.
+
+    Here is an example of a start/end frame qt based widget:
+
+    .. literalinclude:: /resource/start_end_frame_widget_example.py
+
 Notable methods that are implemented on the `PublishGeometry` class:
 
 :get_publish_items:

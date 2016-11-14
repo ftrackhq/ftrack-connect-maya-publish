@@ -7,7 +7,7 @@ import maya.mel as mm
 
 def get_plugin_information():
     '''Return plugin information for maya.'''
-    import ftrack_connect_maya_publish
+    import ftrack_connect_maya_publish._version
     return {
         'application_id': 'maya',
         'plugin_version': ftrack_connect_maya_publish._version.__version__
