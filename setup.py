@@ -63,8 +63,10 @@ setup(
     ],
     dependency_links=[
         (
-            'git+ssh://git@bitbucket.org/ftrack/ftrack-connect-pipeline.git'
-            '#egg=ftrack-connect-pipeline-0.1.0'
+            'https://bitbucket.org/ftrack/ftrack-connect-pipeline/get/'
+            '{version}.zip#egg=ftrack-connect-pipeline-{version}'.format(
+                version='0.1.1'
+            )
         )
     ],
     tests_require=[
