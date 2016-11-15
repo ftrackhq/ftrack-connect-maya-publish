@@ -16,9 +16,7 @@ class IntegratorCreateAsset(pyblish.api.ContextPlugin):
 
         asset_type_id = context.data['options']['asset']['asset_type']
         asset_name = context.data['options']['asset']['asset_name']
-        comment = context.data['options'].get(
-            'comment_field', {}
-        ).get('comment', 'No comment set')
+        comment = context.data['options'].get('comment', '')
 
         if isinstance(ftrack_entity, session.types['Task']):
             parent_context_id = ftrack_entity['parent_id']
