@@ -5,6 +5,16 @@ import maya.cmds as mc
 import maya.mel as mm
 
 
+registered_plugins = False
+
+
+def register_pyblish_plugins():
+    '''Register pyblish plugins.'''
+    import ftrack_connect_pipeline.shared_pyblish_plugins
+
+    ftrack_connect_pipeline.shared_pyblish_plugins.register()
+
+
 def get_plugin_information():
     '''Return plugin information for maya.'''
     import ftrack_connect_maya_publish._version
@@ -26,7 +36,11 @@ def open_publish():
 
     import ftrack_connect_maya_publish
     ftrack_connect_maya_publish.register_assets(session)
-    ftrack_connect_maya_publish.register_common_pyblish_plugins()
+
+    global registered_plugins
+    if registered_plugins is False:
+        register_pyblish_plugins()
+        registered_plugins = True
 
     import ftrack_connect_pipeline.ui.publish_actions_dialog
     ftrack_connect_pipeline.ui.publish_actions_dialog.show(session)

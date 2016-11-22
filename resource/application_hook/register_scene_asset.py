@@ -9,15 +9,20 @@ import ftrack_connect_pipeline.asset
 from ftrack_connect_maya_publish.asset.scene import scene_asset
 
 
+def create_asset_publish():
+    '''Return asset publisher.'''
+    return scene_asset.PublishScene(
+        description='publish maya scene to ftrack.'
+    )
+
+
 def register_asset_plugin(session, event):
     '''Register asset plugin.'''
     scene = ftrack_connect_pipeline.asset.Asset(
         identifier='scene',
-        publish_asset=scene_asset.PublishScene(
-            label='Scene',
-            description='publish maya scene to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/ace/Brb/aceBrbBc4.png'
-        )
+        label='Scene',
+        icon='http://www.clipartbest.com/cliparts/ace/Brb/aceBrbBc4.png',
+        create_asset_publish=create_asset_publish
     )
     scene.register(session)
 

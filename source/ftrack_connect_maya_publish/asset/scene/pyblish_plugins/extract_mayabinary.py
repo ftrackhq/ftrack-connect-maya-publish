@@ -9,7 +9,8 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
 
     order = pyblish.api.ExtractorOrder
 
-    families = ['ftrack.maya.scene']
+    families = ['ftrack', 'scene']
+    match = pyblish.api.Subset
 
     def process(self, instance):
         '''Process *instance* and extract scene.'''
@@ -71,6 +72,3 @@ class ExtractSceneMayaBinary(pyblish.api.InstancePlugin):
         self.log.debug(
             'Extracted {0!r} from {1!r}'.format(new_component, instance.name)
         )
-
-
-pyblish.api.register_plugin(ExtractSceneMayaBinary)

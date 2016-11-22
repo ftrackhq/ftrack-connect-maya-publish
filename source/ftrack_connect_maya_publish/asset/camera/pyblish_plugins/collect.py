@@ -21,7 +21,7 @@ class CollectCameras(pyblish.api.ContextPlugin):
                     continue
 
                 instance = context.create_instance(
-                    group, family='ftrack.maya.camera'
+                    group, families=['ftrack', 'camera']
                 )
 
                 instance.data['publish'] = True
@@ -32,6 +32,3 @@ class CollectCameras(pyblish.api.ContextPlugin):
                         group, instance
                     )
                 )
-
-
-pyblish.api.register_plugin(CollectCameras)

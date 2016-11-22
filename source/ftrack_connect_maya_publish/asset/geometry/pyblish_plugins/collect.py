@@ -18,7 +18,7 @@ class CollectGeometries(pyblish.api.ContextPlugin):
         for group in mc.ls(assemblies=True, long=True):
             if mc.ls(group, dag=True, type='mesh'):
                 instance = context.create_instance(
-                    group, family='ftrack.maya.geometry'
+                    group, families=['ftrack', 'geometry']
                 )
                 instance.data['publish'] = True
                 instance.data['ftrack_components'] = []
@@ -27,6 +27,3 @@ class CollectGeometries(pyblish.api.ContextPlugin):
                         group, instance
                     )
                 )
-
-
-pyblish.api.register_plugin(CollectGeometries)
