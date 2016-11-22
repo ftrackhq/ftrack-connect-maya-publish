@@ -58,7 +58,7 @@ setup(
         'lowdown >= 0.1.0, < 2'
     ],
     install_requires=[
-        'pyblish-base',
+        'pyblish-base >= 1.4.3',
         'ftrack-connect-pipeline'
     ],
     dependency_links=[
