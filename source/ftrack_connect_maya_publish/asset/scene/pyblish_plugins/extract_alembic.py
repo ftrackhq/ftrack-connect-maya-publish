@@ -80,7 +80,7 @@ class ExtractSceneAlembic(pyblish.api.InstancePlugin):
             name = name[1:]
 
         new_component = {
-            'name': '{0}.alembic'.foramt(name),
+            'name': '{0}.alembic'.format(name),
             'path': temporary_path,
         }
 
@@ -88,6 +88,3 @@ class ExtractSceneAlembic(pyblish.api.InstancePlugin):
         self.log.debug(
             'Extracted {0!r} from {1!r}'.format(new_component, instance.name)
         )
-
-
-pyblish.api.register_plugin(ExtractSceneAlembic)

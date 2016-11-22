@@ -32,6 +32,3 @@ class CollectCameras(pyblish.api.ContextPlugin):
                         group, instance
                     )
                 )
-
-
-pyblish.api.register_plugin(CollectCameras)

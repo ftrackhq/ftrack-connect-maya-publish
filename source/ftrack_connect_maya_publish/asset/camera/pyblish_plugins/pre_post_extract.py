@@ -129,7 +129,3 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
                 instance.name, camera_options
             )
         )
-
-
-pyblish.api.register_plugin(PreCameraExtract)
-pyblish.api.register_plugin(PostCameraExtract)
