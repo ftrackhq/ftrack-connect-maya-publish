@@ -9,7 +9,8 @@ class ExtractCameraAlembic(pyblish.api.InstancePlugin):
 
     order = pyblish.api.ExtractorOrder
 
-    families = ['ftrack.maya.camera']
+    families = ['ftrack', 'camera']
+    match = pyblish.api.Subset
 
     def process(self, instance):
         '''Process *instance*.'''

@@ -9,7 +9,8 @@ class ExtractSceneAlembic(pyblish.api.InstancePlugin):
 
     order = pyblish.api.ExtractorOrder
 
-    families = ['ftrack.maya.scene']
+    families = ['ftrack', 'scene']
+    match = pyblish.api.Subset
 
     def process(self, instance):
         '''Process instance.'''

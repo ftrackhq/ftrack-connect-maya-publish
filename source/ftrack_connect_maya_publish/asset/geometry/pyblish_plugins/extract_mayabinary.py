@@ -9,7 +9,8 @@ class ExtractGeometryMayaBinary(pyblish.api.InstancePlugin):
 
     order = pyblish.api.ExtractorOrder
 
-    families = ['ftrack.maya.geometry']
+    families = ['ftrack', 'geometry']
+    match = pyblish.api.Subset
 
     def process(self, instance):
         '''Process *instance* and extract media.'''

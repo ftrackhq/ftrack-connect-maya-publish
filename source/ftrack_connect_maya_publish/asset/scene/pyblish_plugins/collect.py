@@ -14,7 +14,7 @@ class CollectScene(pyblish.api.ContextPlugin):
         self.log.debug('Started collecting geometry from scene.')
 
         instance = context.create_instance(
-            'scene', family='ftrack.maya.scene'
+            'scene', families=['ftrack', 'scene']
         )
         instance.data['publish'] = True
         instance.data['ftrack_components'] = []

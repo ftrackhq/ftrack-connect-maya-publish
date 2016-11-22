@@ -83,10 +83,11 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
 
     def get_publish_items(self):
         '''Return list of items that can be published.'''
+        match = set(['geometry', 'ftrack'])
 
         options = []
         for instance in self.pyblish_context:
-            if instance.data['family'] in ('ftrack.maya.geometry',):
+            if match.issubset(instance.data['families']):
                 options.append(
                     {
                         'label': instance.name,

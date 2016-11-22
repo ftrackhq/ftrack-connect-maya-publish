@@ -69,7 +69,9 @@ class PreCameraExtract(pyblish.api.InstancePlugin):
     '''Prepare camera for extraction.'''
 
     order = pyblish.api.ExtractorOrder - 0.1
-    families = ['ftrack.maya.camera']
+
+    families = ['ftrack', 'camera']
+    match = pyblish.api.Subset
 
     def process(self, instance):
         '''Process *instance*.'''
@@ -104,7 +106,9 @@ class PostCameraExtract(pyblish.api.InstancePlugin):
     '''Restore camera after ectraction.'''
 
     order = pyblish.api.ExtractorOrder + 0.1
-    families = ['ftrack.maya.camera']
+
+    families = ['ftrack', 'camera']
+    match = pyblish.api.Subset
 
     def process(self, instance):
         '''Process *instance*.'''
