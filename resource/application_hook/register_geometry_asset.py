@@ -9,15 +9,20 @@ import ftrack_connect_pipeline.asset
 from ftrack_connect_maya_publish.asset.geometry import geometry_asset
 
 
+def create_asset_publish():
+    '''Return asset publisher.'''
+    return geometry_asset.PublishGeometry(
+        description='publish geometry to ftrack.'
+    )
+
+
 def register_asset_plugin(session, event):
     '''Register asset plugin.'''
     geometry = ftrack_connect_pipeline.asset.Asset(
         identifier='geometry',
-        publish_asset=geometry_asset.PublishGeometry(
-            label='Geometry',
-            description='publish geometry to ftrack.',
-            icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png'
-        )
+        label='Geometry',
+        icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png',
+        create_asset_publish=create_asset_publish
     )
     geometry.register(session)
 

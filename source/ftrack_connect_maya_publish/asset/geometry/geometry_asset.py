@@ -9,7 +9,7 @@ import maya.cmds as cmds
 class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
     '''Handle publish of maya geometry.'''
 
-    def get_options(self, publish_data):
+    def get_options(self):
         '''Return global options.'''
         options = [
             {
@@ -76,16 +76,16 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
 
         default_options = super(
             PublishGeometry, self
-        ).get_options(publish_data)
+        ).get_options()
 
         options += default_options
         return options
 
-    def get_publish_items(self, publish_data):
+    def get_publish_items(self):
         '''Return list of items that can be published.'''
 
         options = []
-        for instance in publish_data:
+        for instance in self.pyblish_context:
             if instance.data['family'] in ('ftrack.maya.geometry',):
                 options.append(
                     {
@@ -97,7 +97,7 @@ class PublishGeometry(ftrack_connect_pipeline.asset.PyblishAsset):
 
         return options
 
-    def get_item_options(self, publish_data, name):
+    def get_item_options(self, name):
         '''Return options for publishable item with *name*.'''
         return []
 
