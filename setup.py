@@ -65,7 +65,7 @@ setup(
         (
             'https://bitbucket.org/ftrack/ftrack-connect-pipeline/get/'
             '{version}.zip#egg=ftrack-connect-pipeline-{version}'.format(
-                version='0.1.2'
+                version='0.1.3'
             )
         )
     ],
