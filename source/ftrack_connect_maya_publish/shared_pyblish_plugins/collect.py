@@ -20,3 +20,5 @@ class CollectScene(pyblish.api.ContextPlugin):
         instance.data['ftrack_components'] = []
 
         self.log.debug('Collected scene instance {0!r}.'.format(instance))
+
+pyblish.api.register_plugin(CollectScene)

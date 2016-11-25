@@ -12,7 +12,8 @@ from ftrack_connect_maya_publish.asset.scene import scene_asset
 def create_asset_publish():
     '''Return asset publisher.'''
     return scene_asset.PublishScene(
-        description='publish maya scene to ftrack.'
+        description='publish maya scene to ftrack.',
+        enable_scene_as_reference=False
     )
 
 

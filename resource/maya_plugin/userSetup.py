@@ -10,8 +10,10 @@ registered_plugins = False
 
 def register_pyblish_plugins():
     '''Register pyblish plugins.'''
+    import ftrack_connect_maya_publish.shared_pyblish_plugins
     import ftrack_connect_pipeline.shared_pyblish_plugins
 
+    ftrack_connect_maya_publish.shared_pyblish_plugins.register()
     ftrack_connect_pipeline.shared_pyblish_plugins.register()
 
 
