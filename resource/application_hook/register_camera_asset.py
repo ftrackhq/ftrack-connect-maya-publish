@@ -12,7 +12,7 @@ from ftrack_connect_maya_publish.asset.camera import camera_asset
 def create_asset_publish():
     '''Return asset publisher.'''
     return camera_asset.PublishCamera(
-        description='publish camera to ftrack.',
+        description='publish camera to ftrack.'
     )
 
 
