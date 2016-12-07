@@ -9,17 +9,22 @@ import ftrack_connect_pipeline.asset
 from ftrack_connect_maya_publish.asset.camera import camera_asset
 
 
+FTRACK_ASSET_TYPE = 'cam'
+
+
 def create_asset_publish():
     '''Return asset publisher.'''
     return camera_asset.PublishCamera(
-        description='publish camera to ftrack.'
+        description='publish camera to ftrack.',
+        asset_type_short=FTRACK_ASSET_TYPE
+
     )
 
 
 def register_asset_plugin(session, event):
     '''Register asset plugin.'''
     camera = ftrack_connect_pipeline.asset.Asset(
-        identifier='camera',
+        identifier=FTRACK_ASSET_TYPE,
         label='Camera',
         icon='http://www.clipartbest.com/cliparts/LiK/dLB/LiKdLB6zT.png',
         create_asset_publish=create_asset_publish
