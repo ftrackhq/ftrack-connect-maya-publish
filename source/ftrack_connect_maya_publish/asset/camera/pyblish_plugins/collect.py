@@ -15,6 +15,8 @@ class CollectCameras(pyblish.api.ContextPlugin):
 
         self.log.debug('Started collecting camera from scene.')
 
+        selection = mc.ls(assemblies=True, long=True, sl=1)
+
         for group in mc.ls(assemblies=True, long=True):
             if mc.ls(group, dag=True, type='camera'):
                 if group in ['|top', '|front', '|side']:
@@ -24,7 +26,7 @@ class CollectCameras(pyblish.api.ContextPlugin):
                     group, families=['ftrack', 'camera']
                 )
 
-                instance.data['publish'] = True
+                instance.data['publish'] = group in selection
                 instance.data['ftrack_components'] = []
 
                 self.log.debug(
