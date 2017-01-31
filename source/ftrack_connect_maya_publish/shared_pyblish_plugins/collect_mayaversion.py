@@ -14,11 +14,11 @@ class CollectMayaVersion(pyblish.api.ContextPlugin):
         '''Process *context* and add Maya version information.'''
 
         context.data['software'] = {
-            'name' : 'Maya',
-            'version' : mc.about(v=True)
+            'name': 'Maya',
+            'version': mc.about(v=True)
         }
 
-        self.log.debug('Collected Maya version information.')
+        self.log.debug('Collected maya version information.')
 
 
 pyblish.api.register_plugin(CollectMayaVersion)
