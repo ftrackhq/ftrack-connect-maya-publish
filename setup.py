@@ -94,7 +94,7 @@ class BuildPlugin(setuptools.Command):
         result_path = shutil.make_archive(
             os.path.join(
                 BUILD_PATH,
-                'ftrack-connect-nuke-publish-{0}'.format(VERSION)
+                'ftrack-connect-maya-publish-{0}'.format(VERSION)
             ),
             'zip',
             STAGING_PATH
