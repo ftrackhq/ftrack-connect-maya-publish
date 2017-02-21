@@ -2,13 +2,14 @@
 # :copyright: Copyright (c) 2016 ftrack
 
 import pyblish.api
-from ftrack_connect_pipeline import constant
 
 
-class CollectReviewableComponent(pyblish.api.ContextPlugin):
+class ExtractReviewableComponent(pyblish.api.InstancePlugin):
     '''Collect maya scene.'''
 
-    order = pyblish.api.CollectorOrder
+    order = pyblish.api.ExtractorOrder
+    families = ['ftrack', 'reviewable']
+    match = pyblish.api.Subset
 
     def do_playblast(self):
 
@@ -48,28 +49,31 @@ class CollectReviewableComponent(pyblish.api.ContextPlugin):
         if len(prev_selection):
             cmds.select(prev_selection)
 
-        return start_frame
+        return filename
 
-    def process(self, context):
-        '''Process *context* and add scene instances.'''
+    def process(self, instance):
+        '''Process *instance* and add scene instances.'''
+        from ftrack_connect_pipeline import constant
+
         self.log.debug('Started collecting reviewable component.')
-
-        instance = context.create_instance(
-            'scene', families=['ftrack', 'scene']
+        make_reviewable = instance.context.data['options'].get(
+            constant.REVIEWABLE_COMPONENT_OPTION_NAME, False
         )
-        instance.data['publish'] = True
-        instance.data['ftrack_components'] = []
-        instance.data['ftrack_reviewable_component'] = None
+        self.log.debug('is Make reviewable: %s' % make_reviewable)
 
-        make_reviewable = context.data['options'].get(
-            constant.REVIEWABLE_COMPONENT_OPTION_NAME, 'False'
-        )
-        if make_reviewable:
-            instance.data['ftrack_reviewable_component'] = self.do_playblast()
+        has_reviewable = instance.data.get('ftrack_reviewable_component')
+        self.log.debug('Has reviewable: %s' % has_reviewable)
+
+        if make_reviewable and not has_reviewable:
+            self.log.warning('GENERATING PLAYBLAST')
+            playblast_result = self.do_playblast()
+            instance.data['ftrack_reviewable_component'] = playblast_result
             self.log.debug(
-                'Collected reviewable component from {0!r}.'.format(instance)
+                'Collected reviewable component :{0:!r} from {1:!r}.'.format(
+                    playblast_result, instance
+                )
 
             )
 
 
-pyblish.api.register_plugin(CollectReviewableComponent)
+pyblish.api.register_plugin(ExtractReviewableComponent)

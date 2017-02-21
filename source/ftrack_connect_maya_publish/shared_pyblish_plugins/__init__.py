@@ -9,3 +9,4 @@ def register():
     import ftrack_connect_maya_publish.shared_pyblish_plugins.collect_mayaversion
     import ftrack_connect_maya_publish.shared_pyblish_plugins.extract_alembic
     import ftrack_connect_maya_publish.shared_pyblish_plugins.extract_mayabinary
+    import ftrack_connect_maya_publish.shared_pyblish_plugins.extract_reviewable_component
