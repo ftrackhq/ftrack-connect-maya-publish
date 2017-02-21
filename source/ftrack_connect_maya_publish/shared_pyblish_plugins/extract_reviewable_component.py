@@ -61,16 +61,12 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
         make_reviewable = instance.context.data['options'].get(
             constant.REVIEWABLE_COMPONENT_OPTION_NAME, False
         )
-        self.log.debug('is Make reviewable: %s' % make_reviewable)
 
         has_reviewable = instance.context.data['options'].get(
             'ftrack_reviewable_component'
         )
 
-        self.log.debug('Has reviewable: %s' % has_reviewable)
-
         if make_reviewable and not has_reviewable:
-            self.log.warning('GENERATING PLAYBLAST')
             playblast_result = self.do_playblast()
             instance.context.data['options'].setdefault(
                 'ftrack_reviewable_component', playblast_result
