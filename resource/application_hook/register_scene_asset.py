@@ -26,7 +26,7 @@ def register_asset_plugin(session, event):
     scene = ftrack_connect_pipeline.asset.Asset(
         identifier=FTRACK_ASSET_TYPE,
         label='Scene',
-        icon='http://www.clipartbest.com/cliparts/ace/Brb/aceBrbBc4.png',
+        icon='home',
         create_asset_publish=create_asset_publish
     )
     scene.register(session)
