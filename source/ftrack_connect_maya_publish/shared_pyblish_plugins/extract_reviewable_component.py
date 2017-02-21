@@ -56,8 +56,6 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
         '''Process *instance* and add scene instances.'''
         from ftrack_connect_pipeline import constant
 
-        self.log.debug('Started collecting reviewable component.')
-
         make_reviewable = instance.context.data['options'].get(
             constant.REVIEWABLE_COMPONENT_OPTION_NAME, False
         )
@@ -67,6 +65,7 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
         )
 
         if make_reviewable and not has_reviewable:
+            self.log.debug('Started collecting reviewable component.')
             playblast_result = self.do_playblast()
             instance.context.data['options'].setdefault(
                 'ftrack_reviewable_component', playblast_result
