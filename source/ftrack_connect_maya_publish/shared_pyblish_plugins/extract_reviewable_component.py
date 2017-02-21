@@ -8,16 +8,18 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
     '''Collect maya scene.'''
 
     order = pyblish.api.ExtractorOrder
-    families = ['ftrack', 'reviewable']
+
+    families = ['ftrack']
     match = pyblish.api.Subset
 
     def do_playblast(self):
 
-        import maya.cmds as cmds
         import tempfile
+        import maya.cmds as cmds
 
-        res_w = cmds.getAttr('defaultResolution.width')
-        res_h = cmds.getAttr('defaultResolution.height')
+        res_w = int(cmds.getAttr('defaultResolution.width'))
+        res_h = int(cmds.getAttr('defaultResolution.height'))
+
         start_frame = cmds.playbackOptions(q=True, min=True)
         end_frame = cmds.playbackOptions(q=True, max=True)
 
@@ -25,7 +27,7 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
         cmds.select(cl=True)
 
         filename = tempfile.NamedTemporaryFile(
-            suffix='.mov', delete=False
+            suffix='.mov'
         ).name
 
         cmds.playblast(
@@ -36,7 +38,6 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
             offScreen=True,
             showOrnaments=0,
             frame=range(int(start_frame), int(end_frame + 1)),
-            rawFrameNumbers=True,
             filename=filename,
             fp=4,
             percent=100,
@@ -56,6 +57,7 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
         from ftrack_connect_pipeline import constant
 
         self.log.debug('Started collecting reviewable component.')
+
         make_reviewable = instance.context.data['options'].get(
             constant.REVIEWABLE_COMPONENT_OPTION_NAME, False
         )
@@ -69,7 +71,7 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
             playblast_result = self.do_playblast()
             instance.data['ftrack_reviewable_component'] = playblast_result
             self.log.debug(
-                'Collected reviewable component :{0:!r} from {1:!r}.'.format(
+                'Collected reviewable component :{0!r} from {1!r}.'.format(
                     playblast_result, instance
                 )
 
