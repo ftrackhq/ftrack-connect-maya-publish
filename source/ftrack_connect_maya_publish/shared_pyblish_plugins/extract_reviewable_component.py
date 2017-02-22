@@ -19,6 +19,9 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
         import tempfile
         import maya.cmds as cmds
 
+        panel = cmds.getPanel(wf=True)
+        previous_camera = cmds.modelPanel(panel, q=True, camera=True)
+
         cmds.lookThru(camera_name)
 
         res_w = int(cmds.getAttr('defaultResolution.width'))
@@ -53,6 +56,8 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
 
         if len(prev_selection):
             cmds.select(prev_selection)
+
+        cmds.lookThru(previous_camera)
 
         return filename
 
