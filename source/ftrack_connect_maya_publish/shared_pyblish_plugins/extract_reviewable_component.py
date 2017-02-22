@@ -13,11 +13,13 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
     families = constant.REVIEW_FAMILY_PYBLISH
     match = pyblish.api.Subset
 
-    def do_playblast(self):
+    def do_playblast(self, camera_name):
         '''Run playblast command and return result path.'''
 
         import tempfile
         import maya.cmds as cmds
+
+        cmds.lookThru(camera_name)
 
         res_w = int(cmds.getAttr('defaultResolution.width'))
         res_h = int(cmds.getAttr('defaultResolution.height'))
@@ -56,27 +58,18 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         '''Process *instance* and add review component to context.'''
-        make_reviewable = instance.context.data['options'].get(
-            constant.REVIEWABLE_COMPONENT_OPTION_NAME, False
-        )
+        self.log.debug('Started extracting reviewable component.')
+        playblast_result = self.do_playblast(instance.name)
+        instance.data['ftrack_web_reviewable_components'] = [{
+            'name': 'web-reviewable',
+            'path': playblast_result
+        }]
 
-        has_reviewable = instance.context.data['options'].get(
-            'ftrack_reviewable_component'
-        )
-
-        if make_reviewable and not has_reviewable:
-            self.log.debug('Started collecting reviewable component.')
-            playblast_result = self.do_playblast()
-            instance.context.data['options'].setdefault(
-                'ftrack_reviewable_component', playblast_result
+        self.log.debug(
+            'Collected reviewable component :{0!r} from {1!r}.'.format(
+                playblast_result, instance
             )
-
-            self.log.debug(
-                'Collected reviewable component :{0!r} from {1!r}.'.format(
-                    playblast_result, instance
-                )
-
-            )
+        )
 
 
 pyblish.api.register_plugin(ExtractReviewableComponent)
