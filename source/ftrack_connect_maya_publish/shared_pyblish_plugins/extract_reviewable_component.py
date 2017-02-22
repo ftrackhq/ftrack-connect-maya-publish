@@ -6,7 +6,7 @@ from ftrack_connect_pipeline import constant
 
 
 class ExtractReviewableComponent(pyblish.api.InstancePlugin):
-    '''Collect maya scene.'''
+    '''Generate a reviewable component.'''
 
     order = pyblish.api.ExtractorOrder
 
@@ -14,6 +14,7 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
     match = pyblish.api.Subset
 
     def do_playblast(self):
+        '''Run playblast command and return result path.'''
 
         import tempfile
         import maya.cmds as cmds
@@ -54,7 +55,7 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
         return filename
 
     def process(self, instance):
-        '''Process *instance* and add scene instances.'''
+        '''Process *instance* and add review component to context.'''
         make_reviewable = instance.context.data['options'].get(
             constant.REVIEWABLE_COMPONENT_OPTION_NAME, False
         )
