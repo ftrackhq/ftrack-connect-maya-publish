@@ -13,7 +13,6 @@ class CollectPlayblastCamera(pyblish.api.ContextPlugin):
     def process(self, context):
         '''Process *context* and collect maya cameras for playblast.'''
         from ftrack_connect_pipeline import constant
-        selection = mc.ls(assemblies=True, long=True, sl=1)
 
         for group in mc.ls(assemblies=True, long=True):
             if mc.ls(group, dag=True, type='camera'):
@@ -21,8 +20,7 @@ class CollectPlayblastCamera(pyblish.api.ContextPlugin):
                     group, families=constant.REVIEW_FAMILY_PYBLISH
                 )
 
-                instance.data['publish'] = group in selection
-                instance.data['ftrack_components'] = []
+                instance.data['publish'] = False
 
                 self.log.debug(
                     'Collected camera instance {0!r} {1!r}.'.format(
