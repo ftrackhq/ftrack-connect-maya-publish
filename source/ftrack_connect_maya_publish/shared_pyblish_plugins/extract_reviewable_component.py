@@ -2,6 +2,7 @@
 # :copyright: Copyright (c) 2016 ftrack
 
 import pyblish.api
+from ftrack_connect_pipeline import constant
 
 
 class ExtractReviewableComponent(pyblish.api.InstancePlugin):
@@ -9,7 +10,7 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
 
     order = pyblish.api.ExtractorOrder
 
-    families = ['ftrack']
+    families = constant.REVIEW_FAMILY_PYBLISH
     match = pyblish.api.Subset
 
     def do_playblast(self):
@@ -54,8 +55,6 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
 
     def process(self, instance):
         '''Process *instance* and add scene instances.'''
-        from ftrack_connect_pipeline import constant
-
         make_reviewable = instance.context.data['options'].get(
             constant.REVIEWABLE_COMPONENT_OPTION_NAME, False
         )
