@@ -6,7 +6,7 @@ import ftrack_connect_pipeline.asset
 
 
 def filter_instances(pyblish_context):
-    '''Return camera instances from *pyblish_context*.'''
+    '''Return light instances from *pyblish_context*.'''
     match = set(['light', 'ftrack'])
     return filter(
         lambda instance: match.issubset(instance.data['families']),
@@ -15,7 +15,7 @@ def filter_instances(pyblish_context):
 
 
 class PublishLightRig(ftrack_connect_pipeline.asset.PyblishAsset):
-    '''Handle publish of maya camera.'''
+    '''Handle publish of maya light rig.'''
 
     def get_options(self):
         '''Return global options.'''
