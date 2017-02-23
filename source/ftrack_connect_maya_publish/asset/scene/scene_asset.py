@@ -3,7 +3,14 @@
 
 import ftrack_connect_pipeline.asset
 
-import maya.cmds as cmds
+
+def filter_instances(pyblish_context):
+    '''Return camera instances from *pyblish_context*.'''
+    match = set(['scene', 'ftrack'])
+    return filter(
+        lambda instance: match.issubset(instance.data['families']),
+        pyblish_context
+    )
 
 
 class PublishScene(ftrack_connect_pipeline.asset.PyblishAsset):
@@ -80,18 +87,15 @@ class PublishScene(ftrack_connect_pipeline.asset.PyblishAsset):
 
     def get_publish_items(self):
         '''Return list of items that can be published.'''
-        match = set(['scene', 'ftrack'])
-
         options = []
-        for instance in self.pyblish_context:
-            if match.issubset(instance.data['families']):
-                options.append(
-                    {
-                        'label': instance.name,
-                        'name': instance.name,
-                        'value': instance.data.get('publish', False)
-                    }
-                )
+        for instance in filter_instances(self.pyblish_context):
+            options.append(
+                {
+                    'label': instance.name,
+                    'name': instance.id,
+                    'value': instance.data.get('publish', False)
+                }
+            )
 
         return options
 
@@ -100,5 +104,5 @@ class PublishScene(ftrack_connect_pipeline.asset.PyblishAsset):
         return []
 
     def get_scene_selection(self):
-        '''Return a list of names for scene selection.'''
-        return cmds.ls(assemblies=True, long=True, sl=1)
+        '''Return a list of instance ids for scene selection.'''
+        return []
