@@ -26,7 +26,7 @@ def register_asset_plugin(session, event):
     camera = ftrack_connect_pipeline.asset.Asset(
         identifier=FTRACK_ASSET_TYPE,
         label='LightRig',
-        icon='http://www.clipartbest.com/cliparts/9c4/6ep/9c46ep5di.jpg',
+        icon='wb-incandescent',
         create_asset_publish=create_asset_publish
     )
     camera.register(session)
