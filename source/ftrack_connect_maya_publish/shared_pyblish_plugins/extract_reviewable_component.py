@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2016 ftrack
+# :copyright: Copyright (c) 2017 ftrack
 
 import pyblish.api
 from ftrack_connect_pipeline import constant
@@ -15,7 +15,6 @@ class ExtractReviewableComponent(pyblish.api.InstancePlugin):
 
     def do_playblast(self, camera_name):
         '''Run playblast command and return result path.'''
-
         import tempfile
         import maya.cmds as cmds
 
