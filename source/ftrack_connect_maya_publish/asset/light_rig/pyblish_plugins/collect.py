@@ -5,12 +5,12 @@ import pyblish.api
 
 
 class CollectLightRigs(pyblish.api.ContextPlugin):
-    '''Collect cameras from Maya.'''
+    '''Collect lights from Maya.'''
 
     order = pyblish.api.CollectorOrder
 
     def process(self, context):
-        '''Process *context* and add maya camera instances.'''
+        '''Process *context* and add maya lights instances.'''
         import maya.cmds as mc
 
         self.log.debug('Started collecting lights from scene.')
@@ -28,7 +28,7 @@ class CollectLightRigs(pyblish.api.ContextPlugin):
                 instance.data['ftrack_components'] = []
 
                 self.log.debug(
-                    'Collected camera instance {0!r} {1!r}.'.format(
+                    'Collected light instance {0!r} {1!r}.'.format(
                         group, instance
                     )
                 )

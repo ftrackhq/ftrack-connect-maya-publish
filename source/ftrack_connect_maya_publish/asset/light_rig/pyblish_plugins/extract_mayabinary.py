@@ -5,7 +5,7 @@ import pyblish.api
 
 
 class ExtractLightRigMayaBinary(pyblish.api.InstancePlugin):
-    '''Exctract camera as maya binary.'''
+    '''Exctract lightrig as maya binary.'''
 
     order = pyblish.api.ExtractorOrder
 
@@ -17,18 +17,13 @@ class ExtractLightRigMayaBinary(pyblish.api.InstancePlugin):
         import tempfile
         import maya.cmds as mc
 
-        # Get the camera, either from the pre processor, if
-        # bake or/and lock is selected, or the original one.
-        baked_camera = instance.data.get('light')
-        camera = baked_camera or instance
-
-        mc.select(str(camera), replace=True)
+        mc.select(str(instance), replace=True)
 
         context_options = instance.context.data['options'].get(
             'maya_binary', {}
         )
         self.log.debug(
-            'Started extracting camera {0!r} with options '
+            'Started extracting lightrig {0!r} with options '
             '{1!r}.'.format(
                 instance.name, context_options
             )
