@@ -24,7 +24,7 @@ def register_asset_plugin(session, event):
     geometry = ftrack_connect_pipeline.asset.Asset(
         identifier=FTRACK_ASSET_TYPE,
         label='Geometry',
-        icon='http://www.clipartbest.com/cliparts/9cz/EzE/9czEzE8yi.png',
+        icon='extension',
         create_asset_publish=create_asset_publish
     )
     geometry.register(session)
