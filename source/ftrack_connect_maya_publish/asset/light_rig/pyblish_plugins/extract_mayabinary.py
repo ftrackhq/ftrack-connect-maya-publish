@@ -13,7 +13,7 @@ class ExtractLightRigMayaBinary(pyblish.api.InstancePlugin):
     match = pyblish.api.Subset
 
     def process(self, instance):
-        '''Process *instance* and extract media.'''
+        '''Process *instance* and extract lights.'''
         import tempfile
         import maya.cmds as mc
 
