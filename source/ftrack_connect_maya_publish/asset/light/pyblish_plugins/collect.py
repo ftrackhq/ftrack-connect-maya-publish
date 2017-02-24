@@ -4,7 +4,7 @@
 import pyblish.api
 
 
-class CollectLightRigs(pyblish.api.ContextPlugin):
+class CollectLights(pyblish.api.ContextPlugin):
     '''Collect lights from Maya.'''
 
     order = pyblish.api.CollectorOrder

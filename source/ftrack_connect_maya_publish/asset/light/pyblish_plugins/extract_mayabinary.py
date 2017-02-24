@@ -4,8 +4,8 @@
 import pyblish.api
 
 
-class ExtractLightRigMayaBinary(pyblish.api.InstancePlugin):
-    '''Exctract lightrig as maya binary.'''
+class ExtractLightMayaBinary(pyblish.api.InstancePlugin):
+    '''Exctract light as maya binary.'''
 
     order = pyblish.api.ExtractorOrder
 
@@ -23,7 +23,7 @@ class ExtractLightRigMayaBinary(pyblish.api.InstancePlugin):
             'maya_binary', {}
         )
         self.log.debug(
-            'Started extracting lightrig {0!r} with options '
+            'Started extracting light {0!r} with options '
             '{1!r}.'.format(
                 instance.name, context_options
             )

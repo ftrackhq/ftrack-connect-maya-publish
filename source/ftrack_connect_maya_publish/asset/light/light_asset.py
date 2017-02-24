@@ -14,7 +14,7 @@ def filter_instances(pyblish_context):
     )
 
 
-class PublishLightRig(ftrack_connect_pipeline.asset.PyblishAsset):
+class PublishLigh(ftrack_connect_pipeline.asset.PyblishAsset):
     '''Handle publish of maya light rig.'''
 
     def get_options(self):
@@ -57,7 +57,7 @@ class PublishLightRig(ftrack_connect_pipeline.asset.PyblishAsset):
             }
         ]
 
-        default_options = super(PublishLightRig, self).get_options()
+        default_options = super(PublishLigh, self).get_options()
 
         return default_options + options
 
