@@ -23,13 +23,13 @@ def create_asset_publish():
 
 def register_asset_plugin(session, event):
     '''Register asset plugin.'''
-    camera = ftrack_connect_pipeline.asset.Asset(
+    light = ftrack_connect_pipeline.asset.Asset(
         identifier=FTRACK_ASSET_TYPE,
         label='Light',
         icon='wb-incandescent',
         create_asset_publish=create_asset_publish
     )
-    camera.register(session)
+    light.register(session)
 
 
 def register(session):
