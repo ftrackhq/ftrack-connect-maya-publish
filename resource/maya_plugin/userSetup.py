@@ -48,6 +48,14 @@ def open_publish():
     ftrack_connect_pipeline.ui.publish.open(session)
 
 
+def open_change_context():
+    from ftrack_connect_pipeline.ui.widget import context_selector
+    from ftrack_connect_pipeline import util
+    current_entity = util.get_ftrack_entity()
+    g = context_selector.GlobalSwitch(current_entity)
+    g.show()
+
+
 def create_publish_menu():
     '''Create publish menu.'''
     gMainWindow = mm.eval('$temp1=$gMainWindow')
@@ -67,6 +75,13 @@ def create_publish_menu():
         label="Publish",
         stp="python",
         command=lambda x: open_publish()
+    )
+
+    mc.menuItem(
+        parent=menu,
+        label="Change Context",
+        stp="python",
+        command=lambda x: open_change_context()
     )
 
 
