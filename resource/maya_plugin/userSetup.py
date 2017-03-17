@@ -50,10 +50,10 @@ def open_publish():
 
 def open_change_context():
     '''Open change context dialog.'''
-    from ftrack_connect_pipeline.ui.widget import context_selector
+    from ftrack_connect_pipeline import global_context_switch
     from ftrack_connect_pipeline import util
     current_entity = util.get_ftrack_entity()
-    g = context_selector.GlobalSwitch(current_entity)
+    g = global_context_switch.GlobalSwitch(current_entity)
     g.exec_()
 
 
