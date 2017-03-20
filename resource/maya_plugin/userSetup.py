@@ -1,64 +1,22 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
+import os
+
 import maya.cmds as mc
 import maya.mel as mm
 
 
-registered_plugins = False
-
-
-def register_pyblish_plugins():
-    '''Register pyblish plugins.'''
-    import ftrack_connect_maya_publish.shared_pyblish_plugins
-    import ftrack_connect_pipeline.shared_pyblish_plugins
-
-    ftrack_connect_maya_publish.shared_pyblish_plugins.register()
-    ftrack_connect_pipeline.shared_pyblish_plugins.register()
-
-
-def get_plugin_information():
-    '''Return plugin information for maya.'''
-    import ftrack_connect_maya_publish._version
-    return {
-        'application_id': 'maya',
-        'plugin_version': ftrack_connect_maya_publish._version.__version__
-    }
-
-
-def open_publish():
-    '''Open publish dialog.'''
-    import ftrack_api
-
-    session = ftrack_api.Session()
-    session.event_hub.subscribe(
-        'topic=ftrack.pipeline.get-plugin-information',
-        lambda event: get_plugin_information()
-    )
-
-    import ftrack_connect_maya_publish
-    ftrack_connect_maya_publish.register_assets(session)
-
-    global registered_plugins
-    if registered_plugins is False:
-        register_pyblish_plugins()
-        registered_plugins = True
-
-    import ftrack_connect_pipeline.ui.publish
-    ftrack_connect_pipeline.ui.publish.open(session)
-
-
-def open_change_context():
-    '''Open change context dialog.'''
-    from ftrack_connect_pipeline import global_context_switch
-    from ftrack_connect_pipeline import util
-    current_entity = util.get_ftrack_entity()
-    g = global_context_switch.GlobalSwitch(current_entity)
-    g.exec_()
-
-
 def create_publish_menu():
     '''Create publish menu.'''
+    import ftrack_connect_maya_publish.plugin
+    import ftrack_connect_pipeline
+
+    plugin = ftrack_connect_maya_publish.plugin.MayaPlugin(
+        context_id=os.environ['FTRACK_CONTEXT_ID']
+    )
+    ftrack_connect_pipeline.register_plugin(plugin)
+
     gMainWindow = mm.eval('$temp1=$gMainWindow')
     menu_name = 'ftrack new'
     if mc.menu(menu_name, exists=True):
@@ -73,17 +31,17 @@ def create_publish_menu():
 
     mc.menuItem(
         parent=menu,
-        label="Publish",
-        stp="python",
-        command=lambda x: open_publish()
+        label='Publish',
+        stp='python',
+        command=lambda x: plugin.open_publish()
     )
 
     mc.menuItem(
         parent=menu,
-        label="Change Context",
-        stp="python",
-        command=lambda x: open_change_context()
+        label='Change Context',
+        stp='python',
+        command=lambda x: plugin.open_switch_context()
     )
 
 
-mc.evalDeferred("create_publish_menu()")
+mc.evalDeferred('create_publish_menu()')
