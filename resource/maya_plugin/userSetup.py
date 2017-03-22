@@ -11,11 +11,23 @@ def create_publish_menu():
     '''Create publish menu.'''
     import ftrack_connect_maya_publish.plugin
     import ftrack_connect_pipeline
+    import ftrack_connect_pipeline.publish
+    import ftrack_connect_pipeline.global_context_switch
 
     plugin = ftrack_connect_maya_publish.plugin.MayaPlugin(
         context_id=os.environ['FTRACK_CONTEXT_ID']
     )
     ftrack_connect_pipeline.register_plugin(plugin)
+
+    global_context_switch = (
+        ftrack_connect_pipeline.global_context_switch.GlobalContextSwitch(
+            plugin=plugin
+        )
+    )
+
+    publish = ftrack_connect_pipeline.publish.Publish(
+        plugin=plugin
+    )
 
     gMainWindow = mm.eval('$temp1=$gMainWindow')
     menu_name = 'ftrack new'
@@ -33,14 +45,14 @@ def create_publish_menu():
         parent=menu,
         label='Publish',
         stp='python',
-        command=lambda x: plugin.open_publish()
+        command=lambda x: publish.open()
     )
 
     mc.menuItem(
         parent=menu,
         label='Change Context',
         stp='python',
-        command=lambda x: plugin.open_switch_context()
+        command=lambda x: global_context_switch.open()
     )
 
 
