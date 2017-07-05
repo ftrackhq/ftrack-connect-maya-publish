@@ -30,30 +30,41 @@ def create_publish_menu():
     )
 
     gMainWindow = mm.eval('$temp1=$gMainWindow')
-    menu_name = 'ftrack new'
+    menu_name = 'ftrack'
     if mc.menu(menu_name, exists=True):
-        mc.deleteUI(menu_name)
+        menu = menu_name
 
-    menu = mc.menu(
-        menu_name,
-        parent=gMainWindow,
-        tearOff=False,
-        label=menu_name
+    else:
+        menu = mc.menu(
+            menu_name,
+            parent=gMainWindow,
+            tearOff=False,
+            label=menu_name
+        )
+
+    sub_menu = mc.menuItem(
+        'ftrack_beta',
+        parent=menu,
+        label='Beta',
+        subMenu=True
     )
 
+
     mc.menuItem(
-        parent=menu,
+        parent=sub_menu,
         label='Publish',
         stp='python',
         command=lambda x: publish.open()
     )
 
     mc.menuItem(
-        parent=menu,
+        parent=sub_menu,
         label='Change Context',
         stp='python',
         command=lambda x: global_context_switch.open()
     )
 
 
-mc.evalDeferred('create_publish_menu()')
+mc.evalDeferred(
+    'create_publish_menu()', lp=True
+)
