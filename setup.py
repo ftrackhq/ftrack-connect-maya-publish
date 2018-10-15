@@ -10,6 +10,8 @@ from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import setuptools
 
+FTRACK_CONNECT_PIPELINE_VERSION = '0.8.3'
+
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 SOURCE_PATH = os.path.join(ROOT_PATH, 'source')
 README_PATH = os.path.join(ROOT_PATH, 'README.rst')
@@ -129,12 +131,14 @@ setup(
     ],
     install_requires=[
         'pyblish-base >= 1.4.3',
-        'ftrack-connect-pipeline'
+        'ftrack-connect-pipeline < 1'
     ],
     dependency_links=[
         (
             'https://bitbucket.org/ftrack/ftrack-connect-pipeline/get/'
-            'master.tar.gz#egg=ftrack-connect-pipeline-1.0.0'
+            '{0}.zip#egg=ftrack-connect-pipeline-{0}'.format(
+                FTRACK_CONNECT_PIPELINE_VERSION
+            )
         )
     ],
     tests_require=[
