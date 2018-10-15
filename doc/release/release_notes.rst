@@ -7,9 +7,10 @@
 Release Notes
 *************
 
-.. release:: Upcoming
+.. release:: 0.6.2
+    :date: 2018-10-11
 
-  .. change:: changed
+    .. change:: changed
         :tags: Internal
 
         Update ftrack-connect-pipeline dependency to 0.8.3
