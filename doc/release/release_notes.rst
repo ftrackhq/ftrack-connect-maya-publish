@@ -12,4 +12,4 @@ Release Notes
   .. change:: changed
         :tags: Internal
 
-        Set latest version on ftrack-connect-pipeline.
+        Update ftrack-connect-pipeline dependency to 0.8.3
