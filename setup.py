@@ -4,11 +4,17 @@
 import os
 import re
 import shutil
-import pip
 
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import setuptools
+from pkg_resources import parse_version
+import pip
+
+if parse_version(pip.__version__) < parse_version('19.3.0'):
+    raise ValueError('Pip should be version 19.3.0 or higher')
+
+from pip._internal import main as pip_main
 
 FTRACK_CONNECT_PIPELINE_VERSION = '0.8.3'
 
@@ -71,13 +77,12 @@ class BuildPlugin(setuptools.Command):
             os.path.join(STAGING_PATH, 'hook')
         )
 
-        pip.main(
+        pip_main.main(
             [
                 'install',
                 '.',
                 '--target',
-                os.path.join(STAGING_PATH, 'dependencies'),
-                '--process-dependency-links'
+                os.path.join(STAGING_PATH, 'dependencies')
             ]
         )
 
@@ -131,15 +136,8 @@ setup(
     ],
     install_requires=[
         'pyblish-base >= 1.4.3',
-        'ftrack-connect-pipeline < 1'
-    ],
-    dependency_links=[
-        (
-            'https://bitbucket.org/ftrack/ftrack-connect-pipeline/get/'
-            '{0}.zip#egg=ftrack-connect-pipeline-{0}'.format(
-                FTRACK_CONNECT_PIPELINE_VERSION
-            )
-        )
+        'qtext @ git+https://bitbucket.org/ftrack/qtext/get/0.2.2.zip#egg=QtExt-0.2.2',
+        'ftrack-connect-pipeline @ https://bitbucket.org/ftrack/ftrack-connect-pipeline/get/{0}.zip#egg=ftrack-connect-pipeline-{0}'.format(FTRACK_CONNECT_PIPELINE_VERSION)
     ],
     tests_require=[
         'pytest >= 2.3.5, < 3'
