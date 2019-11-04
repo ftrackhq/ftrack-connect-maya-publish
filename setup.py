@@ -16,7 +16,7 @@ if parse_version(pip.__version__) < parse_version('19.3.0'):
 
 from pip._internal import main as pip_main
 
-FTRACK_CONNECT_PIPELINE_VERSION = '0.8.3'
+FTRACK_CONNECT_PIPELINE_VERSION = '0.8.4'
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 SOURCE_PATH = os.path.join(ROOT_PATH, 'source')
@@ -136,7 +136,7 @@ setup(
     ],
     install_requires=[
         'pyblish-base >= 1.4.3',
-        'ftrack-connect-pipeline @ git+https://bitbucket.org/ftrack/ftrack-connect-pipeline/branch/backlog/update-pip-version',
+        'ftrack-connect-pipeline @ https://bitbucket.org/ftrack/ftrack-connect-pipeline/get/{0}.zip#egg=ftrack-connect-pipeline-{0}'.format(FTRACK_CONNECT_PIPELINE_VERSION),
         'qtext @ git+https://bitbucket.org/ftrack/qtext/get/0.2.2.zip#egg=QtExt-0.2.2'
     ],
     tests_require=[
