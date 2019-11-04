@@ -136,12 +136,8 @@ setup(
     ],
     install_requires=[
         'pyblish-base >= 1.4.3',
-<<<<<<< HEAD
         'ftrack-connect-pipeline @ git+https://bitbucket.org/ftrack/ftrack-connect-pipeline/branch/backlog/update-pip-version',
         'qtext @ git+https://bitbucket.org/ftrack/qtext/get/0.2.2.zip#egg=QtExt-0.2.2'
-=======
-        'ftrack-connect-pipeline @ git+https://bitbucket.org/ftrack/ftrack-connect-pipeline/branch/backlog/update-pip-version'
->>>>>>> 184b8a065f40ee3c414bd9cb942858b5b54142ed
     ],
     tests_require=[
         'pytest >= 2.3.5, < 3'
