@@ -5,16 +5,16 @@ import os
 import re
 import shutil
 
-from setuptools import setup, find_packages
-from setuptools.command.test import test as TestCommand
-import setuptools
-from pkg_resources import parse_version
 import pip
+import setuptools
+from pip._internal import main as pip_main
+from pkg_resources import parse_version
+from setuptools import find_packages, setup
+from setuptools.command.test import test as TestCommand
 
 if parse_version(pip.__version__) < parse_version('19.3.0'):
     raise ValueError('Pip should be version 19.3.0 or higher')
 
-from pip._internal import main as pip_main
 
 FTRACK_CONNECT_PIPELINE_VERSION = '0.8.4'
 
@@ -48,8 +48,10 @@ with open(os.path.join(
         r'.*__version__ = \'(.*?)\'', _version_file.read(), re.DOTALL
     ).group(1)
 
+
 # Update staging path with the plugin version
 STAGING_PATH = STAGING_PATH.format(VERSION)
+
 
 class BuildPlugin(setuptools.Command):
     '''Build plugin.'''
