@@ -4,13 +4,21 @@
 import os
 import re
 import shutil
+
 import pip
-
-from setuptools import setup, find_packages
-from setuptools.command.test import test as TestCommand
 import setuptools
+from pip._internal import main as pip_main
+from pkg_resources import parse_version
+from setuptools import find_packages, setup
+from setuptools.command.test import test as TestCommand
 
-FTRACK_CONNECT_PIPELINE_VERSION = '0.8.3'
+if parse_version(pip.__version__) < parse_version('19.3.0'):
+    raise ValueError('Pip should be version 19.3.0 or higher')
+
+
+FTRACK_CONNECT_PIPELINE_VERSION = '0.8.4'
+
+PLUGIN_NAME = 'ftrack-connect-maya-publish-{0}'
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 SOURCE_PATH = os.path.join(ROOT_PATH, 'source')
@@ -29,7 +37,7 @@ BUILD_PATH = os.path.join(
 )
 
 STAGING_PATH = os.path.join(
-    BUILD_PATH, 'plugin'
+    BUILD_PATH, PLUGIN_NAME
 )
 
 # Read version from source.
@@ -39,6 +47,10 @@ with open(os.path.join(
     VERSION = re.match(
         r'.*__version__ = \'(.*?)\'', _version_file.read(), re.DOTALL
     ).group(1)
+
+
+# Update staging path with the plugin version
+STAGING_PATH = STAGING_PATH.format(VERSION)
 
 
 class BuildPlugin(setuptools.Command):
@@ -71,20 +83,19 @@ class BuildPlugin(setuptools.Command):
             os.path.join(STAGING_PATH, 'hook')
         )
 
-        pip.main(
+        pip_main.main(
             [
                 'install',
                 '.',
                 '--target',
-                os.path.join(STAGING_PATH, 'dependencies'),
-                '--process-dependency-links'
+                os.path.join(STAGING_PATH, 'dependencies')
             ]
         )
 
         result_path = shutil.make_archive(
             os.path.join(
                 BUILD_PATH,
-                'ftrack-connect-maya-publish-{0}'.format(VERSION)
+                PLUGIN_NAME.format(VERSION)
             ),
             'zip',
             STAGING_PATH
@@ -131,14 +142,14 @@ setup(
     ],
     install_requires=[
         'pyblish-base >= 1.4.3',
-        'ftrack-connect-pipeline < 1'
-    ],
-    dependency_links=[
         (
-            'https://bitbucket.org/ftrack/ftrack-connect-pipeline/get/'
-            '{0}.zip#egg=ftrack-connect-pipeline-{0}'.format(
-                FTRACK_CONNECT_PIPELINE_VERSION
-            )
+            'ftrack-connect-pipeline @ https://bitbucket.org/'
+            'ftrack/ftrack-connect-pipeline/get/{0}.zip#egg='
+            'ftrack-connect-pipeline-{0}'
+        ).format(FTRACK_CONNECT_PIPELINE_VERSION),
+        (
+            'qtext @ git+https://bitbucket.org/ftrack/qtext/get/0.2.2.zip'
+            '#egg=QtExt-0.2.2'
         )
     ],
     tests_require=[
